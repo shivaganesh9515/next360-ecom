@@ -1,0 +1,17 @@
+{
+  "name": "next360",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "type-check": "turbo type-check",
+    "clean": "turbo clean"
+  },
+  "devDependencies": {
+    "turbo": "latest",
+    "typescript": "^5.9.3",
+    "@types/node": "^22.0.0"
+  }
+}
