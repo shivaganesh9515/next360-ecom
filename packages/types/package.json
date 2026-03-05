@@ -2,5 +2,8 @@
   "name": "@next360/types",
   "version": "0.1.0",
   "main": "./index.ts",
+  "scripts": {
+    "build": "echo building types..."
+  },
   "types": "./index.ts"
 }

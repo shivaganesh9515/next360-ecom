@@ -7,9 +7,23 @@ export type SubscriptionFreq =
 export type SubscriptionStatus =
   'ACTIVE' | 'PAUSED' | 'CANCELLED'
 
+export interface Box {
+  id: string
+  name: string
+  slug: string
+  description: string
+  price: number
+  image: string
+  items: string[] // Product IDs
+  popular?: boolean
+  emoji?: string
+  includes: string[]
+}
+
 export interface Subscription {
   id: string
   userId: string
+  boxId?: string // Link to Box
   boxType: SubscriptionBox
   frequency: SubscriptionFreq
   deliveryDay: number

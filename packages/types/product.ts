@@ -14,16 +14,26 @@ export interface Product {
   supplierId?: string
   supplier?: Supplier
   vendorId?: string
+  region: string
   weight: string[]
   certifications: string[]
   tags: string[]
   healthGoalTags: string[]
   seasonalMonths: number[]
-  nutritionFacts: Record<string, string>
+  nutritionFacts: {
+    servingSize: string
+    calories: number
+    protein: string
+    carbs: string
+    fat: string
+    fiber: string
+    sugar: string
+    sodium: string
+  }
   isFeatured: boolean
   isOrganic: boolean
   inStock: boolean
-  stockCount: number
+  stock: number
   lowStockThresh: number
   rating: number
   reviewCount: number

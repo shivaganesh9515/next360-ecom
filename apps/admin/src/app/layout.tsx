@@ -1,25 +1,36 @@
+import type { Metadata } from 'next'
 import { Playfair_Display, DM_Sans } from 'next/font/google'
 import './globals.css'
+import { Providers } from './providers'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: ['600', '700'],
   variable: '--font-playfair',
   display: 'swap',
 })
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
   variable: '--font-dm-sans',
   display: 'swap',
 })
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export const metadata: Metadata = {
+  title: 'Next360 Admin',
+  description: 'Admin Dashboard for Next360',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${dmSans.variable} font-sans`}>
-        {children}
+      <body className={`${dmSans.variable} ${playfair.variable} font-sans antialiased text-gray-900 bg-gray-50`}>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )

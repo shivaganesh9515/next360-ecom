@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react'
 import { Plus, Minus } from 'lucide-react'
 import { cn } from '@next360/utils'

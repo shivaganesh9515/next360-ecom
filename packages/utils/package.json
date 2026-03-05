@@ -2,5 +2,8 @@
   "name": "@next360/utils",
   "version": "0.1.0",
   "main": "./index.ts",
+  "scripts": {
+    "build": "echo building utils..."
+  },
   "types": "./index.ts"
 }

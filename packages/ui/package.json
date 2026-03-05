@@ -2,6 +2,9 @@
   "name": "@next360/ui",
   "version": "0.1.0",
   "main": "./index.ts",
+  "scripts": {
+    "build": "echo building ui..."
+  },
   "types": "./index.ts",
   "peerDependencies": {
     "react": "^18 || ^19",
