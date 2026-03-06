@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Leaf, Handshake, Truck, RefreshCw } from 'lucide-react'
 import { Card } from '@next360/ui'
 
@@ -37,15 +37,15 @@ export default function WhyNext360() {
     <section className="py-24 bg-cream/40 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <motion.h2 
+          <m.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="font-display text-4xl md:text-5xl text-primary font-bold mb-4"
           >
             Why Choose Next360?
-          </motion.h2>
-          <motion.p 
+          </m.h2>
+          <m.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -53,12 +53,12 @@ export default function WhyNext360() {
             className="text-slate-600 font-body text-lg"
           >
             Beyond organic. We are building a transparent food system for your well-being.
-          </motion.p>
+          </m.p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {reasons.map((reason, index) => (
-            <motion.div
+            <m.div
               key={reason.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -76,7 +76,7 @@ export default function WhyNext360() {
                   {reason.description}
                 </p>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

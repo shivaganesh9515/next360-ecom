@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { Send, CheckCircle2 } from 'lucide-react'
 import { Button, Input, Badge } from '@next360/ui'
 
@@ -30,7 +30,7 @@ export default function NewsletterBanner() {
       <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-primary/20 rounded-full blur-3xl opacity-50" />
 
       <div className="max-w-3xl mx-auto px-4 text-center relative z-10">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -50,7 +50,7 @@ export default function NewsletterBanner() {
 
           <AnimatePresence mode="wait">
             {!isSubmitted ? (
-              <motion.form
+              <m.form
                 key="form"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -75,19 +75,19 @@ export default function NewsletterBanner() {
                   className="h-14 px-10 rounded-2xl font-bold text-lg min-w-[160px] shadow-xl shadow-primary/20"
                 >
                   {isLoading ? (
-                    <motion.div 
+                    <m.div 
                       animate={{ rotate: 360 }} 
                       transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                     >
                       🌱
-                    </motion.div>
+                    </m.div>
                   ) : (
                     <span className="flex items-center gap-2">Subscribe <Send size={18} /></span>
                   )}
                 </Button>
-              </motion.form>
+              </m.form>
             ) : (
-              <motion.div
+              <m.div
                 key="success"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -100,7 +100,7 @@ export default function NewsletterBanner() {
                   <h3 className="font-bold text-xl text-primary mb-1">You're in the inner circle!</h3>
                   <p className="text-slate-500 font-medium">Check your inbox for your 10% discount code 🌿</p>
                 </div>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
 
@@ -109,7 +109,7 @@ export default function NewsletterBanner() {
               🔒 NO SPAM. UNSUBSCRIBE ANYTIME.
             </p>
           )}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

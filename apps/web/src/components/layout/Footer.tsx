@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { m } from 'framer-motion'
 import { Instagram, Facebook, Youtube, MapPin, Phone, Mail } from 'lucide-react'
 import NewsletterForm from './NewsletterForm'
 
@@ -82,14 +83,19 @@ export default function Footer() {
           <p className="text-sm text-white/70">Get 10% off your first order plus organic living tips.</p>
           <NewsletterForm />
           <div className="pt-4 flex items-center gap-4">
-            {[Instagram, Facebook, Youtube].map((Icon, i) => (
-              <Link 
+            {[
+              { Icon: Instagram, label: 'Instagram' },
+              { Icon: Facebook, label: 'Facebook' },
+              { Icon: Youtube, label: 'Youtube' }
+            ].map(({ Icon, label }, i) => (
+              <m.a 
                 key={i} 
                 href="#" 
+                aria-label={`Follow us on ${label}`}
                 className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-primary transition-all duration-300"
               >
                 <Icon size={20} />
-              </Link>
+              </m.a>
             ))}
           </div>
         </div>

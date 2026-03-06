@@ -45,6 +45,7 @@ export default function ProductGallery({ images, name, isOrganic = true }: Produ
             fill
             className="object-cover"
             priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
           />
         </motion.div>
       </div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { cn } from '@next360/utils'
 import { useQuery } from '@tanstack/react-query'
@@ -97,7 +97,7 @@ export default function FeaturedProducts({ activeMoodTags }: FeaturedProductsPro
         {/* Grid */}
         <div className="min-h-[600px]">
           <AnimatePresence mode="wait">
-            <motion.div
+            <m.div
               key={activeTab + activeMoodTags.join(',')}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -120,7 +120,7 @@ export default function FeaturedProducts({ activeMoodTags }: FeaturedProductsPro
                   <p className="text-slate-500">Try adjusting your filters or browsing all categories.</p>
                 </div>
               )}
-            </motion.div>
+            </m.div>
           </AnimatePresence>
         </div>
       </div>

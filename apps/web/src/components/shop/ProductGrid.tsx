@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Product } from '@next360/types'
 import { Skeleton, EmptyState } from '@next360/ui'
 import ProductCard from '@/components/product/ProductCard'
@@ -64,7 +64,7 @@ export default function ProductGrid({ products, isLoading, viewMode }: ProductGr
   }
 
   return (
-    <motion.div
+    <m.div
       initial="hidden"
       animate="visible"
       variants={{
@@ -79,7 +79,7 @@ export default function ProductGrid({ products, isLoading, viewMode }: ProductGr
       className={viewMode === 'grid' ? "grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : "flex flex-col gap-4"}
     >
       {products.map((product) => (
-        <motion.div
+        <m.div
           key={product.id}
           variants={{
             hidden: { opacity: 0, y: 20 },
@@ -128,8 +128,8 @@ export default function ProductGrid({ products, isLoading, viewMode }: ProductGr
               </div>
             </div>
           )}
-        </motion.div>
+        </m.div>
       ))}
-    </motion.div>
+    </m.div>
   )
 }

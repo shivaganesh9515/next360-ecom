@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Star } from 'lucide-react'
 import { Checkbox, Toggle, Button, Badge } from '@next360/ui'
 import { MOCK_CATEGORIES } from '@/lib/mockData'
@@ -55,7 +55,7 @@ const FilterSection = ({ title, children, defaultOpen = true }: FilterSectionPro
 
       <AnimatePresence initial={false}>
         {isOpen && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -65,7 +65,7 @@ const FilterSection = ({ title, children, defaultOpen = true }: FilterSectionPro
             <div className="pt-4">
               {children}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

@@ -5,6 +5,8 @@ import { ReactNode, useState } from "react"
 import { Toaster } from "sonner"
 import CartSync from "./cart/CartSync"
 
+import FramerLazyProvider from "./providers/FramerLazyProvider"
+
 export default function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(
     () =>
@@ -20,9 +22,11 @@ export default function Providers({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Toaster position="top-right" richColors closeButton />
-      <CartSync />
-      {children}
+      <FramerLazyProvider>
+        <Toaster position="top-right" richColors closeButton />
+        <CartSync />
+        {children}
+      </FramerLazyProvider>
     </QueryClientProvider>
   )
 }

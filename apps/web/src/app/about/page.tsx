@@ -22,6 +22,7 @@ export default function AboutPage() {
             fill
             className="object-cover opacity-20"
             priority
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/90 to-primary" />
         </div>
@@ -160,6 +161,7 @@ export default function AboutPage() {
                 alt="Rahul Mehta"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 192px, 192px"
               />
             </div>
             <div className="text-center md:text-left">

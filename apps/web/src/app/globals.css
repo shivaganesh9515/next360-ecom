@@ -1,19 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
 
 @layer base {
   :root {
-    --color-primary:    #2D5016;
-    --color-secondary:  #7CB342;
-    --color-accent:     #F4A300;
-    --color-earth:      #8B5E3C;
-    --color-cream:      #FAF6ED;
-    --color-text:       #1A1A1A;
-    --color-muted:      #6B7280;
-    --color-border:     #E5E0D4;
-    --font-playfair:    'Playfair Display', serif;
-    --font-dm-sans:     'DM Sans', sans-serif;
+    --color-primary: #2d5016;
+    --color-secondary: #7cb342;
+    --color-accent: #f4a300;
+    --color-earth: #8b5e3c;
+    --color-cream: #faf6ed;
+    --color-text: #1a1a1a;
+    --color-muted: #6b7280;
+    --color-border: #e5e0d4;
+    /* next/font variables provided via layout.tsx */
   }
 
   * {
@@ -34,16 +32,27 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-playfair);
     font-weight: 700;
     line-height: 1.2;
   }
 
   /* Custom scrollbar */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: var(--color-cream); }
-  ::-webkit-scrollbar-thumb { background: var(--color-secondary); border-radius: 3px; }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-cream);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-secondary);
+    border-radius: 3px;
+  }
 
   /* Text selection */
   ::selection {
@@ -59,22 +68,48 @@
 }
 
 @layer utilities {
-  .font-display { font-family: var(--font-playfair); }
-  .font-body    { font-family: var(--font-dm-sans); }
+  .font-display {
+    font-family: var(--font-playfair);
+  }
+  .font-body {
+    font-family: var(--font-dm-sans);
+  }
 
-  .text-primary   { color: var(--color-primary); }
-  .text-secondary { color: var(--color-secondary); }
-  .text-accent    { color: var(--color-accent); }
-  .text-earth     { color: var(--color-earth); }
-  .text-muted     { color: var(--color-muted); }
+  .text-primary {
+    color: var(--color-primary);
+  }
+  .text-secondary {
+    color: var(--color-secondary);
+  }
+  .text-accent {
+    color: var(--color-accent);
+  }
+  .text-earth {
+    color: var(--color-earth);
+  }
+  .text-muted {
+    color: var(--color-muted);
+  }
 
-  .bg-primary   { background-color: var(--color-primary); }
-  .bg-secondary { background-color: var(--color-secondary); }
-  .bg-accent    { background-color: var(--color-accent); }
-  .bg-cream     { background-color: var(--color-cream); }
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+  .bg-secondary {
+    background-color: var(--color-secondary);
+  }
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+  .bg-cream {
+    background-color: var(--color-cream);
+  }
 
-  .border-primary { border-color: var(--color-primary); }
-  .border-border  { border-color: var(--color-border); }
+  .border-primary {
+    border-color: var(--color-primary);
+  }
+  .border-border {
+    border-color: var(--color-border);
+  }
 
   .animate-fade-up {
     animation: fadeUp 0.5s ease forwards;
@@ -86,11 +121,21 @@
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

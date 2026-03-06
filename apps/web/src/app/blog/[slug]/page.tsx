@@ -10,6 +10,30 @@ import BlogCard from '@/components/blog/BlogCard'
 import ShareButtons from './ShareButtons'
 import { useQuery } from '@tanstack/react-query'
 import { blogService } from '@/services/blogService'
+import { Metadata } from 'next'
+
+interface Props {
+  params: Promise<{ slug: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const post = await blogService.getBlogPostBySlug(slug)
+  
+  if (!post) return { title: 'Article Not Found' }
+
+  return {
+    title: `${post.title} | Next360 Blog`,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      images: [{ url: post.thumbnail }],
+      type: 'article',
+      publishedTime: post.publishedAt,
+    }
+  }
+}
 
 export default function BlogDetail() {
   const params = useParams()

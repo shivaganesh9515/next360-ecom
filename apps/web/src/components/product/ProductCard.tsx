@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { Heart, ShoppingCart, Eye, Star, Check } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn, formatPrice } from '@next360/utils'
@@ -146,9 +146,9 @@ export default function ProductCard({ product, showQuickView = true }: ProductCa
             disabled={!product.inStock || isAdded}
           >
             {isAdded ? (
-              <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex items-center gap-2">
+              <m.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex items-center gap-2">
                 <Check size={18} strokeWidth={3} /> Added!
-              </motion.span>
+              </m.span>
             ) : (
               <>
                 <ShoppingCart size={18} strokeWidth={2.5} /> Add to Cart

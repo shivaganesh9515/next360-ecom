@@ -11,6 +11,30 @@ import RelatedProducts from '@/components/product/RelatedProducts'
 import FrequentlyBoughtTogether from '@/components/product/FrequentlyBoughtTogether'
 import { ChevronRight, Loader2 } from 'lucide-react'
 import Link from 'next/link'
+import { Metadata } from 'next'
+
+export const revalidate = 3600 // revalidate every hour
+
+interface Props {
+  params: Promise<{ slug: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const product = await productService.getBySlug(slug)
+  
+  if (!product) return { title: 'Product Not Found' }
+
+  return {
+    title: `${product.name} | Next360 Organic`,
+    description: product.description,
+    openGraph: {
+      title: product.name,
+      description: product.description,
+      images: product.images.length > 0 ? [{ url: product.images[0] }] : [],
+    }
+  }
+}
 
 export default function ProductDetailPage() {
   const { slug } = useParams()
@@ -35,8 +59,27 @@ export default function ProductDetailPage() {
     notFound()
   }
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    image: product.images,
+    description: product.description,
+    sku: product.id,
+    offers: {
+      '@type': 'Offer',
+      price: product.price,
+      priceCurrency: 'INR',
+      availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
+    }
+  }
+
   return (
     <div className="min-h-screen bg-white pt-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Breadcrumbs */}
       <div className="bg-slate-50 py-4">
         <div className="max-w-7xl mx-auto px-4">

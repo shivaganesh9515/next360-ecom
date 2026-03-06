@@ -13,7 +13,7 @@ import {
   ChevronDown,
   Bell
 } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { cn } from '@next360/utils'
 import { CATEGORIES } from '@next360/utils'
 import { useCartStore } from '@/store/cartStore'
@@ -136,7 +136,7 @@ export default function Navbar() {
               {link.hasDropdown && (
                 <AnimatePresence>
                   {isCategoriesOpen && (
-                    <motion.div
+                    <m.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
@@ -157,7 +157,7 @@ export default function Navbar() {
                           </Link>
                         ))}
                       </div>
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
               )}
@@ -172,7 +172,7 @@ export default function Navbar() {
             <AnimatePresence>
               {isSearchOpen && (
                 <div className="absolute right-full mr-2">
-                  <motion.form 
+                  <m.form 
                     initial={{ width: 0, opacity: 0 }}
                     animate={{ width: 300, opacity: 1 }}
                     exit={{ width: 0, opacity: 0 }}
@@ -191,7 +191,7 @@ export default function Navbar() {
                     {/* Suggestions Dropdown */}
                     <AnimatePresence>
                       {searchQuery.length > 2 && (suggestions.length > 0 || isSearching) && (
-                        <motion.div
+                        <m.div
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 10 }}
@@ -219,15 +219,16 @@ export default function Navbar() {
                               ))}
                             </div>
                           )}
-                        </motion.div>
+                        </m.div>
                       )}
                     </AnimatePresence>
-                  </motion.form>
+                  </m.form>
                 </div>
               )}
             </AnimatePresence>
             <button 
               onClick={() => setIsSearchOpen(!isSearchOpen)}
+              aria-label={isSearchOpen ? "Close search" : "Open search"}
               className={cn(
                 "p-2 rounded-full transition-colors",
                 scrolled ? "hover:bg-slate-100 text-slate-600" : "hover:bg-white/10 text-white"
@@ -240,6 +241,7 @@ export default function Navbar() {
           {/* Wishlist */}
           <Link 
             href="/account/wishlist"
+            aria-label={`View wishlist (${wishlistCount} items)`}
             className={cn(
               "p-2 rounded-full relative transition-colors",
               scrolled ? "hover:bg-slate-100 text-slate-600" : "hover:bg-white/10 text-white"
@@ -258,6 +260,7 @@ export default function Navbar() {
             <div className="relative" ref={notificationRef}>
               <button 
                 onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                aria-label={`View notifications (${unreadCount} unread)`}
                 className={cn(
                   "p-2 rounded-full relative transition-colors",
                   scrolled ? "hover:bg-slate-100 text-slate-600" : "hover:bg-white/10 text-white"
@@ -273,7 +276,7 @@ export default function Navbar() {
 
               <AnimatePresence>
                 {isNotificationsOpen && (
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
@@ -324,7 +327,7 @@ export default function Navbar() {
                     >
                       View all activity
                     </Link>
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
             </div>
@@ -355,7 +358,7 @@ export default function Navbar() {
             {/* Account Dropdown */}
             <AnimatePresence>
               {isAccountOpen && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
@@ -388,7 +391,7 @@ export default function Navbar() {
                   >
                     Logout
                   </button>
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
           </div>
@@ -396,6 +399,7 @@ export default function Navbar() {
           {/* Cart */}
           <button 
             onClick={toggleCart}
+            aria-label={`View shopping cart (${cartItemCount} items)`}
             className={cn(
               "p-2 rounded-full relative transition-colors",
               scrolled ? "hover:bg-slate-100 text-slate-600" : "hover:bg-white/10 text-white"
@@ -422,10 +426,9 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
+          <m.div
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
@@ -498,7 +501,7 @@ export default function Navbar() {
                 </Link>
               )}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </header>

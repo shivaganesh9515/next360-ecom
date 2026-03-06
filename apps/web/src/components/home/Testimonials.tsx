@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { Quote, Star } from 'lucide-react'
 import { Card, Avatar, RatingStars, Badge } from '@next360/ui'
 import { MOCK_TESTIMONIALS } from '@/lib/mockData'
@@ -62,7 +62,7 @@ export default function Testimonials() {
         {/* Mobile View / Carousel */}
         <div className="md:hidden">
           <AnimatePresence mode="wait">
-            <motion.div
+            <m.div
               key={activeIndex}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -92,7 +92,7 @@ export default function Testimonials() {
                   </div>
                 </div>
               </Card>
-            </motion.div>
+            </m.div>
           </AnimatePresence>
 
           <div className="flex justify-center gap-2 mt-8">

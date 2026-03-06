@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { ArrowRight, Flame } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { productService } from '@/services/productService'
@@ -54,7 +54,7 @@ export default function TodaysHarvest() {
               Syncing with farm...
             </div>
           ) : harvestItems.map((product) => (
-            <motion.div 
+            <m.div 
               key={product.id}
               whileHover={{ scale: 1.05 }}
               className="flex items-center gap-3 bg-white/10 rounded-full px-4 py-1.5 border border-white/10 group cursor-default"
@@ -64,7 +64,7 @@ export default function TodaysHarvest() {
               <span className="text-[10px] bg-accent/20 text-accent font-bold px-1.5 rounded uppercase">
                 {product.stock} Left
               </span>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 

@@ -10,6 +10,8 @@ import { Badge } from '@next360/ui'
 import BlogCard from '@/components/blog/BlogCard'
 import BlogSidebar from '@/components/blog/BlogSidebar'
 
+export const revalidate = 3600 // revalidate every hour
+
 function BlogContent() {
   const searchParams = useSearchParams()
   const router = useRouter()

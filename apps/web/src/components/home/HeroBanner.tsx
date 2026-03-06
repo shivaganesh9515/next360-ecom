@@ -3,7 +3,7 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { ArrowRight, Leaf, ShieldCheck, Truck, RefreshCcw, FlaskConical, ChevronDown } from 'lucide-react'
 import { Button } from '@next360/ui'
 
@@ -47,33 +47,33 @@ export default function HeroBanner() {
 
       <div className="max-w-7xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
         {/* Left Col: Content */}
-        <motion.div 
+        <m.div 
           variants={container}
           initial="hidden"
           animate="show"
           className="flex flex-col items-start"
         >
-          <motion.div variants={item} className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 rounded-full mb-8 border border-secondary/20">
+          <m.div variants={item} className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 rounded-full mb-8 border border-secondary/20">
             <span className="flex h-2 w-2 rounded-full bg-secondary animate-pulse" />
             <span className="text-xs font-bold text-secondary uppercase tracking-widest">
               🌱 Certified Organic · Trusted by 50K+ Families
             </span>
-          </motion.div>
+          </m.div>
 
-          <motion.div variants={item} className="space-y-1 mb-8">
+          <m.div variants={item} className="space-y-1 mb-8">
             <h1 className="font-display text-6xl md:text-8xl text-primary font-bold leading-[1.1]">
               Pure Food.<br />
               Real Farmers.<br />
               <span className="text-accent underline decoration-accent/20 underline-offset-8">Happy You.</span>
             </h1>
-          </motion.div>
+          </m.div>
 
-          <motion.p variants={item} className="text-slate-600 text-lg md:text-xl max-w-lg mb-10 leading-relaxed font-body">
+          <m.p variants={item} className="text-slate-600 text-lg md:text-xl max-w-lg mb-10 leading-relaxed font-body">
             Sourced directly from certified organic farms across India. 
             No pesticides, no chemicals, no compromise on your health.
-          </motion.p>
+          </m.p>
 
-          <motion.div variants={item} className="flex flex-wrap gap-4 w-full sm:w-auto mb-12">
+          <m.div variants={item} className="flex flex-wrap gap-4 w-full sm:w-auto mb-12">
             <Button 
               size="lg" 
               className="rounded-full px-10 py-8 text-lg font-bold shadow-xl shadow-primary/20 group"
@@ -89,9 +89,9 @@ export default function HeroBanner() {
             >
               Our Story
             </Button>
-          </motion.div>
+          </m.div>
 
-          <motion.div variants={item} className="grid grid-cols-2 sm:flex gap-6 pt-6 border-t border-slate-200 w-full">
+          <m.div variants={item} className="grid grid-cols-2 sm:flex gap-6 pt-6 border-t border-slate-200 w-full">
             {[
               { icon: Leaf, text: 'No Pesticides' },
               { icon: Truck, text: 'Next-day Delivery' },
@@ -103,11 +103,11 @@ export default function HeroBanner() {
                 <span className="text-xs font-bold uppercase tracking-wide">{trust.text}</span>
               </div>
             ))}
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
 
         {/* Right Col: Image */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ duration: 1.2, ease: "circOut" }}
@@ -120,19 +120,20 @@ export default function HeroBanner() {
               fill
               className="object-cover"
               priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
             />
             {/* Floating Floating Leaf Decoration */}
-            <motion.div 
+            <m.div 
               animate={{ y: [0, -20, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
               className="absolute bottom-10 left-10 w-20 h-20 bg-white/90 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-xl rotate-12"
             >
               <Leaf className="text-primary" size={40} />
-            </motion.div>
+            </m.div>
           </div>
           
           {/* Experience Badge */}
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 1 }}
@@ -140,19 +141,19 @@ export default function HeroBanner() {
           >
             <p className="text-4xl font-bold font-display">12+</p>
             <p className="text-xs font-bold uppercase tracking-widest opacity-80">Local Farm<br />States</p>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
 
       {/* Scroll Indicator */}
-      <motion.button
+      <m.button
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
         onClick={scrollToNext}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 p-3 bg-white shadow-xl rounded-full text-primary hover:text-accent transition-colors z-20 hidden md:flex"
       >
         <ChevronDown size={24} strokeWidth={3} />
-      </motion.button>
+      </m.button>
     </section>
   )
 }

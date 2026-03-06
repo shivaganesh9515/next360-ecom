@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Leaf, ShieldCheck, Sprout, Recycle } from 'lucide-react';
 
 const benefits = [
@@ -44,7 +44,7 @@ const WhyOrganic = () => {
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {benefits.map((item, i) => (
-          <motion.div
+          <m.div
             key={item.title}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -57,7 +57,7 @@ const WhyOrganic = () => {
             </div>
             <h3 className="gc-display text-base mt-4 text-text">{item.title}</h3>
             <p className="mt-2 text-muted text-sm font-medium leading-relaxed">{item.desc}</p>
-          </motion.div>
+          </m.div>
         ))}
       </div>
     </section>

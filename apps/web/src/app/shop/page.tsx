@@ -16,6 +16,8 @@ import { productService } from '@/services/productService'
 
 const ITEMS_PER_PAGE = 12
 
+export const revalidate = 3600 // revalidate every hour
+
 export default function ShopPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
