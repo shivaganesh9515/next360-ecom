@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react'
 import { Check } from 'lucide-react'
-import { DELIVERY_DAYS, SubscriptionFreq } from '@/lib/mockSubscribe'
+import { DELIVERY_DAYS } from '@/lib/mockSubscribe'
+import { SubscriptionFreq } from '@next360/types'
 import { useSubscriptionStore } from '@/store/subscriptionStore'
 
 export default function BoxSchedule() {

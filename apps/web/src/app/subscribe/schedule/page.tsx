@@ -8,11 +8,9 @@ import { subscriptionService } from '@/services/subscriptionService'
 import BoxSchedule from '@/components/subscribe/BoxSchedule'
 import { useSubscriptionStore } from '@/store/subscriptionStore'
 import { BOX_OPTIONS } from '@/lib/mockSubscribe'
+import { MOCK_ADDRESSES } from '@/lib/mockOrders'
 import { formatPrice } from '@next360/utils'
 import { toast } from 'sonner'
-
-const BOX_OPTIONS: any[] = []
-const MOCK_ADDRESSES: any[] = []
 
 export default function SchedulePage() {
   const router = useRouter()

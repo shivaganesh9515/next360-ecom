@@ -1,6 +1,5 @@
 import { create } from 'zustand'
-import { Product } from '@next360/types'
-import { SubscriptionFreq } from '@/lib/mockSubscribe'
+import { Product, SubscriptionFreq } from '@next360/types'
 
 interface SubscriptionStoreState {
   selectedBoxId: string | null

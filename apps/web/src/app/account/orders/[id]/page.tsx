@@ -2,7 +2,7 @@
 
 import React, { use } from 'react'
 import { MOCK_ORDERS } from '@/lib/mockAccount'
-import { OrderStatusBadge } from '@/app/account/orders/page'
+import OrderStatusBadge from '@/components/account/OrderStatusBadge'
 import Image from 'next/image'
 import { formatPrice } from '@next360/utils'
 import { Check, Download, Info, ArrowLeft } from 'lucide-react'

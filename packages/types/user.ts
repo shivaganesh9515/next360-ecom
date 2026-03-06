@@ -24,6 +24,7 @@ export interface Address {
   state: string
   pincode: string
   landmark?: string
+  type?: string // e.g. 'HOME', 'OFFICE'
   isDefault: boolean
 }
 

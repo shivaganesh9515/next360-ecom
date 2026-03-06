@@ -3,7 +3,7 @@ import { Badge, Button } from '@next360/ui'
 import { Order } from '@next360/types'
 import { formatPrice } from '@next360/utils'
 import { Package } from 'lucide-react'
-import { OrderStatusBadge } from '@/app/account/orders/page'
+import OrderStatusBadge from '@/components/account/OrderStatusBadge'
 import Link from 'next/link'
 
 interface OrderHistoryTableProps {

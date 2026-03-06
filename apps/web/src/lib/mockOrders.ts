@@ -26,3 +26,27 @@ export const MOCK_ADDRESSES: Address[] = [
     isDefault: false,
   },
 ]
+
+export const MOCK_PLACED_ORDER = {
+  id: 'order-success-001',
+  orderNumber: 'ORD-N360-SUCCESS',
+  subtotal: 125000,
+  total: 125000,
+  expectedBy: 'March 15, 2026',
+  items: [
+    {
+      id: 'item-1',
+      productName: 'Organic Avocados',
+      quantity: 2,
+      selectedWeight: '500g',
+      totalPrice: 45000
+    },
+    {
+      id: 'item-2',
+      productName: 'Fresh Strawberries',
+      quantity: 1,
+      selectedWeight: '250g',
+      totalPrice: 80000
+    }
+  ]
+}

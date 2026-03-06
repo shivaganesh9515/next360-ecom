@@ -9,7 +9,12 @@ import { Button, Badge } from '@next360/ui'
 import { MOCK_PLACED_ORDER } from '@/lib/mockOrders'
 import { formatPrice } from '@next360/utils'
 
-export default function OrderSuccessPage({ params }: { params: { id: string } }) {
+export default function OrderSuccessPage({ 
+  params 
+}: { 
+  params: Promise<{ id: string }> 
+}) {
+  const { id } = React.use(params)
   const router = useRouter()
   useEffect(() => {
     // Dynamic import to avoid SSR issues with canvas-confetti

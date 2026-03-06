@@ -1,4 +1,4 @@
-import { User, Order, OrderStatus } from '@next360/types'
+import { User, Order, OrderStatus, Subscription } from '@next360/types'
 import { MOCK_PRODUCTS } from './mockData'
 import { MOCK_ADDRESSES } from './mockOrders'
 
@@ -180,43 +180,34 @@ export const MOCK_ORDERS: Order[] = [
   }
 ]
 
-export interface Subscription {
-  id: string
-  boxType: 'VEGGIE' | 'FRUIT' | 'PROTEIN' | 'FAMILY' | 'CUSTOM'
-  frequency: 'WEEKLY' | 'BIWEEKLY' | 'MONTHLY'
-  status: 'ACTIVE' | 'PAUSED' | 'CANCELLED'
-  price: number
-  nextDelivery?: string
-  deliveryDay?: number // 0-6 for Sunday-Saturday
-  items: string[] // product IDs or names basically
-}
-
 export const MOCK_SUBSCRIPTIONS: Subscription[] = [
   {
     id: 'sub-001',
+    userId: 'user-001',
     boxType: 'VEGGIE',
     frequency: 'WEEKLY',
     status: 'ACTIVE',
     price: 69900,
-    nextDelivery: new Date(Date.now() + 86400000 * 3).toISOString(), // in 3 days
-    deliveryDay: 5, // Friday
+    deliveryDay: 5,
+    nextDelivery: new Date(Date.now() + 86400000 * 3).toISOString(),
+    createdAt: new Date(Date.now() - 86400000 * 30).toISOString(),
     items: [
-      MOCK_PRODUCTS?.[0]?.id || 'p1', 
-      MOCK_PRODUCTS?.[1]?.id || 'p2', 
-      MOCK_PRODUCTS?.[2]?.id || 'p3', 
-      MOCK_PRODUCTS?.[3]?.id || 'p4'
+      { id: 'si-1', subscriptionId: 'sub-001', productId: 'p1', quantity: 1, selectedWeight: '1kg' },
+      { id: 'si-2', subscriptionId: 'sub-001', productId: 'p2', quantity: 1, selectedWeight: '500g' },
     ]
   },
   {
     id: 'sub-002',
+    userId: 'user-001',
     boxType: 'PROTEIN',
     frequency: 'BIWEEKLY',
     status: 'PAUSED',
     price: 99900,
-    nextDelivery: new Date(Date.now() + 86400000 * 14).toISOString(), // 2 weeks
+    deliveryDay: 1,
+    nextDelivery: new Date(Date.now() + 86400000 * 14).toISOString(),
+    createdAt: new Date(Date.now() - 86400000 * 60).toISOString(),
     items: [
-      MOCK_PRODUCTS?.[3]?.id || 'p4', 
-      MOCK_PRODUCTS?.[4]?.id || 'p5'
+      { id: 'si-3', subscriptionId: 'sub-002', productId: 'p4', quantity: 2, selectedWeight: '1L' },
     ]
   }
 ]

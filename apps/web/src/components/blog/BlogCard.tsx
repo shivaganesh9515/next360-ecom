@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Badge } from '@next360/ui'
-import { BlogPost } from '@/lib/mockBlog'
+import { BlogPost } from '@next360/types'
 
 interface BlogCardProps {
   post: BlogPost

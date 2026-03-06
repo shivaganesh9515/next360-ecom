@@ -3,7 +3,7 @@
 import React from 'react'
 import { Modal, Button } from '@next360/ui'
 import { Order } from '@next360/types'
-import { OrderStatusBadge } from '@/app/account/orders/page'
+import OrderStatusBadge from '@/components/account/OrderStatusBadge'
 import Image from 'next/image'
 import { formatPrice } from '@next360/utils'
 import { Check, Download, Info } from 'lucide-react'

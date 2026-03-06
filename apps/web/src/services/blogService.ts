@@ -1,20 +1,5 @@
-import type { ApiResponse } from '@next360/types'
+import type { ApiResponse, BlogPost } from '@next360/types'
 import { api } from './api'
-
-export interface BlogPost {
-  id: string
-  title: string
-  slug: string
-  content: string
-  excerpt: string
-  thumbnail: string
-  category: string
-  tags: string[]
-  authorId: string
-  publishedAt: string
-  createdAt: string
-  updatedAt: string
-}
 
 export const blogService = {
   getBlogPosts: async (params?: { category?: string; tag?: string }) => {

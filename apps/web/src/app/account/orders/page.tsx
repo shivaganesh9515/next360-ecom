@@ -5,23 +5,9 @@ import { Badge, Button } from '@next360/ui'
 import OrderHistoryTable from '@/components/account/OrderHistoryTable'
 import OrderDetailModal from '@/components/account/OrderDetailModal'
 import { Order, OrderStatus } from '@next360/types'
+import OrderStatusBadge from '@/components/account/OrderStatusBadge'
 
 type FilterType = 'ALL' | 'ACTIVE' | 'DELIVERED' | 'CANCELLED'
-
-export const OrderStatusBadge = ({ status }: { status: OrderStatus }) => {
-  const map: Record<OrderStatus, { variant: any, label: string }> = {
-    PENDING:    { variant: 'warning',  label: '⏳ Pending' },
-    CONFIRMED:  { variant: 'info',     label: '✅ Confirmed' },
-    PROCESSING: { variant: 'info',     label: '🔄 Processing' },
-    PACKED:     { variant: 'info',     label: '📦 Packed' },
-    DISPATCHED: { variant: 'warning',  label: '🚚 On the Way' },
-    DELIVERED:  { variant: 'success',  label: '✓ Delivered' },
-    CANCELLED:  { variant: 'error',    label: '✗ Cancelled' },
-    REFUNDED:   { variant: 'warning',  label: '↩ Refunded' },
-  }
-  const config = map[status] || map.PENDING
-  return <Badge variant={config.variant} className="font-bold">{config.label}</Badge>
-}
 
 import { useQuery } from '@tanstack/react-query'
 import { orderService } from '@/services/orderService'
