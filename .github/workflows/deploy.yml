@@ -1,0 +1,110 @@
+name: Deploy to Google Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-web:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: paths-filter/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            web:
+              - 'apps/web/**'
+              - 'packages/**'
+      - id: "auth"
+        if: steps.filter.outputs.web == 'true'
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+      - name: "Set up Cloud SDK"
+        if: steps.filter.outputs.web == 'true'
+        uses: "google-github-actions/setup-gcloud@v2"
+      - name: Build and Deploy Web
+        if: steps.filter.outputs.web == 'true'
+        run: gcloud builds submit --config cloudbuild/web.cloudbuild.yaml .
+
+  deploy-admin:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: paths-filter/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            admin:
+              - 'apps/admin/**'
+              - 'packages/**'
+      - id: "auth"
+        if: steps.filter.outputs.admin == 'true'
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+      - name: "Set up Cloud SDK"
+        if: steps.filter.outputs.admin == 'true'
+        uses: "google-github-actions/setup-gcloud@v2"
+      - name: Build and Deploy Admin
+        if: steps.filter.outputs.admin == 'true'
+        run: gcloud builds submit --config cloudbuild/admin.cloudbuild.yaml .
+
+  deploy-vendor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: paths-filter/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            vendor:
+              - 'apps/vendor/**'
+              - 'packages/**'
+      - id: "auth"
+        if: steps.filter.outputs.vendor == 'true'
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+      - name: "Set up Cloud SDK"
+        if: steps.filter.outputs.vendor == 'true'
+        uses: "google-github-actions/setup-gcloud@v2"
+      - name: Build and Deploy Vendor
+        if: steps.filter.outputs.vendor == 'true'
+        run: gcloud builds submit --config cloudbuild/vendor.cloudbuild.yaml .
+
+  deploy-api:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: paths-filter/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            api:
+              - 'api/**'
+      - id: "auth"
+        if: steps.filter.outputs.api == 'true'
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+      - name: "Set up Cloud SDK"
+        if: steps.filter.outputs.api == 'true'
+        uses: "google-github-actions/setup-gcloud@v2"
+      - name: Build and Deploy API
+        if: steps.filter.outputs.api == 'true'
+        run: gcloud builds submit --config cloudbuild/api.cloudbuild.yaml .

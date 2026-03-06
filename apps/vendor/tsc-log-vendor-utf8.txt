@@ -1,0 +1,7 @@
+﻿src/app/(dashboard)/reviews/page.tsx(6,16): error TS2305: Module '"@next360/ui"' has no exported member 'CardHeader'.
+src/app/(dashboard)/reviews/page.tsx(6,28): error TS2305: Module '"@next360/ui"' has no exported member 'CardTitle'.
+src/app/(dashboard)/reviews/page.tsx(6,39): error TS2305: Module '"@next360/ui"' has no exported member 'CardContent'.
+src/components/dashboard/VendorRecentOrders.tsx(3,16): error TS2305: Module '"@next360/ui"' has no exported member 'CardHeader'.
+src/components/dashboard/VendorRecentOrders.tsx(3,28): error TS2305: Module '"@next360/ui"' has no exported member 'CardTitle'.
+src/components/dashboard/VendorRecentOrders.tsx(3,39): error TS2305: Module '"@next360/ui"' has no exported member 'CardContent'.
+src/components/dashboard/VendorRecentOrders.tsx(41,82): error TS2322: Type '"outline"' is not assignable to type '"error" | "success" | "organic" | "fresh" | "sale" | "new" | "certified" | "pending" | "active" | "suspended" | "warning" | "info" | undefined'.

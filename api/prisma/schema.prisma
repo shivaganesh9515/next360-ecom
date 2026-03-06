@@ -1,0 +1,412 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// -------------------- USER & AUTH -------------------- //
+
+enum Role {
+  CUSTOMER
+  VENDOR
+  ADMIN
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+  name          String
+  phone         String?
+  role          Role     @default(CUSTOMER)
+  seeds         Int      @default(0)
+  healthGoals   String[] // Array of ids from HEALTH_GOALS
+  isVerified    Boolean  @default(false)
+  googleId      String?  @unique
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  addresses         Address[]
+  orders            Order[]
+  cart              Cart?
+  subscriptions     Subscription[]
+  reviews           Review[]
+  notifications     Notification[]
+  seedsTransactions SeedsTransaction[]
+  wishlist          Wishlist[]
+  vendorProfile     VendorProfile?     @relation("UserVendor")
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String   // HOME, WORK, OTHER
+  fullName  String
+  phone     String
+  street    String
+  city      String
+  state     String
+  pincode   String
+  isDefault Boolean  @default(false)
+  
+  orders    Order[]
+}
+
+// -------------------- VENDOR -------------------- //
+
+enum VendorStatus {
+  PENDING
+  ACTIVE
+  REJECTED
+}
+
+model VendorProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation("UserVendor", fields: [userId], references: [id], onDelete: Cascade)
+  storeName       String
+  gstNumber       String?
+  fssaiNumber     String?
+  bankDetails     Json?    // { accNo, ifsc, bankName }
+  commissionRate  Float    @default(15.0) // Percentage
+  status          VendorStatus @default(PENDING)
+  rejectionReason String?
+  
+  products        Product[]
+  payouts         Payout[]
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+enum PayoutStatus {
+  PENDING
+  COMPLETED
+}
+
+model Payout {
+  id              String   @id @default(cuid())
+  vendorId        String
+  vendor          VendorProfile @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  amount          Int      // In paise
+  status          PayoutStatus @default(PENDING)
+  referenceNumber String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// -------------------- PRODUCT CATALOG -------------------- //
+
+enum ApprovalStatus {
+  PENDING_REVIEW
+  ACTIVE
+  REJECTED
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  icon        String?
+  description String?
+  products    Product[]
+}
+
+model Supplier {
+  id            String    @id @default(cuid())
+  name          String
+  description   String?
+  region        String?
+  certification String?
+  products      Product[]
+}
+
+model Product {
+  id             String   @id @default(cuid())
+  name           String
+  slug           String   @unique
+  shortDesc      String
+  description    String?
+  price          Int      // In paise
+  defaultWeight  String
+  inStock        Boolean  @default(true)
+  stockCount     Int      @default(0)
+  isOrganic      Boolean  @default(true)
+  certifications String[]
+  tags           String[]
+  healthGoalTags String[]
+  images         String[]
+  rating         Float    @default(0.0)
+  numReviews     Int      @default(0)
+  isFeatured     Boolean  @default(false)
+  seasonalMonths Int[]    // 1-12
+  
+  approvalStatus ApprovalStatus @default(ACTIVE)
+
+  categoryId     String
+  category       Category @relation(fields: [categoryId], references: [id])
+  
+  supplierId     String?
+  supplier       Supplier? @relation(fields: [supplierId], references: [id])
+  
+  vendorId       String?
+  vendor         VendorProfile? @relation(fields: [vendorId], references: [id])
+
+  cartItems          CartItem[]
+  subscriptionItems  SubscriptionItem[]
+  reviews            Review[]
+  wishlistedBy       Wishlist[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+// -------------------- CART & ORDERS -------------------- //
+
+model Cart {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  couponId  String?
+  coupon    Coupon?  @relation(fields: [couponId], references: [id])
+  
+  items     CartItem[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CartItem {
+  id             String   @id @default(cuid())
+  cartId         String
+  cart           Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId      String
+  product        Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity       Int      @default(1)
+  selectedWeight String
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  DISPATCHED
+  DELIVERED
+  CANCELLED
+}
+
+model Order {
+  id            String   @id @default(cuid())
+  orderNumber   String   @unique
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  addressId     String
+  address       Address  @relation(fields: [addressId], references: [id])
+  
+  paymentMethod String   // UPI, CARD, NET_BANKING, COD
+  paymentId     String?  // Razorpay payment ID
+  status        OrderStatus @default(PENDING)
+  
+  subtotal      Int      // In paise
+  deliveryFee   Int
+  discount      Int
+  total         Int
+  
+  items         OrderItem[]
+  tracking      OrderTracking[]
+  
+  placedAt      DateTime @default(now())
+  expectedBy    DateTime?
+}
+
+model OrderItem {
+  id             String   @id @default(cuid())
+  orderId        String
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  // Snapshot of product details at time of order
+  productId      String
+  productName    String
+  productImage   String
+  
+  selectedWeight String
+  quantity       Int
+  unitPrice      Int
+  totalPrice     Int
+}
+
+model OrderTracking {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus
+  message   String
+  timestamp DateTime @default(now())
+}
+
+// -------------------- SUBSCRIPTIONS -------------------- //
+
+enum SubStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+}
+
+model Subscription {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  boxType      String   // VEGGIE, FRUIT, CUSTOM etc
+  frequency    String   // WEEKLY, BIWEEKLY, MONTHLY
+  status       SubStatus @default(ACTIVE)
+  price        Int      // In paise
+  deliveryDay  Int      // 0-6 (Sunday-Saturday)
+  nextDelivery DateTime
+  
+  items        SubscriptionItem[]
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model SubscriptionItem {
+  id             String   @id @default(cuid())
+  subscriptionId String
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  productId      String
+  product        Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+// -------------------- REVIEWS -------------------- //
+
+model Review {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId        String
+  product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating           Int
+  comment          String?
+  hasPhoto         Boolean  @default(false)
+  images           String[]
+  verifiedPurchase Boolean  @default(true)
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([userId, productId])
+}
+
+// -------------------- PROMOTIONS -------------------- //
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+model Coupon {
+  id           String   @id @default(cuid())
+  code         String   @unique
+  discountType DiscountType
+  amount       Int      // Either paise (FIXED) or double indicating percent like 15 for 15%
+  isActive     Boolean  @default(true)
+  expiresAt    DateTime
+  maxUses      Int      @default(0)
+  usedCount    Int      @default(0)
+  minOrder     Int      @default(0) // In paise
+  
+  carts        Cart[]
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// -------------------- CMS -------------------- //
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  content     String
+  category    String
+  imageUrl    String
+  authorName  String
+  authorImage String?
+  readingTime String
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Banner {
+  id          String   @id @default(cuid())
+  imageUrl    String
+  title       String?
+  link        String?
+  position    String // e.g., 'home_hero', 'category_top'
+  isActive    Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// -------------------- SOCIAL / NOTIFICATIONS -------------------- //
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  
+  createdAt DateTime @default(now())
+}
+
+model SeedsTransaction {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount    Int      // Can be negative if spent
+  action    String   // Description of how seeds were earned/spent
+  
+  createdAt DateTime @default(now())
+}
+
+model Wishlist {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model Newsletter {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  subscribedAt DateTime @default(now())
+}
+
+// -------------------- ADMIN LOGGING -------------------- //
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  adminId     String
+  action      String
+  targetType  String
+  targetId    String
+  metadata    Json?
+  
+  createdAt   DateTime @default(now())
+}
