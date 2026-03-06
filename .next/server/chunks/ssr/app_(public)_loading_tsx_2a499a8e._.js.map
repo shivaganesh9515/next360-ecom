@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/gunny/development/main%20projects/Next360-ecom/references/gocart/app/%28public%29/loading.tsx"],"sourcesContent":["export default function Loading() {\r\n  return (\r\n    <div className=\"gc-container py-8 animate-pulse\">\r\n      <div className=\"skeleton h-10 w-48 rounded-xl mb-3\" />\r\n      <div className=\"skeleton h-4 w-72 rounded-lg mb-8\" />\r\n      <div className=\"skeleton h-[500px] rounded-[28px] mb-8\" />\r\n      <div className=\"grid grid-cols-2 lg:grid-cols-4 gap-4\">\r\n        {[1, 2, 3, 4].map((i) => (\r\n          <div key={i} className=\"skeleton h-72 rounded-[22px]\" />\r\n        ))}\r\n      </div>\r\n    </div>\r\n  );\r\n}\r\n"],"names":[],"mappings":";;;;;AAAe,SAAS;IACtB,qBACE,8OAAC;QAAI,WAAU;;0BACb,8OAAC;gBAAI,WAAU;;;;;;0BACf,8OAAC;gBAAI,WAAU;;;;;;0BACf,8OAAC;gBAAI,WAAU;;;;;;0BACf,8OAAC;gBAAI,WAAU;0BACZ;oBAAC;oBAAG;oBAAG;oBAAG;iBAAE,CAAC,GAAG,CAAC,CAAC,kBACjB,8OAAC;wBAAY,WAAU;uBAAb;;;;;;;;;;;;;;;;AAKpB","debugId":null}}]
-}
