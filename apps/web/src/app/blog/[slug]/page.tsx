@@ -1,14 +1,11 @@
-"use client"
-
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { notFound, useParams } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import { Badge } from '@next360/ui'
-import { Share2, Clock, ChevronLeft } from 'lucide-react'
+import { Clock, ChevronLeft } from 'lucide-react'
 import BlogCard from '@/components/blog/BlogCard'
 import ShareButtons from './ShareButtons'
-import { useQuery } from '@tanstack/react-query'
 import { blogService } from '@/services/blogService'
 import { Metadata } from 'next'
 
@@ -35,30 +32,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function BlogDetail() {
-  const params = useParams()
-  const slug = params.slug as string
-  
-  const { data: post, isLoading, error } = useQuery({
-    queryKey: ['blog-post', slug],
-    queryFn: () => blogService.getBlogPostBySlug(slug),
-  })
+export default async function BlogDetail({ params }: Props) {
+  const { slug } = await params
+  const post = await blogService.getBlogPostBySlug(slug)
+  const allPosts = await blogService.getBlogPosts()
 
-  const { data: allPosts = [] } = useQuery({
-    queryKey: ['blog-posts', 'all'],
-    queryFn: () => blogService.getBlogPosts(),
-  })
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white pt-32 flex flex-col items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin mb-4" />
-        <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">Harvesting wisdom...</p>
-      </div>
-    )
-  }
-
-  if (!post || error) {
+  if (!post) {
     notFound()
   }
 

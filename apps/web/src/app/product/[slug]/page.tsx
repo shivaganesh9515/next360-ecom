@@ -1,15 +1,12 @@
-"use client"
-
 import React from 'react'
-import { useParams, notFound } from 'next/navigation'
-import { useQuery } from '@tanstack/react-query'
+import { notFound } from 'next/navigation'
 import { productService } from '@/services/productService'
 import ProductGallery from '@/components/product/ProductGallery'
 import ProductInfo from '@/components/product/ProductInfo'
 import ProductTabs from '@/components/product/ProductTabs'
 import RelatedProducts from '@/components/product/RelatedProducts'
 import FrequentlyBoughtTogether from '@/components/product/FrequentlyBoughtTogether'
-import { ChevronRight, Loader2 } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { Metadata } from 'next'
 
@@ -36,26 +33,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function ProductDetailPage() {
-  const { slug } = useParams()
-  const currentSlug = typeof slug === 'string' ? slug : ''
+export default async function ProductDetailPage({ params }: Props) {
+  const { slug } = await params
+  const product = await productService.getBySlug(slug)
 
-  const { data: product, isLoading, isError } = useQuery({
-    queryKey: ['products', 'detail', currentSlug],
-    queryFn: () => productService.getBySlug(currentSlug),
-    enabled: !!currentSlug,
-    staleTime: 5 * 60 * 1000,
-  })
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center pt-20">
-        <Loader2 className="w-12 h-12 text-primary animate-spin" />
-      </div>
-    )
-  }
-
-  if (isError || !product) {
+  if (!product) {
     notFound()
   }
 
