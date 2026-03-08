@@ -5,7 +5,7 @@ export const ORDER_STATUS_COLORS: Record<string, string> = {
   SHIPPED: 'bg-purple-100 text-purple-800',
   DELIVERED: 'bg-green-100 text-green-800',
   CANCELLED: 'bg-red-100 text-red-800',
-  REFUNDED: 'bg-gray-100 text-gray-800',
+  REFUNDED: 'bg-border/40 text-text',
 }
 
 interface OrderStatusBadgeProps {
@@ -14,7 +14,7 @@ interface OrderStatusBadgeProps {
 }
 
 export function OrderStatusBadge({ status, className = '' }: OrderStatusBadgeProps) {
-  const color = ORDER_STATUS_COLORS[status] || 'bg-gray-100 text-gray-800'
+  const color = ORDER_STATUS_COLORS[status] || 'bg-border/40 text-text'
   return (
     <span className={`px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${color} ${className}`}>
       {status}

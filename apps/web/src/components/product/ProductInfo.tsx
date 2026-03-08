@@ -5,7 +5,7 @@ import { Heart, ShoppingCart, Star, ShieldCheck, Truck, RefreshCw } from 'lucide
 import { Product } from '@next360/types'
 import { useCartStore } from '@/store/cartStore'
 import { useWishlistStore } from '@/store/wishlistStore'
-import { Button, QuantitySelector, Badge, PriceDisplay } from '@next360/ui'
+import { Button, QuantitySelector, Badge, PriceDisplay, StaggerContainer } from '@next360/ui'
 import { cn } from '@next360/utils'
 import { toast } from 'react-hot-toast'
 
@@ -48,15 +48,15 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <StaggerContainer className="flex flex-col h-full" staggerDelay={0.1}>
       {/* Category & Badge */}
       <div className="flex items-center gap-3 mb-4">
         <span className="text-sm font-bold text-primary uppercase tracking-widest">{product.category?.name}</span>
-        <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
-        <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">{product.region}</span>
+        <span className="w-1.5 h-1.5 rounded-full bg-border" />
+        <span className="text-sm font-bold text-muted uppercase tracking-widest">{product.region}</span>
       </div>
 
-      <h1 className="text-4xl md:text-5xl font-black text-slate-900 leading-tight mb-4">
+      <h1 className="text-4xl md:text-5xl font-black text-text leading-tight mb-4">
         {product.name}
       </h1>
 
@@ -68,14 +68,14 @@ export default function ProductInfo({ product }: ProductInfoProps) {
                 key={i} 
                 size={18} 
                 className={cn(
-                  i < Math.floor(product.rating) ? "fill-yellow-400 text-yellow-400" : "text-slate-200"
+                  i < Math.floor(product.rating) ? "fill-yellow-400 text-yellow-400" : "text-border"
                 )} 
               />
             ))}
           </div>
-          <span className="text-lg font-black text-slate-800">{product.rating}</span>
+          <span className="text-lg font-black text-text">{product.rating}</span>
         </div>
-        <span className="text-slate-400 font-bold">({product.reviewCount} Reviews)</span>
+        <span className="text-muted font-bold">({product.reviewCount} Reviews)</span>
       </div>
 
       <div className="mb-8">
@@ -91,13 +91,13 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         )}
       </div>
 
-      <p className="text-slate-500 text-lg leading-relaxed mb-8">
+      <p className="text-muted text-lg leading-relaxed mb-8">
         {product.shortDesc}
       </p>
 
       {/* Weight Selector */}
       <div className="mb-8">
-        <h3 className="text-sm font-black text-slate-900 uppercase tracking-wider mb-4">Select Weight</h3>
+        <h3 className="text-sm font-black text-text uppercase tracking-wider mb-4">Select Weight</h3>
         <div className="flex flex-wrap gap-3">
           {weightOptions.map((w) => (
             <button
@@ -107,7 +107,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
                 "px-6 py-3 rounded-2xl text-sm font-bold transition-all border-2",
                 selectedWeight === w
                   ? "bg-primary/5 border-primary text-primary shadow-lg shadow-primary/5"
-                  : "bg-white border-slate-100 text-slate-500 hover:border-slate-200"
+                  : "bg-white border-border text-muted hover:border-primary"
               )}
             >
               {w}
@@ -118,7 +118,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
       {/* Call to Action */}
       <div className="flex flex-col sm:flex-row gap-4 mb-8">
-        <div className="bg-slate-50 p-2 rounded-2xl border border-slate-100">
+        <div className="bg-cream p-2 rounded-2xl border border-border">
           <QuantitySelector 
             value={quantity} 
             onChange={setQuantity}
@@ -142,7 +142,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             "p-5 rounded-[1.25rem] border-2 transition-all",
             isWishlisted 
               ? "bg-red-50 border-red-100 text-red-500" 
-              : "bg-white border-slate-100 text-slate-400 hover:text-red-500 hover:border-red-100"
+              : "bg-white border-border text-muted hover:text-red-500 hover:border-red-100"
           )}
         >
           <Heart size={24} className={isWishlisted ? "fill-current" : ""} />
@@ -150,26 +150,28 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       {/* Features */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-6 bg-cream/30 rounded-[2rem] border border-cream/50">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-6 bg-cream rounded-[2rem] border border-border">
         <div className="flex flex-col items-center text-center gap-2">
-          <div className="p-3 bg-white rounded-2xl text-primary shadow-sm border border-cream/50">
+          <div className="p-3 bg-surface rounded-2xl text-primary shadow-sm border border-border">
             <Truck size={20} />
           </div>
-          <span className="text-xs font-bold text-slate-600">Free Fresh Delivery</span>
+          <span className="text-xs font-bold text-muted">Free Fresh Delivery</span>
         </div>
         <div className="flex flex-col items-center text-center gap-2">
-          <div className="p-3 bg-white rounded-2xl text-primary shadow-sm border border-cream/50">
+          <div className="p-3 bg-surface rounded-2xl text-primary shadow-sm border border-border">
             <ShieldCheck size={20} />
           </div>
-          <span className="text-xs font-bold text-slate-600">Organic Certified</span>
+          <span className="text-xs font-bold text-muted">Organic Certified</span>
         </div>
         <div className="flex flex-col items-center text-center gap-2">
-          <div className="p-3 bg-white rounded-2xl text-primary shadow-sm border border-cream/50">
+          <div className="p-3 bg-surface rounded-2xl text-primary shadow-sm border border-border">
             <RefreshCw size={20} />
           </div>
-          <span className="text-xs font-bold text-slate-600">Easy Returns</span>
+          <span className="text-xs font-bold text-muted">Easy Returns</span>
         </div>
       </div>
-    </div>
+    </StaggerContainer>
   )
 }
+
+

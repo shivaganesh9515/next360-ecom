@@ -5,6 +5,7 @@ import { cn } from '@next360/utils'
 import { Skeleton } from './Skeleton'
 import { Search } from 'lucide-react'
 import { Input } from './Input'
+import { Button } from './Button'
 
 interface ColumnDef<T> {
   header: string
@@ -26,6 +27,7 @@ interface DataTableProps<T> {
     onChange: (page: number) => void
   }
   emptyState?: React.ReactNode
+  className?: string
 }
 
 export const DataTable = <T extends Record<string, any>>({
@@ -36,28 +38,30 @@ export const DataTable = <T extends Record<string, any>>({
   onSearch,
   pagination,
   emptyState,
+  className,
 }: DataTableProps<T>) => {
   return (
-    <div className="w-full bg-white rounded-2xl border border-border shadow-card overflow-hidden">
+    <div className={cn('w-full bg-white rounded-2xl border border-border shadow-card overflow-hidden', className)}>
       {onSearch && (
-        <div className="p-4 border-b border-border bg-gray-50/50">
-          <Input
-            placeholder={searchPlaceholder}
-            className="max-w-xs"
-            leftIcon={<Search className="w-4 h-4" />}
-            onChange={(e) => onSearch(e.target.value)}
-          />
+        <div className="p-4 border-b border-border bg-white">
+          <div className="max-w-xs">
+            <Input
+              placeholder={searchPlaceholder}
+              leftIcon={<Search className="w-4 h-4" />}
+              onChange={(e) => onSearch(e.target.value)}
+            />
+          </div>
         </div>
       )}
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto custom-scrollbar">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-cream/50">
+            <tr className="bg-cream/60">
               {columns.map((col, idx) => (
                 <th
                   key={idx}
-                  className="px-6 py-4 text-xs font-semibold text-muted uppercase tracking-wider border-b border-border"
+                  className="px-6 py-3.5 text-xs font-semibold uppercase tracking-wide border-b border-border text-muted font-sans"
                 >
                   {col.header}
                 </th>
@@ -67,19 +71,22 @@ export const DataTable = <T extends Record<string, any>>({
           <tbody className="divide-y divide-border">
             {isLoading ? (
               Array.from({ length: 5 }).map((_, ridx) => (
-                <tr key={ridx}>
+                <tr key={ridx} className="even:bg-cream/20">
                   {columns.map((_, cidx) => (
                     <td key={cidx} className="px-6 py-4">
-                      <Skeleton variant="text" />
+                      <Skeleton rounded="md" className="h-4 w-3/4" />
                     </td>
                   ))}
                 </tr>
               ))
             ) : data.length > 0 ? (
               data.map((item, ridx) => (
-                <tr key={ridx} className="hover:bg-primary/5 transition-colors odd:bg-white even:bg-cream/20">
+                <tr
+                  key={ridx}
+                  className="transition-colors duration-150 hover:bg-cream/40 even:bg-cream/20"
+                >
                   {columns.map((col, cidx) => (
-                    <td key={cidx} className="px-6 py-4 text-sm text-text">
+                    <td key={cidx} className="px-6 py-4 text-sm font-medium text-text font-sans">
                       {col.cell ? col.cell(item) : item[col.accessorKey as keyof T]}
                     </td>
                   ))}
@@ -87,8 +94,12 @@ export const DataTable = <T extends Record<string, any>>({
               ))
             ) : (
               <tr>
-                <td colSpan={columns.length} className="px-6 py-12 text-center">
-                  {emptyState || <span className="text-muted italic">No data found</span>}
+                <td colSpan={columns.length} className="px-6 py-16">
+                  {emptyState || (
+                    <div className="text-center text-sm text-muted font-sans">
+                      No records found
+                    </div>
+                  )}
                 </td>
               </tr>
             )}
@@ -97,26 +108,28 @@ export const DataTable = <T extends Record<string, any>>({
       </div>
 
       {pagination && data.length > 0 && (
-        <div className="p-4 border-t border-border bg-gray-50/50 flex items-center justify-between">
-          <span className="text-sm text-muted">
+        <div className="p-4 border-t border-border flex items-center justify-between bg-white">
+          <span className="text-sm text-muted font-sans">
             Showing {(pagination.page - 1) * pagination.limit + 1} to{' '}
             {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total}
           </span>
           <div className="flex gap-2">
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               disabled={pagination.page <= 1}
               onClick={() => pagination.onChange(pagination.page - 1)}
-              className="px-3 py-1 text-sm border border-border rounded-lg disabled:opacity-50 hover:bg-white transition-colors"
             >
-              Prev
-            </button>
-            <button
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
               disabled={pagination.page * pagination.limit >= pagination.total}
               onClick={() => pagination.onChange(pagination.page + 1)}
-              className="px-3 py-1 text-sm border border-border rounded-lg disabled:opacity-50 hover:bg-white transition-colors"
             >
               Next
-            </button>
+            </Button>
           </div>
         </div>
       )}

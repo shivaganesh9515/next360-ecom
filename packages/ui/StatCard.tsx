@@ -1,7 +1,6 @@
 import React from 'react'
 import { cn } from '@next360/utils'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
-import { Card } from './Card'
 
 export interface StatCardProps {
   title: string
@@ -9,6 +8,7 @@ export interface StatCardProps {
   change?: number
   icon?: React.ReactNode
   trend?: 'up' | 'down' | 'neutral'
+  accentColor?: 'secondary' | 'accent' | 'primary'
   className?: string
 }
 
@@ -18,38 +18,57 @@ export const StatCard: React.FC<StatCardProps> = ({
   change,
   icon,
   trend,
+  accentColor = 'secondary',
   className,
 }) => {
-  // Auto-determine trend if not provided and change is present
   const activeTrend = trend || (change !== undefined ? (change > 0 ? 'up' : change < 0 ? 'down' : 'neutral') : undefined)
 
+  const accentBorder = {
+    secondary: 'border-l-4 border-l-secondary',
+    accent: 'border-l-4 border-l-accent',
+    primary: 'border-l-4 border-l-primary',
+  }
+
   return (
-    <Card padding="md" hover={false} className={cn('flex flex-col gap-4', className)}>
-      <div className="flex items-center justify-between">
-        <h3 className="text-sm font-medium text-muted">{title}</h3>
-        {icon && <div className="text-secondary p-2 bg-secondary/10 rounded-full">{icon}</div>}
-      </div>
-      
-      <div>
-        <div className="text-2xl font-bold text-text">{value}</div>
-        
-        {change !== undefined && activeTrend && (
-          <div className="flex items-center gap-1 mt-1 text-sm font-medium">
-            {activeTrend === 'up' && <TrendingUp className="w-4 h-4 text-green-600" />}
-            {activeTrend === 'down' && <TrendingDown className="w-4 h-4 text-red-600" />}
-            {activeTrend === 'neutral' && <Minus className="w-4 h-4 text-gray-400" />}
-            
-            <span className={cn(
-              activeTrend === 'up' && 'text-green-600',
-              activeTrend === 'down' && 'text-red-600',
-              activeTrend === 'neutral' && 'text-gray-500'
-            )}>
-              {change > 0 && '+'}{change}%
-            </span>
-            <span className="text-muted text-xs font-normal ml-1">vs last month</span>
+    <div
+      className={cn(
+        'bg-white rounded-2xl border border-border shadow-card p-6 transition-all duration-200',
+        accentBorder[accentColor],
+        className
+      )}
+    >
+      {/* Top row: icon + label */}
+      <div className="flex items-center justify-between mb-3">
+        {icon && (
+          <div className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+            {icon}
           </div>
         )}
+        <span className="text-sm text-muted font-sans">{title}</span>
       </div>
-    </Card>
+
+      {/* Value */}
+      <div className="text-3xl font-bold font-display text-text mb-2">
+        {value}
+      </div>
+
+      {/* Trend */}
+      {change !== undefined && activeTrend && (
+        <div className="flex items-center gap-1.5 text-sm font-medium">
+          {activeTrend === 'up' && <TrendingUp className="w-4 h-4 text-green-600" />}
+          {activeTrend === 'down' && <TrendingDown className="w-4 h-4 text-red-500" />}
+          {activeTrend === 'neutral' && <Minus className="w-4 h-4 text-muted" />}
+
+          <span className={cn(
+            activeTrend === 'up' && 'text-green-600',
+            activeTrend === 'down' && 'text-red-500',
+            activeTrend === 'neutral' && 'text-muted'
+          )}>
+            {activeTrend === 'up' && '↑'}{activeTrend === 'down' && '↓'} {Math.abs(change)}%
+          </span>
+          <span className="text-xs text-muted font-normal ml-1">from last week</span>
+        </div>
+      )}
+    </div>
   )
 }

@@ -29,7 +29,7 @@ export default function CartPage() {
 
   if (itemCount === 0) {
     return (
-      <main className="min-h-[80vh] flex flex-col items-center justify-center p-4 bg-gray-50 pt-32">
+      <main className="min-h-[80vh] flex flex-col items-center justify-center p-4 bg-transparent pt-32">
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -39,7 +39,7 @@ export default function CartPage() {
             <ShoppingCart size={48} strokeWidth={1} />
           </div>
           <h1 className="font-display text-4xl font-black text-primary mb-4">Your cart is empty</h1>
-          <p className="text-slate-500 font-body text-lg mb-10 leading-relaxed">
+          <p className="text-muted font-body text-lg mb-10 leading-relaxed">
             Your cart is waiting to be filled with fresh, nutrient-dense organic goodness. 
           </p>
           <Link href="/shop">
@@ -53,11 +53,11 @@ export default function CartPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 pt-20 pb-24">
+    <main className="min-h-screen bg-transparent pt-24 pb-24">
       {/* Header */}
-      <div className="bg-cream/40 border-b border-white/20 py-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-4">
+      <div className="bg-cream/60 border-b border-border py-12">
+        <div className="max-w-[1240px] mx-auto px-4 md:px-6">
+          <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-muted mb-4">
             <Link href="/" className="hover:text-primary transition-colors">Home</Link>
             <span>/</span>
             <span className="text-primary">Cart</span>
@@ -69,15 +69,15 @@ export default function CartPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="max-w-[1240px] mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
           {/* Left: Item List */}
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
-               <div className="p-8 border-b border-slate-50 flex items-center justify-between">
+            <div className="bg-surface rounded-[2.5rem] border border-border shadow-[0_1px_0_rgba(17,38,29,0.08),0_10px_26px_rgba(31,48,40,0.06)] overflow-hidden">
+               <div className="p-8 border-b border-border/60 flex items-center justify-between">
                   <div>
-                    <h2 className="font-display text-2xl font-bold text-slate-800">Order Items</h2>
-                    <p className="text-sm text-slate-400 font-medium mt-1">Check your selection before proceeding</p>
+                    <h2 className="font-display text-2xl font-bold text-text">Order Items</h2>
+                    <p className="text-sm text-muted font-medium mt-1">Check your selection before proceeding</p>
                   </div>
                   <button 
                     onClick={() => { if(confirm('Are you sure you want to clear your cart?')) clearCart() }}
@@ -88,14 +88,14 @@ export default function CartPage() {
                   </button>
                </div>
 
-               <div className="divide-y divide-slate-50">
+               <div className="divide-y divide-border">
                  {items.map((item) => (
                    <div key={item.id} className="p-8 group">
                       <CartItem item={item} />
                       <div className="mt-6 flex items-center gap-6 pl-24 md:pl-32">
                          <button 
                             onClick={() => handleMoveToWishlist(item)}
-                            className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-secondary transition-colors"
+                            className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-muted hover:text-secondary transition-colors"
                          >
                             <Heart size={14} />
                             Move to Wishlist
@@ -106,13 +106,13 @@ export default function CartPage() {
                </div>
 
                {/* Promo Strip */}
-               <div className="bg-secondary/5 border-t border-slate-100 p-8">
+               <div className="bg-cream border-t border-border/60 p-8">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                      <div className="flex items-center gap-3">
-                        <div className={isFreeDelivery ? "text-secondary" : "text-slate-400"}>
+                        <div className={isFreeDelivery ? "text-secondary" : "text-muted"}>
                            <Truck size={24} />
                         </div>
-                        <p className="text-sm font-bold text-slate-700">
+                        <p className="text-sm font-bold text-text">
                           {isFreeDelivery ? (
                             <span className="text-secondary">🎉 You've unlocked <span className="font-black">FREE delivery</span>!</span>
                           ) : (
@@ -121,12 +121,12 @@ export default function CartPage() {
                         </p>
                      </div>
                      {!isFreeDelivery && (
-                       <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                       <p className="text-xs font-bold text-muted uppercase tracking-widest">
                          Threshold: {formatPrice(deliveryThreshold)}
                        </p>
                      )}
                   </div>
-                  <div className="h-2 w-full bg-white rounded-full overflow-hidden border border-slate-100 p-0.5">
+                  <div className="h-2 w-full bg-surface rounded-full overflow-hidden border border-border p-0.5">
                      <motion.div 
                         initial={{ width: 0 }}
                         animate={{ width: `${progressPercent}%` }}
@@ -155,3 +155,4 @@ export default function CartPage() {
     </main>
   )
 }
+

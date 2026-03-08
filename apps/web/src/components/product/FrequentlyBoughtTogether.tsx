@@ -65,15 +65,15 @@ export default function FrequentlyBoughtTogether({ currentProduct }: FBTProps) {
   }
 
   return (
-    <section className="mt-32 pt-20 border-t border-slate-100">
+    <section className="mt-32 pt-20 border-t border-border">
       <div className="mb-12">
-        <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
-          Frequently Bought <span className="text-primary italic">Together</span>
+        <h2 className="text-3xl md:text-4xl font-black font-sans text-primary tracking-tight">
+          Frequently Bought <span className="text-primary italic font-serif">Together</span>
         </h2>
-        <p className="text-slate-500 font-medium mt-2">Save time and buy these perfectly paired items as a bundle.</p>
+        <p className="text-muted font-sans font-medium mt-2">Save time and buy these perfectly paired items as a bundle.</p>
       </div>
 
-      <div className="bg-slate-50 rounded-[3rem] p-8 md:p-12">
+      <div className="bg-cream/50 rounded-[3rem] p-8 md:p-12">
         <div className="flex flex-col lg:flex-row items-center gap-12">
           {/* Products Row */}
           <div className="flex-1 flex items-center justify-center gap-4 md:gap-8 flex-wrap">
@@ -108,28 +108,28 @@ export default function FrequentlyBoughtTogether({ currentProduct }: FBTProps) {
                   )}
 
                   <div className="mt-4 text-center">
-                    <p className="font-black text-slate-900 text-sm truncate max-w-[120px] mx-auto">{item.name}</p>
-                    <p className="text-primary font-bold text-xs">₹{(item.price / 100).toFixed(2)}</p>
+                    <p className="font-black font-sans text-primary text-sm truncate max-w-[120px] mx-auto">{item.name}</p>
+                    <p className="text-primary font-bold font-sans text-xs">₹{(item.price / 100).toFixed(2)}</p>
                   </div>
                 </div>
                 
                 {idx < itemsToShow.length - 1 && (
-                  <div className="text-slate-300 font-black text-2xl">+</div>
+                  <div className="text-muted font-black text-2xl">+</div>
                 )}
               </React.Fragment>
             ))}
           </div>
 
           {/* Action Box */}
-          <div className="w-full lg:w-80 bg-white rounded-[2rem] p-8 shadow-xl shadow-primary/5 border border-slate-100">
+          <div className="w-full lg:w-80 bg-white rounded-[2rem] p-8 shadow-xl shadow-primary/5 border border-border">
             <div className="space-y-4 mb-8">
-              <div className="flex justify-between items-center text-sm font-bold text-slate-400 uppercase tracking-widest">
+              <div className="flex justify-between items-center text-sm font-bold font-sans text-muted uppercase tracking-widest">
                 <span>Bundle Total</span>
-                <Badge variant="info" className="bg-primary/5 text-primary border-none text-[10px]">
+                <Badge variant="info" className="bg-primary/5 text-primary font-sans border-none text-[10px]">
                   {selectedIds.length} Items
                 </Badge>
               </div>
-              <div className="text-4xl font-black text-slate-900">
+              <div className="text-4xl font-black font-sans text-text">
                 ₹{(totalPrice / 100).toFixed(2)}
               </div>
             </div>
@@ -149,7 +149,7 @@ export default function FrequentlyBoughtTogether({ currentProduct }: FBTProps) {
               )}
             </Button>
             
-            <p className="mt-4 text-[10px] text-center text-slate-400 font-bold uppercase tracking-widest">
+            <p className="mt-4 text-[10px] text-center text-muted font-bold font-sans uppercase tracking-widest">
               Standard shipping applies
             </p>
           </div>

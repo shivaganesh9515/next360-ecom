@@ -26,15 +26,15 @@ export default function ProductsPage() {
         const product = row.original
         return (
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gray-100 border border-border overflow-hidden shrink-0">
+            <div className="w-10 h-10 rounded-lg bg-border/40 border border-border overflow-hidden shrink-0">
               {product.images?.[0] ? (
                 <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">No img</div>
+                <div className="w-full h-full flex items-center justify-center text-muted text-xs">No img</div>
               )}
             </div>
             <div className="flex flex-col">
-              <span className="font-semibold text-gray-900 leading-tight">{product.name}</span>
+              <span className="font-semibold text-text leading-tight">{product.name}</span>
               <span className="text-xs text-muted mt-0.5">{product.sku}</span>
             </div>
           </div>
@@ -44,12 +44,12 @@ export default function ProductsPage() {
     {
       accessorKey: 'category.name',
       header: 'Category',
-      cell: (row: any) => <span className="text-sm text-gray-600">{row.category?.name || '-'}</span>
+      cell: (row: any) => <span className="text-sm text-muted">{row.category?.name || '-'}</span>
     },
     {
       accessorKey: 'price',
       header: 'Price',
-      cell: (row: any) => <span className="font-medium text-gray-900">₹{row.price.toLocaleString()}</span>
+      cell: (row: any) => <span className="font-medium text-text">₹{row.price.toLocaleString()}</span>
     },
     {
       accessorKey: 'stock',
@@ -72,7 +72,7 @@ export default function ProductsPage() {
       cell: (row: any) => {
         const isPublished = row.isPublished
         return (
-          <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${isPublished ? 'bg-primary/10 text-primary' : 'bg-gray-100 text-gray-600'}`}>
+          <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${isPublished ? 'bg-primary/10 text-primary' : 'bg-border/40 text-muted'}`}>
             {isPublished ? 'PUBLISHED' : 'DRAFT'}
           </span>
         )
@@ -82,10 +82,10 @@ export default function ProductsPage() {
       id: 'actions',
       cell: (row: any) => (
         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Link href={`/products/${row.id}`} className="p-2 text-gray-400 hover:text-primary transition-colors rounded-lg hover:bg-primary/5">
+          <Link href={`/products/${row.id}`} className="p-2 text-muted hover:text-primary transition-colors rounded-lg hover:bg-primary/5">
             <Edit className="w-4 h-4" />
           </Link>
-          <button className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50">
+          <button className="p-2 text-muted hover:text-red-600 transition-colors rounded-lg hover:bg-red-50">
             <Trash2 className="w-4 h-4" />
           </button>
         </div>
@@ -105,7 +105,7 @@ export default function ProductsPage() {
     <div className="animate-in fade-in duration-500">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-2xl font-display font-semibold text-gray-900">Products</h2>
+          <h2 className="text-2xl font-display font-semibold text-text">Products</h2>
           <p className="text-muted text-sm mt-1">Manage your catalogue and inventory.</p>
         </div>
         <Link href="/products/new">
@@ -115,10 +115,10 @@ export default function ProductsPage() {
         </Link>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gray-50/50">
+      <div className="bg-white rounded-2xl shadow-sm border border-border overflow-hidden">
+        <div className="p-4 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-black/5/50">
           <div className="relative max-w-md w-full">
-            <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-muted absolute left-3 top-1/2 -translate-y-1/2" />
             <Input 
               placeholder="Search by name or SKU..." 
               className="pl-9 bg-white"

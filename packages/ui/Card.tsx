@@ -4,25 +4,38 @@ import { cn } from '@next360/utils'
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   padding?: 'none' | 'sm' | 'md' | 'lg'
   hover?: boolean
+  variant?: 'light' | 'dark'
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, padding = 'md', hover = false, children, ...props }, ref) => {
-    const baseStyles = 'bg-white rounded-2xl border border-border shadow-card'
-    
-    const paddings = {
-      none: '',
-      sm: 'p-3',
-      md: 'p-5',
-      lg: 'p-7',
+  ({ className, padding = 'md', hover = false, variant = 'light', children, ...props }, ref) => {
+
+    const variants = {
+      light: 'bg-white border border-border shadow-card',
+      dark: 'bg-primary text-white border border-white/10',
     }
 
-    const hoverStyles = hover ? 'cursor-pointer hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200' : ''
+    const paddings = {
+      none: '',
+      sm: 'p-4',
+      md: 'p-5 md:p-6',
+      lg: 'p-7 md:p-8',
+    }
+
+    const hoverStyles = hover
+      ? 'cursor-pointer hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200'
+      : 'transition-all duration-200'
 
     return (
       <div
         ref={ref}
-        className={cn(baseStyles, paddings[padding], hoverStyles, className)}
+        className={cn(
+          'rounded-2xl overflow-hidden',
+          variants[variant],
+          paddings[padding],
+          hoverStyles,
+          className
+        )}
         {...props}
       >
         {children}

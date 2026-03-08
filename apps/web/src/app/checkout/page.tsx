@@ -67,11 +67,11 @@ export default function CheckoutPage() {
   if (items.length === 0) return null
 
   return (
-    <main className="min-h-screen bg-gray-50 pt-20 pb-24">
+    <main className="min-h-screen bg-transparent pt-24 pb-24">
       {/* Header */}
-      <div className="bg-cream/40 border-b border-white/20 py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-2">
+      <div className="bg-cream/60 border-b border-border py-8">
+        <div className="max-w-[1240px] mx-auto px-4 md:px-6">
+          <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-muted mb-2">
             <Link href="/cart" className="hover:text-primary transition-colors">Cart</Link>
             <span>/</span>
             <span className="text-primary">Checkout</span>
@@ -80,7 +80,7 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="max-w-[1240px] mx-auto px-4 md:px-6 py-12">
         <StepIndicator currentStep={currentStep} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
@@ -129,8 +129,8 @@ export default function CheckoutPage() {
                showCheckoutButton={false} 
                showCoupon={currentStep === 1} // Only allow coupon on first checkout step
              />
-             <div className="mt-8 p-6 bg-primary/5 rounded-[2rem] border border-primary/10">
-                <p className="text-xs font-bold text-primary/60 uppercase tracking-widest text-center">
+             <div className="mt-8 p-6 bg-cream rounded-[2rem] border border-border">
+                <p className="text-xs font-bold text-primary uppercase tracking-widest text-center">
                   🚚 Free shipping applied to this order
                 </p>
              </div>
@@ -140,3 +140,4 @@ export default function CheckoutPage() {
     </main>
   )
 }
+

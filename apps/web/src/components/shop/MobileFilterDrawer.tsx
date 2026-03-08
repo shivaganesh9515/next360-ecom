@@ -34,7 +34,7 @@ export default function MobileFilterDrawer({
           <FilterSidebar filters={filters} onChange={onChange} />
         </div>
         
-        <div className="p-4 bg-white border-t border-slate-100 flex gap-3 sticky bottom-0">
+        <div className="p-4 bg-white border-t border-border flex gap-3 sticky bottom-0">
           <Button 
             variant="ghost" 
             className="flex-1"

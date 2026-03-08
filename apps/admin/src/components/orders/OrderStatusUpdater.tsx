@@ -43,10 +43,10 @@ export function OrderStatusUpdater({ orderId, currentStatus }: OrderStatusUpdate
       <button
         onClick={() => setIsOpen(!isOpen)}
         disabled={mutation.isPending}
-        className="flex items-center gap-2 px-4 py-2 border border-border rounded-xl bg-white hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700 disabled:opacity-50"
+        className="flex items-center gap-2 px-4 py-2 border border-border rounded-xl bg-white hover:bg-black/5 transition-colors text-sm font-medium text-text disabled:opacity-50"
       >
         Update Status
-        {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+        {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <ChevronDown className="w-4 h-4 text-muted" />}
       </button>
 
       {isOpen && (
@@ -59,7 +59,7 @@ export function OrderStatusUpdater({ orderId, currentStatus }: OrderStatusUpdate
               className={`w-full text-left px-4 py-2 text-sm transition-colors ${
                 status === currentStatus 
                   ? 'bg-primary/5 text-primary cursor-default' 
-                  : 'text-gray-700 hover:bg-gray-50'
+                  : 'text-text hover:bg-black/5'
               }`}
             >
               {status}

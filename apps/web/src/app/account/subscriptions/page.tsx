@@ -12,7 +12,7 @@ export default function SubscriptionsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-        <h1 className="font-display text-2xl font-black text-slate-800">My Subscriptions</h1>
+        <h1 className="font-display text-2xl font-black text-text">My Subscriptions</h1>
         <Link href="/subscribe">
           <Button variant="primary" className="font-bold">
             <Plus size={18} className="mr-2" />
@@ -32,12 +32,12 @@ export default function SubscriptionsPage() {
             />
           ))
         ) : (
-          <div className="p-12 text-center bg-white rounded-2xl border border-slate-100 flex flex-col items-center">
-            <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+          <div className="p-12 text-center bg-white rounded-2xl border border-border flex flex-col items-center">
+            <div className="w-16 h-16 bg-cream/50 rounded-full flex items-center justify-center mb-4">
               <span className="text-3xl">🥦</span>
             </div>
-            <h3 className="font-display text-xl font-bold text-slate-800 mb-2">No active subscriptions</h3>
-            <p className="text-slate-500 font-medium mb-6">Get fresh organic food delivered on your schedule.</p>
+            <h3 className="font-display text-xl font-bold text-text mb-2">No active subscriptions</h3>
+            <p className="text-muted font-medium mb-6">Get fresh organic food delivered on your schedule.</p>
             <Link href="/subscribe">
               <Button variant="primary" className="font-bold">Start a Weekly Box</Button>
             </Link>

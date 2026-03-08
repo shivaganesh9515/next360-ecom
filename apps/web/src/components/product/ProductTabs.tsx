@@ -35,14 +35,14 @@ export default function ProductTabs({ product }: ProductTabsProps) {
   return (
     <div className="mt-20">
       {/* Tab Headers */}
-      <div className="flex flex-wrap gap-2 md:gap-8 border-b border-slate-100 mb-10">
+      <div className="flex flex-wrap gap-2 md:gap-8 border-b border-border mb-10">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={cn(
-              "relative pb-6 px-2 text-sm md:text-lg font-black transition-all",
-              activeTab === tab.id ? "text-primary" : "text-slate-400 hover:text-slate-600"
+              "relative pb-6 px-2 text-sm md:text-lg font-black font-sans transition-all",
+              activeTab === tab.id ? "text-primary" : "text-muted hover:text-primary"
             )}
           >
             {tab.label}
@@ -53,7 +53,7 @@ export default function ProductTabs({ product }: ProductTabsProps) {
               />
             )}
             {tab.id === 'reviews' && (
-              <span className="ml-2 text-xs font-bold bg-slate-100 px-2 py-0.5 rounded-full text-slate-500">
+              <span className="ml-2 text-xs font-bold bg-cream px-2 py-0.5 rounded-full text-muted font-sans">
                 {product.reviewCount}
               </span>
             )}
@@ -73,15 +73,15 @@ export default function ProductTabs({ product }: ProductTabsProps) {
           >
             {activeTab === 'description' && (
               <div className="max-w-4xl space-y-10">
-                <div className="prose prose-lg prose-slate max-w-none">
-                  <p className="text-slate-600 leading-relaxed font-medium">
+                <div className="prose prose-lg max-w-none">
+                  <p className="text-text font-sans leading-relaxed font-medium">
                     {product.description}
                   </p>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-10 border-t border-slate-50">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-10 border-t border-border">
                   <div className="space-y-6">
-                    <h4 className="text-xl font-black text-slate-900 border-l-4 border-primary pl-4">Key Benefits</h4>
+                    <h4 className="text-xl font-black text-primary font-sans border-l-4 border-primary pl-4">Key Benefits</h4>
                     <ul className="space-y-4">
                       {[
                         "100% Pesticide-Free & Sustainably Farmed",
@@ -89,7 +89,7 @@ export default function ProductTabs({ product }: ProductTabsProps) {
                         "Directly sourced from local specialized farmers",
                         "Zero artificial preservatives or chemicals"
                       ].map((benefit, i) => (
-                        <li key={i} className="flex items-start gap-3 text-slate-600 font-medium">
+                        <li key={i} className="flex items-start gap-3 text-text font-sans font-medium">
                           <span className="text-primary mt-1">🌿</span>
                           {benefit}
                         </li>
@@ -97,19 +97,19 @@ export default function ProductTabs({ product }: ProductTabsProps) {
                     </ul>
                   </div>
                   <div className="space-y-6">
-                    <h4 className="text-xl font-black text-slate-900 border-l-4 border-primary pl-4">Product Details</h4>
+                    <h4 className="text-xl font-black font-sans text-primary border-l-4 border-primary pl-4">Product Details</h4>
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between py-2 border-b border-slate-50 text-sm font-bold">
-                        <span className="text-slate-400 uppercase tracking-widest">Weight</span>
-                        <span className="text-slate-900">{product.weight}</span>
+                      <div className="flex items-center justify-between py-2 border-b border-border text-sm font-bold font-sans">
+                        <span className="text-muted uppercase tracking-widest">Weight</span>
+                        <span className="text-text">{product.weight}</span>
                       </div>
-                      <div className="flex items-center justify-between py-2 border-b border-slate-50 text-sm font-bold">
-                        <span className="text-slate-400 uppercase tracking-widest">Origin</span>
-                        <span className="text-slate-900">{product.region}</span>
+                      <div className="flex items-center justify-between py-2 border-b border-border text-sm font-bold font-sans">
+                        <span className="text-muted uppercase tracking-widest">Origin</span>
+                        <span className="text-text">{product.region}</span>
                       </div>
-                      <div className="flex items-center justify-between py-2 border-b border-slate-50 text-sm font-bold">
-                        <span className="text-slate-400 uppercase tracking-widest">Shelf Life</span>
-                        <span className="text-slate-900">7-10 Days (Refrigerated)</span>
+                      <div className="flex items-center justify-between py-2 border-b border-border text-sm font-bold font-sans">
+                        <span className="text-muted uppercase tracking-widest">Shelf Life</span>
+                        <span className="text-text">7-10 Days (Refrigerated)</span>
                       </div>
                     </div>
                   </div>
@@ -143,14 +143,14 @@ export default function ProductTabs({ product }: ProductTabsProps) {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-4">
-                    <h5 className="font-black text-slate-900 uppercase tracking-wider text-sm">Return Policy</h5>
-                    <p className="text-slate-500 font-medium leading-relaxed">
+                    <h5 className="font-black font-sans text-primary uppercase tracking-wider text-sm">Return Policy</h5>
+                    <p className="text-muted font-sans font-medium leading-relaxed">
                       We offer a "No Questions Asked" return policy at the time of delivery. If you are not satisfied with the quality, simply return it to our delivery partner.
                     </p>
                   </div>
                   <div className="space-y-4">
-                    <h5 className="font-black text-slate-900 uppercase tracking-wider text-sm">Packaging</h5>
-                    <p className="text-slate-500 font-medium leading-relaxed">
+                    <h5 className="font-black font-sans text-primary uppercase tracking-wider text-sm">Packaging</h5>
+                    <p className="text-muted font-sans font-medium leading-relaxed">
                       Our products are packed in eco-friendly, plastic-free corn-starch bags or honey-comb paper wraps to keep them fresh and the planet happy.
                     </p>
                   </div>

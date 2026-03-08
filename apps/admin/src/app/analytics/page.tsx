@@ -34,7 +34,7 @@ export default function AnalyticsPage() {
     <div className="animate-in fade-in duration-500 pb-20">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-2xl font-display font-semibold text-gray-900">Analytics & Reports</h2>
+          <h2 className="text-2xl font-display font-semibold text-text">Analytics & Reports</h2>
           <p className="text-muted text-sm mt-1">Deep dive into your store's performance.</p>
         </div>
         <select 
@@ -51,8 +51,8 @@ export default function AnalyticsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Revenue Chart */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Revenue Breakdown</h3>
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-border">
+          <h3 className="text-lg font-semibold text-text mb-6">Revenue Breakdown</h3>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data?.revenueHistory || mockRevenueData}>
@@ -67,8 +67,8 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Top Product Categories */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Sales by Category</h3>
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-border">
+          <h3 className="text-lg font-semibold text-text mb-6">Sales by Category</h3>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data?.categorySales || mockSalesData}>

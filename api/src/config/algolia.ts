@@ -1,10 +1,8 @@
-import algoliasearch from 'algoliasearch'
+import { algoliasearch } from 'algoliasearch'
 import { env } from './env'
 
-// In v5 it's a named export usually, or default is an object. Let's do a require to be safe if types fail.
-const algoliasearchClient = require('algoliasearch')
-
-export const algoliaClient = algoliasearchClient(
+// In v5 it's a named export usually, or default is an object.
+export const algoliaClient = (algoliasearch as unknown as Function)(
   env.ALGOLIA_APP_ID,
   env.ALGOLIA_API_KEY
 )

@@ -131,8 +131,8 @@ export default function AddressesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-slate-100 pb-6">
-        <h1 className="font-display text-2xl font-black text-slate-800">My Addresses</h1>
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-border pb-6">
+        <h1 className="font-display text-2xl font-black text-text">My Addresses</h1>
         <Button variant="primary" className="font-bold" onClick={() => setShowAddForm(true)}>
           <Plus size={18} className="mr-2" />
           Add New Address
@@ -143,7 +143,7 @@ export default function AddressesPage() {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
         {isLoading ? (
           Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-48 rounded-3xl bg-slate-50 animate-pulse border border-slate-100" />
+            <div key={i} className="h-48 rounded-3xl bg-cream animate-pulse border border-border" />
           ))
         ) : (
           addresses.map(addr => (
@@ -161,46 +161,46 @@ export default function AddressesPage() {
       {/* Modal */}
       <Modal isOpen={isModalOpen} onClose={handleClose} size="md">
         <div className="p-6 md:p-8 space-y-6 max-h-[85vh] overflow-y-auto custom-scrollbar">
-          <h2 className="font-display text-xl font-black text-slate-800 border-b border-slate-100 pb-4">
+          <h2 className="font-display text-xl font-black text-text border-b border-border pb-4">
             {editingAddress ? 'Edit Address' : 'Add New Address'}
           </h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Full Name</p>
-                <Input placeholder="E.g. Priya Sharma" {...register('name')} className="rounded-xl bg-slate-50" />
+                <p className="text-[10px] font-black uppercase tracking-widest text-muted">Full Name</p>
+                <Input placeholder="E.g. Priya Sharma" {...register('name')} className="rounded-xl bg-cream" />
                 {errors.name && <p className="text-[10px] font-bold text-red-500">{errors.name.message}</p>}
               </div>
               <div className="space-y-1">
-                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Phone</p>
-                 <Input placeholder="10-digit number" {...register('phone')} className="rounded-xl bg-slate-50" />
+                 <p className="text-[10px] font-black uppercase tracking-widest text-muted">Phone</p>
+                 <Input placeholder="10-digit number" {...register('phone')} className="rounded-xl bg-cream" />
                  {errors.phone && <p className="text-[10px] font-bold text-red-500">{errors.phone.message}</p>}
               </div>
             </div>
 
             <div className="space-y-1">
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Street / Area</p>
-              <Input placeholder="House No, Building, Street" {...register('street')} className="rounded-xl bg-slate-50" />
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted">Street / Area</p>
+              <Input placeholder="House No, Building, Street" {...register('street')} className="rounded-xl bg-cream" />
               {errors.street && <p className="text-[10px] font-bold text-red-500">{errors.street.message}</p>}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-1">
-                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Pincode</p>
-                 <Input placeholder="6 digits" {...register('pincode')} className="rounded-xl bg-slate-50" />
+                 <p className="text-[10px] font-black uppercase tracking-widest text-muted">Pincode</p>
+                 <Input placeholder="6 digits" {...register('pincode')} className="rounded-xl bg-cream" />
                  {errors.pincode && <p className="text-[10px] font-bold text-red-500">{errors.pincode.message}</p>}
               </div>
               <div className="space-y-1">
-                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">City</p>
-                 <Input placeholder="City" {...register('city')} className="rounded-xl bg-slate-50" />
+                 <p className="text-[10px] font-black uppercase tracking-widest text-muted">City</p>
+                 <Input placeholder="City" {...register('city')} className="rounded-xl bg-cream" />
                  {errors.city && <p className="text-[10px] font-bold text-red-500">{errors.city.message}</p>}
               </div>
               <div className="space-y-1">
-                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">State</p>
+                 <p className="text-[10px] font-black uppercase tracking-widest text-muted">State</p>
                  <select 
                    {...register('state')}
-                   className="w-full h-10 lg:h-12 rounded-xl bg-slate-50 border border-slate-200 px-3 text-sm font-medium focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+                   className="w-full h-10 lg:h-12 rounded-xl bg-cream border border-border px-3 text-sm font-medium focus:ring-2 focus:ring-primary/20 transition-all outline-none"
                  >
                    <option value="">Select State</option>
                    {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -210,18 +210,18 @@ export default function AddressesPage() {
             </div>
 
             <div className="space-y-1">
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Landmark (Optional)</p>
-              <Input placeholder="Near..." {...register('landmark')} className="rounded-xl bg-slate-50" />
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted">Landmark (Optional)</p>
+              <Input placeholder="Near..." {...register('landmark')} className="rounded-xl bg-cream" />
             </div>
 
             <div className="flex items-center gap-3 pt-2">
                <input type="checkbox" id="isDefault" {...register('isDefault')} className="w-4 h-4 accent-secondary cursor-pointer" />
-               <label htmlFor="isDefault" className="text-xs font-bold text-slate-600 uppercase tracking-widest cursor-pointer mt-0.5">
+               <label htmlFor="isDefault" className="text-xs font-bold text-muted uppercase tracking-widest cursor-pointer mt-0.5">
                  Make this my default address
                </label>
             </div>
 
-            <div className="flex gap-3 pt-4 border-t border-slate-100">
+            <div className="flex gap-3 pt-4 border-t border-border">
               <Button type="button" variant="ghost" onClick={handleClose} className="flex-1 font-bold">
                 Cancel
               </Button>

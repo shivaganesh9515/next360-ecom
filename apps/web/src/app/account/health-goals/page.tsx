@@ -40,14 +40,14 @@ export default function HealthGoalsPage() {
   return (
     <div className="space-y-6">
       {/* SECTION 1 - Goal Selector */}
-      <div className="bg-white rounded-[2rem] border border-slate-100 p-6 md:p-8 shadow-sm text-center">
+      <div className="bg-white rounded-[2rem] border border-border p-6 md:p-8 shadow-sm text-center">
         <div className="w-16 h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4 border border-primary/20 shadow-inner">
           <Target size={32} />
         </div>
-        <h1 className="font-display text-2xl md:text-3xl font-black text-slate-800 mb-2">
+        <h1 className="font-display text-2xl md:text-3xl font-black text-text mb-2">
           Select Your Health Goals
         </h1>
-        <p className="text-slate-500 font-medium max-w-lg mx-auto mb-8">
+        <p className="text-muted font-medium max-w-lg mx-auto mb-8">
           Tell us what you want to achieve, and we'll personalize your Next360 organic product recommendations.
         </p>
 
@@ -73,17 +73,17 @@ export default function HealthGoalsPage() {
       </div>
 
       {/* SECTION 2 - Recommended Products */}
-      <div className="bg-gradient-to-br from-cream to-white rounded-[2rem] border border-slate-100 p-6 md:p-8 shadow-sm">
+      <div className="bg-gradient-to-br from-cream to-white rounded-[2rem] border border-border p-6 md:p-8 shadow-sm">
         <div className="flex items-center gap-3 mb-6">
           <Sparkles className="text-secondary" size={24} />
-          <h2 className="font-display text-2xl font-black text-slate-800">
+          <h2 className="font-display text-2xl font-black text-text">
             Recommended for Your Goals
           </h2>
         </div>
 
         {selectedGoals.length === 0 ? (
-          <div className="py-12 text-center bg-white/50 rounded-2xl border border-dashed border-slate-300">
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">
+          <div className="py-12 text-center bg-white/50 rounded-2xl border border-dashed border-border/60">
+            <p className="text-muted font-bold uppercase tracking-widest text-sm">
               Select goals above to see curated recommendations ✨
             </p>
           </div>

@@ -34,7 +34,7 @@ export default function CartSummary({
 
   return (
     <div className="sticky top-24 space-y-4">
-      <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm">
+      <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
         <h2 className="font-display text-2xl font-bold text-primary mb-6 flex items-center gap-2">
           Order Summary
           <span className="w-6 h-6 rounded-full bg-primary/5 text-primary text-[10px] flex items-center justify-center border border-primary/10">
@@ -44,16 +44,16 @@ export default function CartSummary({
 
         <div className="space-y-4">
           <div className="flex justify-between items-center text-sm font-medium">
-            <span className="text-slate-500">Subtotal ({itemCount} items)</span>
-            <span className="text-slate-800">{formatPrice(subtotal)}</span>
+            <span className="text-muted">Subtotal ({itemCount} items)</span>
+            <span className="text-text">{formatPrice(subtotal)}</span>
           </div>
 
           <div className="flex justify-between items-center text-sm font-medium">
-            <span className="text-slate-500">Delivery</span>
+            <span className="text-muted">Delivery</span>
             {isFreeDelivery ? (
               <span className="text-secondary font-bold">FREE</span>
             ) : (
-              <span className="text-slate-800">{formatPrice(deliveryFee)}</span>
+              <span className="text-text">{formatPrice(deliveryFee)}</span>
             )}
           </div>
 
@@ -68,12 +68,12 @@ export default function CartSummary({
             </motion.div>
           )}
 
-          <div className="border-t border-slate-50 pt-4 mt-2">
+          <div className="border-t border-border pt-4 mt-2">
             <div className="flex justify-between items-end mb-1">
               <span className="font-display text-xl font-bold text-primary">Total</span>
               <span className="font-display text-2xl font-black text-primary">{formatPrice(total)}</span>
             </div>
-            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest text-right">
+            <p className="text-[10px] text-muted font-bold uppercase tracking-widest text-right">
               Inclusive of all taxes
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function CartSummary({
              <Wallet size={24} />
              <ShoppingBag size={24} />
           </div>
-          <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
+          <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-muted uppercase tracking-[0.2em]">
             <ShieldCheck size={14} className="text-secondary" />
             Secure & Encrypted Checkout
           </div>

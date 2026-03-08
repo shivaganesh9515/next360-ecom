@@ -57,15 +57,15 @@ export default async function ProductDetailPage({ params }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-white pt-20">
+    <div className="min-h-screen bg-transparent pt-24">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Breadcrumbs */}
-      <div className="bg-slate-50 py-4">
-        <div className="max-w-7xl mx-auto px-4">
-          <nav className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400">
+      <div className="bg-cream/60 border-b border-border py-4">
+        <div className="max-w-[1240px] mx-auto px-4 md:px-6">
+          <nav className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted">
             <Link href="/" className="hover:text-primary transition-colors">Home</Link>
             <ChevronRight size={14} />
             <Link href="/shop" className="hover:text-primary transition-colors">Shop</Link>
@@ -74,12 +74,12 @@ export default async function ProductDetailPage({ params }: Props) {
               {product.category?.name}
             </Link>
             <ChevronRight size={14} />
-            <span className="text-slate-900">{product.name}</span>
+            <span className="text-text">{product.name}</span>
           </nav>
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 py-8 md:py-16">
+      <main className="max-w-[1240px] mx-auto px-4 md:px-6 py-8 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-24 mb-20">
           {/* Left: Gallery */}
           <div className="w-full">
@@ -111,3 +111,4 @@ export default async function ProductDetailPage({ params }: Props) {
     </div>
   )
 }
+

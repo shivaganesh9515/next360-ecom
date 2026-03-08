@@ -53,7 +53,7 @@ export default function PaymentForm({
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm">
+      <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
         <div className="flex items-center justify-between mb-8">
           <h2 className="font-display text-2xl font-bold text-primary flex items-center gap-2">
             <span className="w-8 h-8 rounded-xl bg-primary/5 text-primary flex items-center justify-center border border-primary/10">
@@ -75,24 +75,24 @@ export default function PaymentForm({
                   "relative p-6 rounded-3xl border-2 transition-all cursor-pointer flex items-center gap-6",
                   isActive 
                     ? "border-primary bg-primary/5 shadow-lg shadow-primary/5" 
-                    : "border-slate-50 hover:border-primary/20"
+                    : "border-border hover:border-primary/20"
                 )}
               >
                 <div className={cn(
                   "w-12 h-12 rounded-2xl flex items-center justify-center transition-colors",
-                  isActive ? "bg-primary text-white" : "bg-slate-50 text-slate-400"
+                  isActive ? "bg-primary text-white" : "bg-cream text-muted"
                 )}>
                   {method.icon}
                 </div>
 
                 <div className="flex-1">
-                  <p className="font-black text-slate-800 text-lg">{method.label}</p>
-                  <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">{method.desc}</p>
+                  <p className="font-black text-text text-lg">{method.label}</p>
+                  <p className="text-muted text-xs font-bold uppercase tracking-widest">{method.desc}</p>
                 </div>
 
                 <div className={cn(
                   "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all",
-                  isActive ? "border-primary" : "border-slate-100"
+                  isActive ? "border-primary" : "border-border"
                 )}>
                   {isActive && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-3 h-3 rounded-full bg-primary" />
@@ -140,16 +140,16 @@ export default function PaymentForm({
           )}
         </AnimatePresence>
 
-        <div className="mt-12 bg-cream/40 rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6 border border-white/20">
+        <div className="mt-12 bg-cream/40 rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6 border border-border">
           <div>
-             <p className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Total Payable</p>
+             <p className="text-xs font-black text-muted uppercase tracking-[0.2em] mb-1">Total Payable</p>
              <p className="font-display text-4xl font-black text-primary">{formatPrice(total + (isCod ? 2500 : 0))}</p>
           </div>
           <div className="flex gap-4 w-full md:w-auto">
              <Button 
                 variant="ghost" 
                 onClick={onBack}
-                className="h-14 px-8 rounded-2xl text-slate-400 font-bold"
+                className="h-14 px-8 rounded-2xl text-muted font-bold hover:bg-cream"
               >
                 <ArrowLeft size={18} className="mr-2" />
                 Back
@@ -165,7 +165,7 @@ export default function PaymentForm({
           </div>
         </div>
 
-        <div className="mt-8 flex items-center justify-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">
+        <div className="mt-8 flex items-center justify-center gap-2 text-[10px] font-black text-muted uppercase tracking-[0.15em]">
           <ShieldCheck size={14} className="text-secondary" />
           100% Secure Payments via Razorpay
         </div>

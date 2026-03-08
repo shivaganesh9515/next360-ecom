@@ -90,7 +90,7 @@ export default function ImpactPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="text-center md:text-left">
             <h2 className="font-display text-3xl font-black text-primary mb-4">Share Your Impact!</h2>
-            <p className="text-slate-600 font-medium mb-8 text-lg">
+            <p className="text-muted font-medium mb-8 text-lg">
               Inspire others to join the organic movement. Share your personalized impact summary on social media.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">

@@ -49,7 +49,7 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
       {errors.root && (
-        <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-red-600 text-sm font-medium">
+        <div className="bg-red-50 border border-red-200 rounded-2xl p-3 text-red-600 text-sm font-medium">
           {errors.root.message}
         </div>
       )}
@@ -73,7 +73,7 @@ export default function LoginForm() {
           />
           <button
             type="button"
-            className="absolute right-4 top-[14px] text-slate-400 hover:text-slate-600 transition-colors"
+            className="absolute right-4 top-[14px] text-muted hover:text-text transition-colors"
             onClick={() => setShowPassword(!showPassword)}
             tabIndex={-1}
           >
@@ -81,7 +81,7 @@ export default function LoginForm() {
           </button>
         </div>
         <div className="flex justify-end mt-2">
-          <Link href="/forgot-password" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors">
+          <Link href="/forgot-password" className="text-sm font-bold text-muted hover:text-primary transition-colors">
             Forgot Password?
           </Link>
         </div>
@@ -91,7 +91,7 @@ export default function LoginForm() {
         <Button 
           type="submit" 
           variant="primary" 
-          className="w-full font-bold h-12 text-base shadow-md shadow-primary/20"
+          className="w-full font-bold h-12 text-base shadow-[0_10px_22px_rgba(30,59,47,0.2)]"
           isLoading={loginMutation.isPending}
         >
           Sign In
@@ -100,3 +100,4 @@ export default function LoginForm() {
     </form>
   )
 }
+

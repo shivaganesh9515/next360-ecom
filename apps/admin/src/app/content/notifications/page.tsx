@@ -25,18 +25,18 @@ export default function NotificationsPage() {
   return (
     <div className="animate-in fade-in duration-500 pb-20">
       <div className="mb-8">
-        <h2 className="text-2xl font-display font-semibold text-gray-900">Push Notifications</h2>
+        <h2 className="text-2xl font-display font-semibold text-text">Push Notifications</h2>
         <p className="text-muted text-sm mt-1">Broadcast important announcements to all users and vendors.</p>
       </div>
 
-      <div className="max-w-2xl bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+      <div className="max-w-2xl bg-white rounded-2xl shadow-sm border border-border p-8">
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border">
           <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
             <BellRing className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Broadcast Alert</h3>
-            <p className="text-xs text-gray-500">Will be sent immediately to all connected clients.</p>
+            <h3 className="text-lg font-semibold text-text">Broadcast Alert</h3>
+            <p className="text-xs text-muted">Will be sent immediately to all connected clients.</p>
           </div>
         </div>
 
@@ -48,7 +48,7 @@ export default function NotificationsPage() {
           className="space-y-6"
         >
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+            <label className="block text-sm font-medium text-text mb-1">Title</label>
             <Input 
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -57,7 +57,7 @@ export default function NotificationsPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+            <label className="block text-sm font-medium text-text mb-1">Message</label>
             <textarea 
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -67,7 +67,7 @@ export default function NotificationsPage() {
             />
           </div>
 
-          <div className="pt-4 border-t border-gray-100">
+          <div className="pt-4 border-t border-border">
             <Button 
               type="submit" 
               className="w-full flex items-center justify-center gap-2"

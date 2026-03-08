@@ -59,7 +59,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   return (
     <div className="animate-in fade-in duration-500 pb-20">
       <div className="mb-6">
-        <h2 className="text-2xl font-display font-semibold text-gray-900">Edit Product</h2>
+        <h2 className="text-2xl font-display font-semibold text-text">Edit Product</h2>
         <p className="text-muted text-sm mt-1">Update product details, pricing, and images.</p>
       </div>
 

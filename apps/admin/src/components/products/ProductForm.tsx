@@ -59,17 +59,17 @@ export function ProductForm({ initialData, onSubmit, categories = [], vendors = 
         {/* Main Details */}
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white p-6 rounded-2xl border border-border shadow-sm space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900 border-b border-border pb-4">General Information</h3>
+            <h3 className="text-lg font-semibold text-text border-b border-border pb-4">General Information</h3>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                <label className="block text-sm font-medium text-text mb-1">Product Name</label>
                 <Input {...register('name')} placeholder="E.g., Organic Honey" error={errors.name?.message} />
                 {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label className="block text-sm font-medium text-text mb-1">Description</label>
                 <textarea 
                   {...register('description')}
                   className="w-full h-32 px-4 py-2 border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm outline-none resize-none font-sans"
@@ -79,7 +79,7 @@ export function ProductForm({ initialData, onSubmit, categories = [], vendors = 
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Product Images</label>
+                <label className="block text-sm font-medium text-text mb-1">Product Images</label>
                 <ImageUploader 
                   images={images} 
                   onChange={(newImages) => setValue('images', newImages, { shouldValidate: true })} 
@@ -90,25 +90,25 @@ export function ProductForm({ initialData, onSubmit, categories = [], vendors = 
           </div>
           
           <div className="bg-white p-6 rounded-2xl border border-border shadow-sm space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900 border-b border-border pb-4">Pricing & Inventory</h3>
+            <h3 className="text-lg font-semibold text-text border-b border-border pb-4">Pricing & Inventory</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Price (₹)</label>
+                <label className="block text-sm font-medium text-text mb-1">Price (₹)</label>
                 <Input type="number" step="0.01" {...register('price')} placeholder="0.00" error={errors.price?.message} />
                 {errors.price && <p className="text-xs text-red-500 mt-1">{errors.price.message}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
+                <label className="block text-sm font-medium text-text mb-1">Stock Quantity</label>
                 <Input type="number" {...register('stock')} placeholder="0" error={errors.stock?.message} />
                 {errors.stock && <p className="text-xs text-red-500 mt-1">{errors.stock.message}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">SKU</label>
+                <label className="block text-sm font-medium text-text mb-1">SKU</label>
                 <Input {...register('sku')} placeholder="PROD-XXX" error={errors.sku?.message} />
                 {errors.sku && <p className="text-xs text-red-500 mt-1">{errors.sku.message}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Organic %</label>
+                <label className="block text-sm font-medium text-text mb-1">Organic %</label>
                 <Input type="number" {...register('organicPercentage')} placeholder="100" error={errors.organicPercentage?.message} />
                 {errors.organicPercentage && <p className="text-xs text-red-500 mt-1">{errors.organicPercentage.message}</p>}
               </div>
@@ -120,11 +120,11 @@ export function ProductForm({ initialData, onSubmit, categories = [], vendors = 
         <div className="space-y-6">
           <div className="bg-white p-6 rounded-2xl border border-border shadow-sm space-y-6 flex flex-col h-full justify-between">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 border-b border-border pb-4 mb-4">Organization</h3>
+              <h3 className="text-lg font-semibold text-text border-b border-border pb-4 mb-4">Organization</h3>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                  <label className="block text-sm font-medium text-text mb-1">Category</label>
                   <select 
                     {...register('categoryId')}
                     className="w-full h-11 px-4 border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm transition-all"
@@ -138,7 +138,7 @@ export function ProductForm({ initialData, onSubmit, categories = [], vendors = 
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Vendor</label>
+                  <label className="block text-sm font-medium text-text mb-1">Vendor</label>
                   <select 
                     {...register('vendorId')}
                     className="w-full h-11 px-4 border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm transition-all"
@@ -152,7 +152,7 @@ export function ProductForm({ initialData, onSubmit, categories = [], vendors = 
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tags (comma separated)</label>
+                  <label className="block text-sm font-medium text-text mb-1">Tags (comma separated)</label>
                   <Input {...register('tags')} placeholder="organic, fresh, local" />
                 </div>
               </div>
@@ -161,7 +161,7 @@ export function ProductForm({ initialData, onSubmit, categories = [], vendors = 
             <div className="pt-6 border-t border-border mt-auto">
               <label className="flex items-center gap-3 cursor-pointer mb-6">
                 <input type="checkbox" {...register('isPublished')} className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
-                <span className="text-sm font-medium text-gray-900">Publish immediately</span>
+                <span className="text-sm font-medium text-text">Publish immediately</span>
               </label>
               
               <Button type="submit" size="lg" className="w-full" isLoading={isSubmitting}>

@@ -58,7 +58,7 @@ export default function SchedulePage() {
   const defaultAddress = MOCK_ADDRESSES.find(a => a.isDefault) || MOCK_ADDRESSES[0]
 
   return (
-    <div className="min-h-[100dvh] bg-gray-50 pt-20 flex flex-col">
+    <div className="min-h-[100dvh] bg-cream/40 pt-20 flex flex-col">
       {/* Page Header Mini */}
       <div className="bg-primary text-white py-6 md:py-8 shrink-0">
         <div className="max-w-6xl mx-auto px-4">
@@ -83,35 +83,35 @@ export default function SchedulePage() {
           <BoxSchedule />
 
           {/* Quick Info Review */}
-          <div className="bg-white rounded-[32px] border border-slate-100 p-6 md:p-8 shadow-sm">
-             <h3 className="font-display font-bold text-xl text-slate-800 mb-6 pb-4 border-b border-slate-100">
+          <div className="bg-white rounded-[32px] border border-border p-6 md:p-8 shadow-sm">
+             <h3 className="font-display font-bold text-xl text-text mb-6 pb-4 border-b border-border">
                Confirm Details
              </h3>
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                <div className="bg-cream rounded-2xl p-5 border border-border">
                   <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-bold text-slate-800 flex items-center gap-2">
+                    <h4 className="font-bold text-text flex items-center gap-2">
                        <MapPin size={18} className="text-primary"/> Delivery Address
                     </h4>
                     <Link href="/account/addresses" className="text-xs font-bold text-primary uppercase tracking-widest hover:underline">Edit</Link>
                   </div>
-                  <p className="text-sm font-medium text-slate-600 leading-relaxed mb-2">
+                  <p className="text-sm font-medium text-muted leading-relaxed mb-2">
                     {defaultAddress?.name}<br/>
                     {defaultAddress?.street}<br/>
                     {defaultAddress?.city}, {defaultAddress?.state} {defaultAddress?.pincode}
                   </p>
-                  <p className="text-sm font-bold text-slate-500 flex items-center gap-2">
+                  <p className="text-sm font-bold text-muted flex items-center gap-2">
                     <Phone size={14} /> {defaultAddress?.phone}
                   </p>
                 </div>
 
-                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                <div className="bg-cream rounded-2xl p-5 border border-border">
                   <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-bold text-slate-800 flex items-center gap-2">
+                    <h4 className="font-bold text-text flex items-center gap-2">
                        <CreditCard size={18} className="text-primary"/> Payment Method
                     </h4>
                   </div>
-                  <p className="text-sm font-medium text-slate-600 leading-relaxed">
+                  <p className="text-sm font-medium text-muted leading-relaxed">
                     Razorpay Secure Setup.<br/>
                     Your card will be charged automatically before each delivery.
                   </p>
@@ -125,19 +125,19 @@ export default function SchedulePage() {
 
         {/* RIGHT: Order Total Summary */}
         <div className="w-full lg:w-96 shrink-0 flex flex-col gap-6">
-          <div className="bg-white rounded-[24px] border border-slate-100 p-6 shadow-sm sticky top-24">
-            <h3 className="font-display text-xl font-black text-slate-800 mb-4 pb-4 border-b border-slate-100">
+          <div className="bg-white rounded-[24px] border border-border p-6 shadow-sm sticky top-24">
+            <h3 className="font-display text-xl font-black text-text mb-4 pb-4 border-b border-border">
               Subscription Total
             </h3>
             
             <div className="space-y-4 mb-6">
               <div className="flex justify-between text-sm font-medium">
-                <span className="text-slate-600">{boxDetails?.name}</span>
-                <span className="text-slate-800 font-bold">{formatPrice(displayPrice)}</span>
+                <span className="text-muted">{boxDetails?.name}</span>
+                <span className="text-text font-bold">{formatPrice(displayPrice)}</span>
               </div>
               <div className="flex justify-between text-sm font-medium">
-                <span className="text-slate-600">Items Count</span>
-                <span className="text-slate-800 font-bold">{customProducts.length} added</span>
+                <span className="text-muted">Items Count</span>
+                <span className="text-text font-bold">{customProducts.length} added</span>
               </div>
               <div className="flex justify-between text-sm font-medium text-green-600">
                 <span>Delivery Fee</span>
@@ -145,12 +145,12 @@ export default function SchedulePage() {
               </div>
             </div>
 
-            <div className="border-t border-slate-100 pt-4 mb-8">
+            <div className="border-t border-border pt-4 mb-8">
               <div className="flex justify-between items-end mb-1">
-                <span className="font-bold text-slate-800">Total per box</span>
+                <span className="font-bold text-text">Total per box</span>
                 <span className="font-display text-3xl font-black text-primary">{formatPrice(displayPrice)}</span>
               </div>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">
+              <p className="text-[10px] font-bold text-muted uppercase tracking-widest text-right">
                 Billed {frequency?.toLowerCase() || '...' }
               </p>
             </div>
@@ -162,7 +162,7 @@ export default function SchedulePage() {
                 className={`w-full py-4 rounded-xl font-bold transition-all shadow-md relative flex items-center justify-center ${
                   isReady 
                     ? 'bg-secondary text-white shadow-secondary/20 hover:-translate-y-1' 
-                    : 'bg-slate-100 text-slate-400 cursor-not-allowed hidden shadow-none'
+                    : 'bg-cream text-muted cursor-not-allowed hidden shadow-none'
                 }`}
               >
                 {isSubmitting ? (
@@ -181,7 +181,7 @@ export default function SchedulePage() {
               
               <Link 
                 href="/subscribe/customize"
-                className="block w-full text-center py-3 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-widest"
+                className="block w-full text-center py-3 text-sm font-bold text-muted hover:text-text transition-colors uppercase tracking-widest"
               >
                 ← Edit Box Contents
               </Link>

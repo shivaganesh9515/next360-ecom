@@ -44,7 +44,7 @@ export default function NewsletterBanner() {
             Get 10% Off Your First Order
           </h2>
           
-          <p className="text-slate-600 text-lg mb-10 max-w-lg mx-auto font-body">
+          <p className="text-text text-lg mb-10 max-w-lg mx-auto font-sans">
             Join 50,000+ conscious families getting fresh organic produce delivered every single week.
           </p>
 
@@ -97,15 +97,15 @@ export default function NewsletterBanner() {
                   <CheckCircle2 size={32} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-xl text-primary mb-1">You're in the inner circle!</h3>
-                  <p className="text-slate-500 font-medium">Check your inbox for your 10% discount code 🌿</p>
+                  <h3 className="font-bold font-sans text-xl text-primary mb-1">You're in the inner circle!</h3>
+                  <p className="text-muted font-sans font-medium">Check your inbox for your 10% discount code 🌿</p>
                 </div>
               </m.div>
             )}
           </AnimatePresence>
 
           {!isSubmitted && (
-            <p className="mt-4 text-xs text-slate-400 font-bold uppercase tracking-[0.15em]">
+            <p className="mt-4 text-xs text-muted font-bold font-sans uppercase tracking-[0.15em]">
               🔒 NO SPAM. UNSUBSCRIBE ANYTIME.
             </p>
           )}

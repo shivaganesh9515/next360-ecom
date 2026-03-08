@@ -19,7 +19,7 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
   return (
     <div className="flex items-center justify-between max-w-xl mx-auto mb-12 relative px-4">
       {/* Background Line */}
-      <div className="absolute top-5 left-0 right-0 h-0.5 bg-slate-100 -z-10 mx-12" />
+      <div className="absolute top-5 left-0 right-0 h-0.5 bg-border -z-10 mx-12" />
       
       {/* Active Path Line */}
       <motion.div 
@@ -45,7 +45,7 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
               className={cn(
                 "w-10 h-10 rounded-full border-2 flex items-center justify-center transition-shadow duration-300",
                 isActive && "shadow-xl shadow-primary/20 ring-4 ring-primary/10",
-                isUpcoming && "text-slate-400"
+                isUpcoming && "text-muted"
               )}
             >
               <AnimatePresence mode="wait">
@@ -65,7 +65,7 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
                     animate={{ opacity: 1 }}
                     className={cn(
                       "font-black text-sm",
-                      isActive ? "text-white" : "text-slate-400"
+                      isActive ? "text-white" : "text-muted"
                     )}
                   >
                     {s.step}
@@ -76,7 +76,7 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
 
             <span className={cn(
               "text-[10px] font-black uppercase tracking-widest transition-colors duration-300",
-              isActive ? "text-primary" : isCompleted ? "text-secondary" : "text-slate-400"
+              isActive ? "text-primary" : isCompleted ? "text-secondary" : "text-muted"
             )}>
               {s.label}
             </span>

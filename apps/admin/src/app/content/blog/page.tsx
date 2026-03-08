@@ -32,13 +32,13 @@ export default function BlogListPage() {
       header: 'Title',
       cell: (row: any) => (
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden shrink-0 border border-border">
+          <div className="w-12 h-12 rounded-lg bg-border/40 overflow-hidden shrink-0 border border-border">
             {row.imageUrl && (
               <img src={row.imageUrl} alt={row.title} className="w-full h-full object-cover" />
             )}
           </div>
           <div>
-            <p className="font-semibold text-gray-900 leading-tight">{row.title}</p>
+            <p className="font-semibold text-text leading-tight">{row.title}</p>
             <p className="text-xs text-muted mt-0.5">/{row.slug}</p>
           </div>
         </div>
@@ -47,19 +47,19 @@ export default function BlogListPage() {
     {
       accessorKey: 'author.name',
       header: 'Author',
-      cell: (row: any) => <span className="text-sm text-gray-600">{row.author?.name || 'Admin'}</span>
+      cell: (row: any) => <span className="text-sm text-muted">{row.author?.name || 'Admin'}</span>
     },
     {
       accessorKey: 'createdAt',
       header: 'Published Date',
-      cell: (row: any) => <span className="text-sm text-gray-600">{format(new Date(row.createdAt), 'MMM d, yyyy')}</span>
+      cell: (row: any) => <span className="text-sm text-muted">{format(new Date(row.createdAt), 'MMM d, yyyy')}</span>
     },
     {
       accessorKey: 'isPublished',
       header: 'Status',
       cell: (row: any) => (
         <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${
-          row.isPublished ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+          row.isPublished ? 'bg-green-100 text-green-800' : 'bg-border/40 text-text'
         }`}>
           {row.isPublished ? 'PUBLISHED' : 'DRAFT'}
         </span>
@@ -71,7 +71,7 @@ export default function BlogListPage() {
         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <Link 
             href={`/content/blog/${row.id}`}
-            className="p-2 text-gray-400 hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
+            className="p-2 text-muted hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
           >
             <Edit className="w-4 h-4" />
           </Link>
@@ -79,7 +79,7 @@ export default function BlogListPage() {
             onClick={() => {
               if(window.confirm('Delete this post?')) deleteMutation.mutate(row.id)
             }}
-            className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50"
+            className="p-2 text-muted hover:text-red-600 transition-colors rounded-lg hover:bg-red-50"
           >
             <Trash2 className="w-4 h-4" />
           </button>
@@ -94,7 +94,7 @@ export default function BlogListPage() {
     <div className="animate-in fade-in duration-500 pb-20">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-display font-semibold text-gray-900">Blog Posts</h2>
+          <h2 className="text-2xl font-display font-semibold text-text">Blog Posts</h2>
           <p className="text-muted text-sm mt-1">Manage articles, guides, and news.</p>
         </div>
         <Link href="/content/blog/new">
@@ -104,7 +104,7 @@ export default function BlogListPage() {
         </Link>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-sm border border-border overflow-hidden">
         {isLoading ? (
           <div className="p-12 flex justify-center">
             <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />

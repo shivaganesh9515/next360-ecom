@@ -16,8 +16,8 @@ interface RevenueChartProps {
 
 export function RevenueChart({ data }: RevenueChartProps) {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-[400px]">
-      <h3 className="text-lg font-semibold text-gray-900 mb-6">Revenue Over Time</h3>
+    <div className="bg-white p-6 rounded-2xl shadow-sm border border-border h-[400px]">
+      <h3 className="text-lg font-semibold text-text mb-6">Revenue Over Time</h3>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>

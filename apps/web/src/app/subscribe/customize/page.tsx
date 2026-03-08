@@ -24,7 +24,7 @@ export default function CustomizePage() {
   const isReady = customProducts.length >= 4
 
   return (
-    <div className="min-h-[100dvh] bg-gray-50 pt-20 flex flex-col">
+    <div className="min-h-[100dvh] bg-cream/40 pt-20 flex flex-col">
       {/* Page Header Mini */}
       <div className="bg-primary text-white py-6 md:py-8 shrink-0">
         <div className="max-w-6xl mx-auto px-4">
@@ -51,8 +51,8 @@ export default function CustomizePage() {
 
         {/* RIGHT: Summary & Navigation */}
         <div className="w-full md:w-80 shrink-0 flex flex-col gap-6">
-          <div className="bg-white rounded-[24px] border border-slate-100 p-6 shadow-sm sticky top-24">
-            <h3 className="font-display text-xl font-black text-slate-800 mb-4 pb-4 border-b border-slate-100">
+          <div className="bg-white rounded-[24px] border border-border p-6 shadow-sm sticky top-24">
+            <h3 className="font-display text-xl font-black text-text mb-4 pb-4 border-b border-border">
               Box Summary
             </h3>
             
@@ -61,19 +61,19 @@ export default function CustomizePage() {
                 {boxDetails?.emoji}
               </div>
               <div>
-                <p className="font-bold text-slate-800 leading-tight">{boxDetails?.name}</p>
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">Base Plan</p>
+                <p className="font-bold text-text leading-tight">{boxDetails?.name}</p>
+                <p className="text-xs font-bold text-muted uppercase tracking-widest mt-0.5">Base Plan</p>
               </div>
             </div>
 
             <div className="space-y-3 mb-8">
               <div className="flex justify-between text-sm font-medium">
-                <span className="text-slate-500">Items Selected</span>
-                <span className="text-slate-800 font-bold">{customProducts.length} / 8</span>
+                <span className="text-muted">Items Selected</span>
+                <span className="text-text font-bold">{customProducts.length} / 8</span>
               </div>
               <div className="flex justify-between text-sm font-medium">
-                <span className="text-slate-500">Subtotal (Est.)</span>
-                <span className="text-slate-800 font-bold">
+                <span className="text-muted">Subtotal (Est.)</span>
+                <span className="text-text font-bold">
                   {boxDetails?.price ? `₹${boxDetails.price}` : 'Calculated next'}
                 </span>
               </div>
@@ -86,7 +86,7 @@ export default function CustomizePage() {
                 className={`w-full py-4 rounded-xl font-bold transition-all shadow-md ${
                   isReady 
                     ? 'bg-primary text-white shadow-primary/20 hover:-translate-y-1' 
-                    : 'bg-slate-100 text-slate-400 cursor-not-allowed hidden shadow-none'
+                    : 'bg-cream text-muted cursor-not-allowed hidden shadow-none'
                 }`}
               >
                 Continue to Schedule →
@@ -100,7 +100,7 @@ export default function CustomizePage() {
               
               <Link 
                 href="/subscribe"
-                className="block w-full text-center py-3 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-widest"
+                className="block w-full text-center py-3 text-sm font-bold text-muted hover:text-text transition-colors uppercase tracking-widest"
               >
                 ← Back to Boxes
               </Link>

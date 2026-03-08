@@ -31,10 +31,10 @@ export default function OrdersPage() {
   })
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
+    <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-sm">
       {/* Header */}
-      <div className="p-5 md:p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h1 className="font-display text-2xl font-black text-slate-800">My Orders</h1>
+      <div className="p-5 md:p-6 border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <h1 className="font-display text-2xl font-black text-text">My Orders</h1>
         
         <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
           {(['ALL', 'ACTIVE', 'DELIVERED', 'CANCELLED'] as FilterType[]).map(f => (
@@ -44,7 +44,7 @@ export default function OrdersPage() {
               className={`px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap transition-colors ${
                 filter === f 
                   ? 'bg-primary text-white' 
-                  : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                  : 'bg-cream text-muted hover:bg-secondary/10'
               }`}
             >
               {f.charAt(0) + f.slice(1).toLowerCase()}
@@ -56,7 +56,7 @@ export default function OrdersPage() {
       {isLoading ? (
         <div className="p-12 text-center">
           <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">Loading orders...</p>
+          <p className="text-sm font-bold text-muted uppercase tracking-widest">Loading orders...</p>
         </div>
       ) : (
         <OrderHistoryTable 

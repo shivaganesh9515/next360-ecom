@@ -4,7 +4,7 @@ import { Check } from 'lucide-react'
 
 export default function SubscribePage() {
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 pb-24">
+    <div className="min-h-screen bg-cream/40 pt-20 pb-24">
       {/* Page Header */}
       <div className="bg-primary text-white py-12 md:py-16">
         <div className="max-w-5xl mx-auto px-4 text-center">
@@ -42,8 +42,8 @@ export default function SubscribePage() {
       {/* Main Content */}
       <div className="max-w-5xl mx-auto px-4 py-16">
         <div className="text-center mb-12 relative z-10">
-          <h2 className="font-display text-3xl font-black text-slate-800 mb-2">Choose Your Box</h2>
-          <p className="text-slate-500 font-medium">Start with a curated box or build your own from scratch.</p>
+          <h2 className="font-display text-3xl font-black text-text mb-2">Choose Your Box</h2>
+          <p className="text-muted font-medium">Start with a curated box or build your own from scratch.</p>
         </div>
 
         <BoxSelector />

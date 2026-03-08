@@ -22,9 +22,9 @@ export default function CartItem({ item }: CartItemProps) {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      className="flex gap-4 p-4 border-b border-slate-100 last:border-none group"
+      className="flex gap-4 p-4 border-b border-border last:border-none group"
     >
-      <div className="relative w-24 h-24 rounded-2xl overflow-hidden bg-cream shrink-0">
+      <div className="relative w-24 h-24 rounded-2xl overflow-hidden bg-cream shrink-0 border border-border">
         <Image 
           src={item.product.images[0]} 
           alt={item.product.name}
@@ -36,19 +36,19 @@ export default function CartItem({ item }: CartItemProps) {
       <div className="flex-1 flex flex-col justify-between py-1">
         <div>
           <div className="flex justify-between items-start gap-2">
-            <h4 className="text-sm font-semibold text-slate-800 line-clamp-2 leading-tight">
+            <h4 className="text-sm font-semibold font-sans text-text line-clamp-2 leading-tight">
               {item.product.name}
             </h4>
             <button 
               onClick={() => removeItem(item.id)}
-              className="text-slate-400 hover:text-red-500 transition-colors shrink-0"
+              className="text-muted hover:text-red-500 transition-colors shrink-0"
               aria-label="Remove item"
             >
               <Trash2 size={18} />
             </button>
           </div>
           <div className="mt-1">
-            <Badge variant="info" size="sm" className="bg-cream text-primary border-none">
+            <Badge variant="info" size="sm" className="bg-cream text-primary border-none font-sans">
               {item.selectedWeight}
             </Badge>
           </div>
@@ -62,7 +62,7 @@ export default function CartItem({ item }: CartItemProps) {
             max={10}
             size="sm"
           />
-          <p className="font-bold text-primary">
+          <p className="font-bold font-sans text-primary">
             {formatPrice(item.product.price * item.quantity)}
           </p>
         </div>

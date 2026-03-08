@@ -1,104 +1,123 @@
-'use client'
+"use client"
 
-import React, { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { X } from 'lucide-react'
+import React, { useEffect, useCallback, useRef } from 'react'
 import { cn } from '@next360/utils'
+import { X } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export interface ModalProps {
   isOpen: boolean
   onClose: () => void
   title?: string
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
+  description?: string
   children: React.ReactNode
-  showCloseButton?: boolean
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
+  className?: string
+  showClose?: boolean
+  footer?: React.ReactNode
 }
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   title,
-  size = 'md',
+  description,
   children,
-  showCloseButton = true,
+  size = 'md',
+  className,
+  showClose = true,
+  footer,
 }) => {
-  const [mounted, setMounted] = useState(false)
+  const contentRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    },
+    [onClose]
+  )
 
   useEffect(() => {
     if (isOpen) {
+      document.addEventListener('keydown', handleKeyDown)
       document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
+      contentRef.current?.focus()
     }
-
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-
-    window.addEventListener('keydown', handleEsc)
     return () => {
-      window.removeEventListener('keydown', handleEsc)
-      document.body.style.overflow = 'unset'
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = ''
     }
-  }, [isOpen, onClose])
-
-  if (!mounted) return null
+  }, [isOpen, handleKeyDown])
 
   const sizes = {
     sm: 'max-w-sm',
     md: 'max-w-md',
     lg: 'max-w-lg',
     xl: 'max-w-xl',
-    full: 'max-w-full mx-4',
+    full: 'w-[calc(100vw-2rem)] max-w-3xl',
   }
 
-  return createPortal(
+  return (
     <AnimatePresence>
       {isOpen && (
-        <>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-50 backdrop-blur-sm"
           />
-          <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none p-4 w-full">
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 10 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 10 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className={cn(
-                'bg-white rounded-2xl shadow-xl w-full max-h-[90vh] overflow-auto pointer-events-auto',
-                sizes[size]
-              )}
-            >
-              {(title || showCloseButton) && (
-                <div className="flex items-center justify-between p-6 border-b border-border sticky top-0 bg-white z-10">
-                  {title && <h3 className="font-display text-xl font-bold">{title}</h3>}
-                  {showCloseButton && (
-                    <button
-                      onClick={onClose}
-                      className="p-2 rounded-full hover:bg-gray-100 transition-colors ml-auto text-muted"
-                      aria-label="Close modal"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  )}
+
+          {/* Panel */}
+          <motion.div
+            ref={contentRef}
+            tabIndex={-1}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className={cn(
+              'relative w-full bg-white rounded-3xl shadow-2xl',
+              sizes[size],
+              className
+            )}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            {(title || showClose) && (
+              <div className="px-7 pt-7 pb-0 flex items-center justify-between">
+                <div className="pr-8">
+                  {title && <h2 className="text-xl font-display font-bold text-text">{title}</h2>}
+                  {description && <p className="mt-1 text-sm text-muted">{description}</p>}
                 </div>
-              )}
-              <div className="p-6">{children}</div>
-            </motion.div>
-          </div>
-        </>
+                {showClose && (
+                  <button
+                    onClick={onClose}
+                    className="p-2 rounded-xl text-muted hover:text-text hover:bg-cream transition-colors duration-150"
+                  >
+                    <X size={20} />
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Body */}
+            <div className="px-7 py-5">
+              {children}
+            </div>
+
+            {/* Footer */}
+            {footer && (
+              <div className="px-7 pb-7 flex justify-end gap-3">
+                {footer}
+              </div>
+            )}
+          </motion.div>
+        </div>
       )}
-    </AnimatePresence>,
-    document.body
+    </AnimatePresence>
   )
 }

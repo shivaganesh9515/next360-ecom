@@ -1,159 +1,213 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-import { m } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Leaf, ShieldCheck, Truck, RefreshCcw, FlaskConical, ChevronDown } from 'lucide-react'
 import { Button } from '@next360/ui'
+import { RevealText, MagneticButton, AnimatedGradientText, Meteors, ShimmerButton } from '@next360/ui'
+
+// Three.js — dynamic import (no SSR)
+const HeroScene = dynamic(() => import('./HeroScene'), {
+  ssr: false,
+  loading: () => null,
+})
+
+const trustBadges = [
+  { icon: ShieldCheck, text: 'No Pesticides' },
+  { icon: FlaskConical, text: 'Lab Tested' },
+  { icon: Truck, text: 'Next-Day Delivery' },
+  { icon: RefreshCcw, text: 'Easy Returns' },
+]
 
 export default function HeroBanner() {
   const router = useRouter()
+  const prefersReduced = useReducedMotion()
+  const [scrolled, setScrolled] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+    const handleScroll = () => setScrolled(window.scrollY > 100)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const scrollToNext = () => {
+    window.scrollTo({ top: window.innerHeight - 80, behavior: 'smooth' })
+  }
 
   const container = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3
-      }
-    }
+      transition: { staggerChildren: 0.15, delayChildren: 0.3 },
+    },
   }
 
   const item = {
     hidden: { y: 40, opacity: 0 },
-    show: { y: 0, opacity: 1, transition: { duration: 0.8, ease: "easeOut" } }
-  }
-
-  const scrollToNext = () => {
-    window.scrollTo({
-      top: window.innerHeight - 80,
-      behavior: 'smooth'
-    })
+    show: { y: 0, opacity: 1, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } },
   }
 
   return (
-    <section className="min-h-screen relative overflow-hidden bg-cream flex items-center pt-20">
+    <section className="min-h-screen relative overflow-hidden bg-transparent flex items-center pt-24">
+      {/* Three.js Particle Scene — absolute, behind content */}
+      {!prefersReduced && (
+        <HeroScene particleCount={isMobile ? 60 : 120} />
+      )}
+
       {/* SVG Pattern Overlay */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-[1]">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <pattern id="leaf-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-            <path d="M20,50 Q40,40 50,20 Q60,40 80,50 Q60,60 50,80 Q40,60 20,50" fill="currentColor" className="text-primary" />
+            <path d="M20,50 Q40,40 50,20 Q60,40 80,50 Q60,60 50,80 Q40,60 20,50" fill="#2d5016" />
           </pattern>
           <rect width="100%" height="100%" fill="url(#leaf-pattern)" />
         </svg>
       </div>
+      
+      {!prefersReduced && <Meteors number={20} className="z-[2]" />}
 
-      <div className="max-w-7xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+      <div className="max-w-[1240px] mx-auto px-4 md:px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
         {/* Left Col: Content */}
-        <m.div 
-          variants={container}
-          initial="hidden"
-          animate="show"
+        <motion.div
+          variants={prefersReduced ? undefined : container}
+          initial={prefersReduced ? undefined : "hidden"}
+          animate={prefersReduced ? undefined : "show"}
           className="flex flex-col items-start"
         >
-          <m.div variants={item} className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 rounded-full mb-8 border border-secondary/20">
-            <span className="flex h-2 w-2 rounded-full bg-secondary animate-pulse" />
-            <span className="text-xs font-bold text-secondary uppercase tracking-widest">
-              🌱 Certified Organic · Trusted by 50K+ Families
-            </span>
-          </m.div>
+          {/* Trust Badge */}
+          <motion.div variants={item} className="mb-8">
+            <AnimatedGradientText>
+              <div className="flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 shadow-sm">
+                <span className="flex h-2 w-2 rounded-full bg-secondary animate-pulse" />
+                <span className="text-xs font-bold text-primary uppercase tracking-widest">
+                  Certified Organic · Trusted by 50K+ Families
+                </span>
+              </div>
+            </AnimatedGradientText>
+          </motion.div>
 
-          <m.div variants={item} className="space-y-1 mb-8">
-            <h1 className="font-display text-6xl md:text-8xl text-primary font-bold leading-[1.1]">
+          {/* Headline */}
+          <motion.div variants={item} className="space-y-1 mb-8">
+            <h1 className="font-display text-5xl md:text-7xl xl:text-8xl text-primary font-semibold leading-[1.05]">
               Pure Food.<br />
               Real Farmers.<br />
-              <span className="text-accent underline decoration-accent/20 underline-offset-8">Happy You.</span>
+              <span className="text-accent">Happy You.</span>
             </h1>
-          </m.div>
+          </motion.div>
 
-          <m.p variants={item} className="text-slate-600 text-lg md:text-xl max-w-lg mb-10 leading-relaxed font-body">
-            Sourced directly from certified organic farms across India. 
+          {/* Subheadline */}
+          <motion.p
+            variants={item}
+            className="text-muted font-sans text-lg md:text-xl max-w-xl mb-10 leading-relaxed"
+          >
+            Sourced directly from certified organic farms across India.{' '}
             No pesticides, no chemicals, no compromise on your health.
-          </m.p>
+          </motion.p>
 
-          <m.div variants={item} className="flex flex-wrap gap-4 w-full sm:w-auto mb-12">
-            <Button 
-              size="lg" 
-              className="rounded-full px-10 py-8 text-lg font-bold shadow-xl shadow-primary/20 group"
+          {/* CTAs */}
+          <motion.div variants={item} className="flex flex-wrap gap-4 w-full sm:w-auto mb-12">
+            <MagneticButton
+              strength={0.35}
               onClick={() => router.push('/shop')}
+              className="inline-flex items-center gap-2 px-10 py-4 bg-primary text-white rounded-full text-base font-bold shadow-md hover:bg-primary/90 transition-colors focus-visible:outline-primary"
             >
-              Shop Now <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="lg" 
-              className="rounded-full px-10 py-8 text-lg font-bold text-primary hover:bg-white"
-              onClick={() => router.push('/about')}
-            >
-              Our Story
-            </Button>
-          </m.div>
+              Shop Now <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </MagneticButton>
 
-          <m.div variants={item} className="grid grid-cols-2 sm:flex gap-6 pt-6 border-t border-slate-200 w-full">
-            {[
-              { icon: Leaf, text: 'No Pesticides' },
-              { icon: Truck, text: 'Next-day Delivery' },
-              { icon: RefreshCcw, text: 'Easy Returns' },
-              { icon: FlaskConical, text: 'Lab Tested' }
-            ].map((trust, i) => (
-              <div key={i} className="flex items-center gap-2 text-slate-500">
-                <trust.icon size={16} className="text-primary" />
-                <span className="text-xs font-bold uppercase tracking-wide">{trust.text}</span>
+            <ShimmerButton
+              onClick={() => router.push('/about')}
+              background="transparent"
+              shimmerColor="#2d5016"
+              className="text-primary border-border hover:bg-cream font-bold"
+            >
+              <Leaf size={18} className="mr-2" /> Our Story
+            </ShimmerButton>
+          </motion.div>
+
+          {/* Trust Badges */}
+          <motion.div variants={item} className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full">
+            {trustBadges.map(({ icon: Icon, text }) => (
+              <div key={text} className="flex items-center gap-2 text-sm text-muted font-sans font-medium">
+                <Icon size={14} className="text-secondary shrink-0" />
+                <span>{text}</span>
               </div>
             ))}
-          </m.div>
-        </m.div>
+          </motion.div>
+        </motion.div>
 
-        {/* Right Col: Image */}
-        <m.div
-          initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 1.2, ease: "circOut" }}
-          className="relative aspect-square w-full max-w-2xl mx-auto lg:ml-auto"
+        {/* Right Col: Hero Image */}
+        <motion.div
+          initial={prefersReduced ? undefined : { opacity: 0, scale: 0.95 }}
+          animate={prefersReduced ? undefined : { opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+          className="hidden lg:flex relative items-center justify-center"
         >
-          <div className="absolute inset-0 bg-white shadow-2xl rounded-[40%_60%_60%_40%] overflow-hidden border-8 border-white/50 relative">
-            <Image 
-              src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200"
-              alt="Fresh Organic Produce"
-              fill
-              className="object-cover"
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+          <div className="relative w-full aspect-square max-w-[520px]">
+            {/* Blob background */}
+            <div
+              className="absolute inset-4 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] animate-pulse-glow"
+              style={{ background: 'radial-gradient(ellipse at center, rgba(76,175,125,0.15) 0%, transparent 70%)' }}
             />
-            {/* Floating Floating Leaf Decoration */}
-            <m.div 
-              animate={{ y: [0, -20, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute bottom-10 left-10 w-20 h-20 bg-white/90 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-xl rotate-12"
+            <div className="relative w-full h-full rounded-[60%_40%_30%_70%/60%_30%_70%_40%] overflow-hidden border-4 border-cream shadow-[0_26px_80px_rgba(18,28,24,0.2)]">
+              <div className="w-full h-full bg-gradient-to-br from-primary/10 to-secondary/20 flex items-center justify-center">
+                <span className="text-9xl select-none">🌿</span>
+              </div>
+            </div>
+
+            {/* Floating badges */}
+            <motion.div
+              animate={prefersReduced ? undefined : { y: [0, -8, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-8 -left-4 bg-surface shadow-[0_10px_26px_rgba(31,48,40,0.1)] rounded-2xl px-4 py-3 flex items-center gap-2.5 border border-border"
             >
-              <Leaf className="text-primary" size={40} />
-            </m.div>
+              <span className="text-2xl">🌾</span>
+              <div>
+                <p className="text-xs font-black font-sans text-text uppercase tracking-wider">Local Farms</p>
+                <p className="text-[10px] text-secondary font-bold">2,400+ States</p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              animate={prefersReduced ? undefined : { y: [0, 8, 0] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              className="absolute bottom-12 -right-4 bg-surface shadow-[0_10px_26px_rgba(31,48,40,0.1)] rounded-2xl px-4 py-3 flex items-center gap-2.5 border border-border"
+            >
+              <span className="text-2xl">⭐</span>
+              <div>
+                <p className="text-xs font-black font-sans text-text uppercase tracking-wider">4.9 Rating</p>
+                <p className="text-[10px] text-muted font-bold font-sans">50K+ reviews</p>
+              </div>
+            </motion.div>
           </div>
-          
-          {/* Experience Badge */}
-          <m.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1 }}
-            className="absolute top-20 -right-4 bg-accent text-white p-6 rounded-3xl shadow-2xl rotate-3"
-          >
-            <p className="text-4xl font-bold font-display">12+</p>
-            <p className="text-xs font-bold uppercase tracking-widest opacity-80">Local Farm<br />States</p>
-          </m.div>
-        </m.div>
+        </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
-      <m.button
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-        onClick={scrollToNext}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 p-3 bg-white shadow-xl rounded-full text-primary hover:text-accent transition-colors z-20 hidden md:flex"
-      >
-        <ChevronDown size={24} strokeWidth={3} />
-      </m.button>
+      {/* Scroll indicator */}
+      <AnimatePresence>
+        {!scrolled && !prefersReduced && (
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, delay: 2 }}
+            onClick={scrollToNext}
+            aria-label="Scroll to next section"
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 p-2 rounded-full text-primary/60 hover:text-primary transition-colors"
+          >
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <ChevronDown size={28} />
+            </motion.div>
+          </motion.button>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
+

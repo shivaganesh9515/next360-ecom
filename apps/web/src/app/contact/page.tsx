@@ -49,19 +49,19 @@ export default function ContactPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
+    <div className="min-h-screen bg-cream/40 pt-20">
       {/* Page Header */}
-      <div className="bg-cream py-16 px-4 border-b border-cream-dark">
+      <div className="bg-cream py-16 px-4 border-b border-border">
         <div className="max-w-6xl mx-auto text-center">
           <div className="text-secondary font-bold text-sm tracking-widest uppercase mb-4 flex items-center justify-center gap-2">
             <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-            <span className="text-slate-300">/</span>
+            <span className="text-muted">/</span>
             <span className="text-primary">Contact</span>
           </div>
-          <h1 className="font-display text-4xl md:text-5xl font-black text-slate-800 mb-4 tracking-tight">
+          <h1 className="font-display text-4xl md:text-5xl font-black text-text mb-4 tracking-tight">
             Get in Touch
           </h1>
-          <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto">
+          <p className="text-lg text-muted font-medium max-w-2xl mx-auto">
             We'd love to hear from you. Whether you have a question about our farms, your order, or just want to say hello.
           </p>
         </div>
@@ -73,16 +73,16 @@ export default function ContactPage() {
           
           {/* LEFT: Contact Form */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-[32px] border border-slate-100 p-8 md:p-12 shadow-sm">
-              <h2 className="font-display text-3xl font-black text-slate-800 mb-8">Send us a Message</h2>
+            <div className="bg-white rounded-[32px] border border-border p-8 md:p-12 shadow-sm">
+              <h2 className="font-display text-3xl font-black text-text mb-8">Send us a Message</h2>
               
               {isSent ? (
                 <div className="bg-secondary/5 rounded-2xl p-10 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500">
                   <div className="w-20 h-20 bg-secondary/20 rounded-full flex items-center justify-center mb-6">
                     <CheckCircle2 size={40} className="text-secondary" />
                   </div>
-                  <h3 className="font-display text-2xl font-bold text-slate-800 mb-2">Message sent successfully!</h3>
-                  <p className="text-slate-600 font-medium mb-8">We'll get back to you within 24 hours.</p>
+                  <h3 className="font-display text-2xl font-bold text-text mb-2">Message sent successfully!</h3>
+                  <p className="text-muted font-medium mb-8">We'll get back to you within 24 hours.</p>
                   <button 
                     onClick={() => { reset(); setIsSent(false) }}
                     className="text-primary font-bold hover:underline underline-offset-4 tracking-widest uppercase text-sm"
@@ -98,7 +98,7 @@ export default function ContactPage() {
                         {...register('name')} 
                         placeholder="Your Name" 
                         error={errors.name?.message} 
-                        className="bg-slate-50 border-slate-200"
+                        className="bg-white border-border"
                       />
                     </div>
                     <div>
@@ -107,7 +107,7 @@ export default function ContactPage() {
                         type="email" 
                         placeholder="Your Email" 
                         error={errors.email?.message} 
-                        className="bg-slate-50 border-slate-200"
+                        className="bg-white border-border"
                       />
                     </div>
                   </div>
@@ -116,7 +116,7 @@ export default function ContactPage() {
                       {...register('subject')} 
                       placeholder="Subject" 
                       error={errors.subject?.message} 
-                      className="bg-slate-50 border-slate-200"
+                      className="bg-white border-border"
                     />
                   </div>
                   <div className="relative">
@@ -124,8 +124,8 @@ export default function ContactPage() {
                       {...register('message')} 
                       rows={6}
                       placeholder="How can we help you?"
-                      className={`w-full p-4 bg-slate-50 border rounded-2xl text-slate-800 font-medium transition-all outline-none focus:ring-4 focus:ring-primary/10 ${
-                        errors.message ? 'border-red-300 focus:border-red-400' : 'border-slate-200 focus:border-primary'
+                      className={`w-full p-4 bg-white border rounded-2xl text-text font-medium transition-all outline-none focus:ring-4 focus:ring-primary/10 ${
+                        errors.message ? 'border-red-300 focus:border-red-400' : 'border-border focus:border-primary'
                       }`}
                     ></textarea>
                     {errors.message && (
@@ -145,56 +145,56 @@ export default function ContactPage() {
             
             {/* Contact Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-              <div className="bg-white rounded-[24px] border border-slate-100 p-6 flex gap-4 hover:shadow-md transition-shadow">
+              <div className="bg-white rounded-[24px] border border-border p-6 flex gap-4 hover:shadow-md transition-shadow">
                 <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center shrink-0">
                   <MapPin size={24} className="text-primary" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-400 uppercase tracking-widest text-xs mb-2">Address</h4>
-                  <p className="font-medium text-slate-700 leading-relaxed">42, Organic Hub, HITEC City<br/>Hyderabad, Telangana 500081</p>
+                  <h4 className="font-bold text-muted uppercase tracking-widest text-xs mb-2">Address</h4>
+                  <p className="font-medium text-text leading-relaxed">42, Organic Hub, HITEC City<br/>Hyderabad, Telangana 500081</p>
                 </div>
               </div>
 
-              <div className="bg-white rounded-[24px] border border-slate-100 p-6 flex gap-4 hover:shadow-md transition-shadow">
+              <div className="bg-white rounded-[24px] border border-border p-6 flex gap-4 hover:shadow-md transition-shadow">
                 <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center shrink-0">
                   <Phone size={24} className="text-primary" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-400 uppercase tracking-widest text-xs mb-2">Phone</h4>
-                  <p className="font-bold text-slate-800 text-lg">+91-40-0000-0000</p>
-                  <p className="font-medium text-slate-500 text-sm mt-1">Mon–Sat, 9 AM – 6 PM</p>
+                  <h4 className="font-bold text-muted uppercase tracking-widest text-xs mb-2">Phone</h4>
+                  <p className="font-bold text-text text-lg">+91-40-0000-0000</p>
+                  <p className="font-medium text-muted text-sm mt-1">Mon–Sat, 9 AM – 6 PM</p>
                 </div>
               </div>
 
-              <div className="bg-white rounded-[24px] border border-slate-100 p-6 flex gap-4 hover:shadow-md transition-shadow">
+              <div className="bg-white rounded-[24px] border border-border p-6 flex gap-4 hover:shadow-md transition-shadow">
                 <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center shrink-0">
                   <Mail size={24} className="text-primary" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-400 uppercase tracking-widest text-xs mb-2">Email</h4>
-                  <a href="mailto:hello@next360.in" className="font-medium text-slate-700 hover:text-primary block mb-1">hello@next360.in</a>
-                  <a href="mailto:support@next360.in" className="font-medium text-slate-700 hover:text-primary block">support@next360.in</a>
+                  <h4 className="font-bold text-muted uppercase tracking-widest text-xs mb-2">Email</h4>
+                  <a href="mailto:hello@next360.in" className="font-medium text-text hover:text-primary block mb-1">hello@next360.in</a>
+                  <a href="mailto:support@next360.in" className="font-medium text-text hover:text-primary block">support@next360.in</a>
                 </div>
               </div>
             </div>
 
             {/* FAQ Snippet */}
-            <div className="bg-cream rounded-[32px] p-8 border border-cream-dark mt-8 shadow-sm">
-              <h3 className="font-display text-2xl font-black text-slate-800 mb-6">Common Questions</h3>
+            <div className="bg-cream rounded-[32px] p-8 border border-border mt-8 shadow-sm">
+              <h3 className="font-display text-2xl font-black text-text mb-6">Common Questions</h3>
               <div className="space-y-4">
                 {faqs.map((faq, idx) => (
-                  <div key={idx} className="bg-white rounded-2xl border border-slate-100 overflow-hidden">
+                  <div key={idx} className="bg-white rounded-2xl border border-border overflow-hidden">
                     <button 
                       onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                      className="w-full p-4 flex items-center justify-between text-left font-bold text-slate-800 hover:text-primary transition-colors"
+                      className="w-full p-4 flex items-center justify-between text-left font-bold text-text hover:text-primary transition-colors"
                     >
                       <span className="pr-4">{faq.q}</span>
-                      <span className="shrink-0 text-slate-400">
+                      <span className="shrink-0 text-muted">
                         {openFaq === idx ? <Minus size={18} /> : <Plus size={18} />}
                       </span>
                     </button>
                     {openFaq === idx && (
-                      <div className="p-4 pt-0 text-slate-600 font-medium text-sm leading-relaxed border-t border-slate-50">
+                      <div className="p-4 pt-0 text-muted font-medium text-sm leading-relaxed border-t border-border">
                         {faq.a}
                       </div>
                     )}

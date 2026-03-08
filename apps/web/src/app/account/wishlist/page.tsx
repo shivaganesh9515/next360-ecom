@@ -37,16 +37,16 @@ export default function WishlistPage() {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm min-h-[50vh]">
+    <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-sm min-h-[50vh]">
       {/* Header */}
-      <div className="p-5 md:p-6 border-b border-slate-100 flex justify-between items-center">
-        <h1 className="font-display text-2xl font-black text-slate-800">
-          Saved Products <span className="text-slate-400 text-lg">({items.length})</span>
+      <div className="p-5 md:p-6 border-b border-border flex justify-between items-center">
+        <h1 className="font-display text-2xl font-black text-text">
+          Saved Products <span className="text-muted text-lg">({items.length})</span>
         </h1>
         {items.length > 0 && (
           <button 
             onClick={handleClearAll}
-            className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-red-500 transition-colors"
+            className="text-xs font-bold uppercase tracking-widest text-muted hover:text-red-500 transition-colors"
           >
             Clear All
           </button>
@@ -56,11 +56,11 @@ export default function WishlistPage() {
       {/* Content */}
       {items.length === 0 ? (
         <div className="p-16 text-center flex flex-col items-center justify-center">
-          <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-            <Heart className="text-slate-300" size={32} />
+          <div className="w-16 h-16 bg-cream/50 rounded-full flex items-center justify-center mb-4">
+            <Heart className="text-muted" size={32} />
           </div>
-          <h3 className="font-display text-xl font-bold text-slate-800 mb-2">No saved products yet</h3>
-          <p className="text-slate-500 font-medium mb-6">Tap the ♡ on any product to save it for later.</p>
+          <h3 className="font-display text-xl font-bold text-text mb-2">No saved products yet</h3>
+          <p className="text-muted font-medium mb-6">Tap the ♡ on any product to save it for later.</p>
           <Link href="/shop">
             <Button variant="primary" className="font-bold">Browse Products</Button>
           </Link>

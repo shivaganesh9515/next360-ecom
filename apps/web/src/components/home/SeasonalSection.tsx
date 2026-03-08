@@ -7,7 +7,7 @@ import { ArrowRight, Calendar } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { productService } from '@/services/productService'
 import ProductCard from '../product/ProductCard'
-import ProductCardSkeleton from '../product/ProductCardSkeleton'
+import { RevealText, StaggerContainer, ShimmerSkeleton } from '@next360/ui'
 
 export default function SeasonalSection() {
   const currentMonth = new Date().getMonth() + 1 // 1-12
@@ -23,11 +23,10 @@ export default function SeasonalSection() {
     staleTime: 60 * 60 * 1000,
   })
 
-  // Fallback if seasonal is empty could be done via a second query or just show empty
   const items = seasonalProducts
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-white/50">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
@@ -36,10 +35,11 @@ export default function SeasonalSection() {
               <Calendar size={14} className="text-accent" />
               <span className="text-[10px] font-bold uppercase tracking-widest text-accent">Monthly Highlights</span>
             </div>
-            <h2 className="font-display text-4xl md:text-5xl text-primary font-bold mb-4">
-              What's In Season — <span className="text-accent italic">{currentMonthName}</span>
-            </h2>
-            <p className="text-slate-500 text-lg font-body">
+            <RevealText 
+              text={`What's In Season — ${currentMonthName}`} 
+              className="font-display text-4xl md:text-5xl text-primary font-bold mb-4" 
+            />
+            <p className="text-muted text-lg font-sans">
               The freshest, most nutrient-dense picks right now from local farms.
             </p>
           </div>
@@ -54,11 +54,11 @@ export default function SeasonalSection() {
 
         {/* Scroll Row */}
         <div className="relative group">
-          <div className="flex gap-6 md:gap-8 overflow-x-auto pb-8 scroll-smooth scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+          <StaggerContainer className="flex gap-6 md:gap-8 overflow-x-auto pb-8 scroll-smooth scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
             {isLoading ? (
               Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="min-w-[280px] md:min-w-[320px] flex-shrink-0">
-                  <ProductCardSkeleton />
+                <div key={i} className="min-w-[280px] md:min-w-[320px] flex-shrink-0 aspect-[3/4]">
+                  <ShimmerSkeleton className="w-full h-full" />
                 </div>
               ))
             ) : items.length > 0 ? (
@@ -79,9 +79,10 @@ export default function SeasonalSection() {
               </div>
               <span className="font-bold tracking-widest uppercase text-sm">Browse All Produce</span>
             </Link>
-          </div>
+          </StaggerContainer>
         </div>
       </div>
     </section>
   )
 }
+

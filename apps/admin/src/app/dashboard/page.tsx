@@ -55,7 +55,7 @@ export default function DashboardPage() {
   return (
     <div className="animate-in fade-in duration-500">
       <div className="mb-8">
-        <h2 className="text-2xl font-display font-semibold text-gray-900">Platform Overview</h2>
+        <h2 className="text-2xl font-display font-semibold text-text">Platform Overview</h2>
         <p className="text-muted text-sm mt-1">Key metrics and recent activity for the last 30 days.</p>
       </div>
 

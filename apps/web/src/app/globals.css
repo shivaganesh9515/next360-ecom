@@ -1,141 +1,93 @@
 @import "tailwindcss";
-@config "../../tailwind.config.ts";
 
-@layer base {
-  :root {
-    --color-primary: #2d5016;
-    --color-secondary: #7cb342;
-    --color-accent: #f4a300;
-    --color-earth: #8b5e3c;
-    --color-cream: #faf6ed;
-    --color-text: #1a1a1a;
-    --color-muted: #6b7280;
-    --color-border: #e5e0d4;
-    /* next/font variables provided via layout.tsx */
-  }
+@theme {
+  --color-primary:   #2D5016;
+  --color-secondary: #7CB342;
+  --color-accent:    #F4A300;
+  --color-earth:     #8B5E3C;
+  --color-cream:     #FAF6ED;
+  --color-text:      #1A1A1A;
+  --color-muted:     #6B7280;
+  --color-border:    #E5E0D4;
 
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+  --font-display: var(--font-playfair), serif;
+  --font-sans: var(--font-dm-sans), sans-serif;
 
-  html {
-    scroll-behavior: smooth;
-  }
+  --shadow-card:       0 2px 12px rgba(0,0,0,0.08);
+  --shadow-card-hover: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-nav:        0 2px 20px rgba(0,0,0,0.08);
 
-  body {
-    font-family: var(--font-dm-sans);
-    color: var(--color-text);
-    background-color: #ffffff;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-playfair);
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--color-cream);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-secondary);
-    border-radius: 3px;
-  }
-
-  /* Text selection */
-  ::selection {
-    background: var(--color-secondary);
-    color: white;
-  }
-
-  /* Focus styles */
-  :focus-visible {
-    outline: 2px solid var(--color-secondary);
-    outline-offset: 2px;
-  }
+  --animate-shimmer: shimmer 1.5s infinite;
+  --animate-fade-up: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-fade-in: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@layer utilities {
-  .font-display {
-    font-family: var(--font-playfair);
-  }
-  .font-body {
-    font-family: var(--font-dm-sans);
-  }
+:root {
+  --color-primary:   #2D5016;
+  --color-secondary: #7CB342;
+  --color-accent:    #F4A300;
+  --color-earth:     #8B5E3C;
+  --color-cream:     #FAF6ED;
+  --color-text:      #1A1A1A;
+  --color-muted:     #6B7280;
+  --color-border:    #E5E0D4;
+}
 
-  .text-primary {
-    color: var(--color-primary);
-  }
-  .text-secondary {
-    color: var(--color-secondary);
-  }
-  .text-accent {
-    color: var(--color-accent);
-  }
-  .text-earth {
-    color: var(--color-earth);
-  }
-  .text-muted {
-    color: var(--color-muted);
-  }
+body {
+  font-family: var(--font-dm-sans), sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  .bg-primary {
-    background-color: var(--color-primary);
-  }
-  .bg-secondary {
-    background-color: var(--color-secondary);
-  }
-  .bg-accent {
-    background-color: var(--color-accent);
-  }
-  .bg-cream {
-    background-color: var(--color-cream);
-  }
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-playfair), serif;
+}
 
-  .border-primary {
-    border-color: var(--color-primary);
-  }
-  .border-border {
-    border-color: var(--color-border);
-  }
+::-webkit-scrollbar        { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: var(--color-cream); }
+::-webkit-scrollbar-thumb  { background: var(--color-secondary); border-radius: 3px; }
+::selection                { background: var(--color-secondary); color: white; }
+:focus-visible             { outline: 2px solid var(--color-secondary); outline-offset: 2px; }
 
-  .animate-fade-up {
-    animation: fadeUp 0.5s ease forwards;
-  }
+.font-display { font-family: var(--font-playfair), serif; }
+.font-body    { font-family: var(--font-dm-sans), sans-serif; }
 
-  .animate-fade-in {
-    animation: fadeIn 0.4s ease forwards;
-  }
+.animate-shimmer {
+  background: linear-gradient(90deg, #e8e0d0 25%, #f5f0e8 50%, #e8e0d0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0 }
+  100% { background-position: 200% 0 }
 }
 
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+.animate-fade-up  { animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-fade-in  { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-float    { animation: float 3s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

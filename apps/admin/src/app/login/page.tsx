@@ -58,14 +58,14 @@ export default function AdminLoginPage() {
           </div>
         </div>
 
-        <h1 className="text-xl font-semibold text-gray-900 mb-1">Sign In</h1>
+        <h1 className="text-xl font-semibold text-text mb-1">Sign In</h1>
         <p className="text-sm text-muted mb-6">Restricted to administrators only</p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Mail className="h-5 w-5 text-gray-400" />
+                <Mail className="h-5 w-5 text-muted" />
               </div>
               <Input
                 {...register('email')}
@@ -81,7 +81,7 @@ export default function AdminLoginPage() {
           <div>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Lock className="h-5 w-5 text-gray-400" />
+                <Lock className="h-5 w-5 text-muted" />
               </div>
               <Input
                 {...register('password')}
@@ -93,7 +93,7 @@ export default function AdminLoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted hover:text-muted"
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>

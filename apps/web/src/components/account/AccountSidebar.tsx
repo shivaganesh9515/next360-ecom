@@ -3,12 +3,13 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
 import { 
   LayoutDashboard, Package, RefreshCw, Heart, 
   MapPin, User, Target, Leaf, Globe, LogOut 
 } from 'lucide-react'
 import { MOCK_USER } from '@/lib/mockAccount'
-import { Badge } from '@next360/ui'
+import { Badge, AnimatedCounter } from '@next360/ui'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/store/authStore'
 import { cn } from '@next360/utils'
@@ -47,8 +48,8 @@ export default function AccountSidebar() {
         </div>
         <p className="font-bold text-slate-800">{MOCK_USER.name}</p>
         <p className="text-xs text-slate-500 mb-3">{MOCK_USER.email}</p>
-        <Badge variant="fresh" className="bg-secondary/10 text-secondary border-none font-black px-3 py-1">
-          🌱 {MOCK_USER.seeds.toLocaleString()} Seeds
+        <Badge variant="fresh" className="bg-secondary/10 text-secondary border-none font-black px-3 py-1 flex items-center gap-1">
+          🌱 <AnimatedCounter to={MOCK_USER.seeds} /> Seeds
         </Badge>
       </div>
 
@@ -62,14 +63,23 @@ export default function AccountSidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-5 py-3 text-sm font-medium transition-colors border-r-2",
+                "relative flex items-center gap-3 px-5 py-3 text-sm font-medium transition-colors",
                 isActive 
-                  ? "bg-primary/10 text-primary border-primary" 
-                  : "text-slate-600 hover:bg-slate-50 hover:text-primary border-transparent"
+                  ? "text-primary" 
+                  : "text-slate-600 hover:text-primary"
               )}
             >
-              <item.icon size={16} className={isActive ? 'text-primary' : 'text-slate-400'} />
-              {item.label}
+              {isActive && (
+                <motion.div
+                  layoutId="account-sidebar-active"
+                  className="absolute inset-0 bg-primary/10 border-r-2 border-primary"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              <span className="relative z-10 flex items-center gap-3">
+                <item.icon size={16} className={isActive ? 'text-primary' : 'text-slate-400'} />
+                {item.label}
+              </span>
             </Link>
           )
         })}
@@ -88,3 +98,4 @@ export default function AccountSidebar() {
     </div>
   )
 }
+

@@ -32,15 +32,15 @@ export function PayoutManager({ vendorId, pendingBalance }: PayoutManagerProps) 
   })
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-      <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-          <Landmark className="w-5 h-5 text-gray-400" />
+    <div className="bg-white rounded-2xl border border-border shadow-sm p-6">
+      <div className="flex items-center justify-between mb-6 pb-4 border-b border-border">
+        <h3 className="text-lg font-semibold text-text flex items-center gap-2">
+          <Landmark className="w-5 h-5 text-muted" />
           Process Payout
         </h3>
         <div className="text-right">
-          <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Pending Balance</p>
-          <p className="text-xl font-bold text-gray-900">₹{pendingBalance.toLocaleString()}</p>
+          <p className="text-xs text-muted uppercase tracking-wider font-semibold">Pending Balance</p>
+          <p className="text-xl font-bold text-text">₹{pendingBalance.toLocaleString()}</p>
         </div>
       </div>
 
@@ -53,7 +53,7 @@ export function PayoutManager({ vendorId, pendingBalance }: PayoutManagerProps) 
         className="space-y-4"
       >
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Payout Amount (₹)</label>
+          <label className="block text-sm font-medium text-text mb-1">Payout Amount (₹)</label>
           <Input 
             type="number" 
             value={amount} 
@@ -63,7 +63,7 @@ export function PayoutManager({ vendorId, pendingBalance }: PayoutManagerProps) 
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Bank Reference / Transaction ID</label>
+          <label className="block text-sm font-medium text-text mb-1">Bank Reference / Transaction ID</label>
           <Input 
             value={transactionId} 
             onChange={(e) => setTransactionId(e.target.value)} 

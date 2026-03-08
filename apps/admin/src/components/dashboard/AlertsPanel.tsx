@@ -32,12 +32,12 @@ export function AlertsPanel({ alerts }: AlertsPanelProps) {
   }
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-[400px] flex flex-col">
-      <h3 className="text-lg font-semibold text-gray-900 mb-6 shrink-0">System Alerts</h3>
+    <div className="bg-white p-6 rounded-2xl shadow-sm border border-border h-[400px] flex flex-col">
+      <h3 className="text-lg font-semibold text-text mb-6 shrink-0">System Alerts</h3>
       
       <div className="flex-1 overflow-y-auto pr-2 space-y-3">
         {alerts.length === 0 ? (
-          <div className="h-full flex items-center justify-center text-gray-400 text-sm">
+          <div className="h-full flex items-center justify-center text-muted text-sm">
             No active alerts at this time.
           </div>
         ) : (
@@ -48,10 +48,10 @@ export function AlertsPanel({ alerts }: AlertsPanelProps) {
             >
               <div className="shrink-0 mt-0.5">{getIcon(alert.type)}</div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 leading-snug mb-1">
+                <p className="text-sm font-medium text-text leading-snug mb-1">
                   {alert.message}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted">
                   {formatDistanceToNow(new Date(alert.createdAt), { addSuffix: true })}
                 </p>
               </div>

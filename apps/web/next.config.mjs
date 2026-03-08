@@ -3,6 +3,7 @@ import withBundleAnalyzer from '@next/bundle-analyzer';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  transpilePackages: ['@next360/ui', '@next360/utils', '@next360/types'],
   images: {
     remotePatterns: [
       { hostname: 'placehold.co' },

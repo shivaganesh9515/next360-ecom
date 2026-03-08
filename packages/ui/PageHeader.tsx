@@ -1,54 +1,56 @@
 import React from 'react'
-import { ChevronRight } from 'lucide-react'
 import { cn } from '@next360/utils'
+import { ChevronRight } from 'lucide-react'
 
-export interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface PageHeaderProps {
   title: string
-  breadcrumbs?: Array<{ label: string; href?: string }>
-  action?: React.ReactNode
-  description?: string
+  subtitle?: string
+  breadcrumbs?: { label: string; href?: string }[]
+  actions?: React.ReactNode
+  className?: string
 }
 
 export const PageHeader: React.FC<PageHeaderProps> = ({
   title,
+  subtitle,
   breadcrumbs,
-  action,
-  description,
+  actions,
   className,
-  ...props
 }) => {
   return (
-    <div className={cn('flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8', className)} {...props}>
-      <div>
-        {breadcrumbs && breadcrumbs.length > 0 && (
-          <nav className="flex items-center gap-1.5 text-sm text-muted mb-2">
-            {breadcrumbs.map((crumb, index) => (
-              <React.Fragment key={index}>
-                {index > 0 && <ChevronRight className="w-4 h-4" />}
-                {crumb.href ? (
-                  <a href={crumb.href} className="hover:text-primary transition-colors">
-                    {crumb.label}
-                  </a>
-                ) : (
-                  <span className="text-text font-medium">{crumb.label}</span>
-                )}
-              </React.Fragment>
-            ))}
-          </nav>
-        )}
-        
-        <h1 className="font-display text-2xl md:text-3xl font-bold text-text">{title}</h1>
-        
-        {description && (
-          <p className="text-muted mt-1">{description}</p>
-        )}
-      </div>
-
-      {action && (
-        <div className="flex items-center gap-3 shrink-0">
-          {action}
-        </div>
+    <div className={cn('pb-6 mb-8 border-b border-border', className)}>
+      {breadcrumbs && breadcrumbs.length > 0 && (
+        <nav className="flex items-center gap-1.5 mb-3 text-sm font-sans">
+          {breadcrumbs.map((crumb, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <ChevronRight size={14} className="text-muted" />}
+              {crumb.href ? (
+                <a href={crumb.href} className={cn('hover:underline transition-colors', i === breadcrumbs.length - 1 ? 'text-text font-medium' : 'text-muted hover:text-primary')}>
+                  {crumb.label}
+                </a>
+              ) : (
+                <span className={cn(i === breadcrumbs.length - 1 ? 'text-text font-medium' : 'text-muted')}>
+                  {crumb.label}
+                </span>
+              )}
+            </React.Fragment>
+          ))}
+        </nav>
       )}
+
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-text">
+            {title}
+          </h1>
+          {subtitle && (
+            <p className="mt-1 text-sm text-muted font-sans">
+              {subtitle}
+            </p>
+          )}
+        </div>
+        {actions && <div className="flex items-center gap-3">{actions}</div>}
+      </div>
     </div>
   )
 }

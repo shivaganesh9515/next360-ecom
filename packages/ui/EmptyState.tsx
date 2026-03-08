@@ -1,32 +1,39 @@
 import React from 'react'
 import { cn } from '@next360/utils'
-import { Button } from './Button'
 
-interface EmptyStateProps {
+export interface EmptyStateProps {
   icon?: React.ReactNode
   title: string
   description?: string
-  action?: { label: string; onClick: () => void }
+  action?: React.ReactNode
   className?: string
 }
 
-export const EmptyState = ({
+export const EmptyState: React.FC<EmptyStateProps> = ({
   icon,
   title,
   description,
   action,
   className,
-}: EmptyStateProps) => {
+}) => {
   return (
-    <div className={cn('flex flex-col items-center justify-center p-8 text-center', className)}>
-      {icon && <div className="text-secondary mb-4">{icon}</div>}
-      <h3 className="text-lg font-display text-text mb-2">{title}</h3>
-      {description && <p className="text-muted text-sm max-w-sm mb-6">{description}</p>}
-      {action && (
-        <Button onClick={action.onClick} variant="outline">
-          {action.label}
-        </Button>
+    <div className={cn('py-16 text-center flex flex-col items-center gap-4', className)}>
+      {icon && (
+        <div className="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center">
+          <div className="w-8 h-8 text-secondary">
+            {icon}
+          </div>
+        </div>
       )}
+      <h3 className="text-xl font-display font-semibold text-text">
+        {title}
+      </h3>
+      {description && (
+        <p className="text-sm text-muted max-w-xs mx-auto">
+          {description}
+        </p>
+      )}
+      {action}
     </div>
   )
 }

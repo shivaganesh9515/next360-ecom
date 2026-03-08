@@ -13,6 +13,7 @@ interface DrawerProps {
   size?: 'sm' | 'md' | 'lg' | 'full'
   title?: string
   children: React.ReactNode
+  footer?: React.ReactNode
 }
 
 export const Drawer = ({
@@ -22,6 +23,7 @@ export const Drawer = ({
   size = 'md',
   title,
   children,
+  footer,
 }: DrawerProps) => {
   useEffect(() => {
     if (isOpen) {
@@ -53,7 +55,7 @@ export const Drawer = ({
       initial: { y: '100%' },
       animate: { y: 0 },
       exit: { y: '100%' },
-      styles: 'bottom-0 left-0 w-full rounded-t-3xl',
+      styles: 'bottom-0 left-0 right-0 top-auto rounded-t-3xl max-h-[85vh]',
     },
   }
 
@@ -73,13 +75,13 @@ export const Drawer = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-[100] backdrop-blur-sm"
+            className="fixed inset-0 bg-black/40 z-[100]"
           />
           <motion.div
             initial={positions[position].initial}
             animate={positions[position].animate}
             exit={positions[position].exit}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className={cn(
               'fixed bg-white z-[101] shadow-2xl flex flex-col',
               positions[position].styles,
@@ -87,17 +89,27 @@ export const Drawer = ({
               position !== 'bottom' && 'w-full'
             )}
           >
-            <div className="flex items-center justify-between p-6 border-b border-border">
-              {title && <h3 className="text-xl font-display text-text">{title}</h3>}
+            {/* Header */}
+            <div className="px-6 py-5 border-b border-border flex items-center justify-between">
+              {title && <h3 className="text-lg font-display font-bold text-text">{title}</h3>}
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-cream rounded-full transition-colors"
+                className="p-2 hover:bg-cream rounded-xl transition-colors duration-150"
                 aria-label="Close drawer"
               >
-                <X className="w-6 h-6 text-muted" />
+                <X className="w-5 h-5 text-muted" />
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-6">{children}</div>
+
+            {/* Body */}
+            <div className="flex-1 overflow-y-auto px-6 py-5">{children}</div>
+
+            {/* Footer */}
+            {footer && (
+              <div className="px-6 py-5 border-t border-border">
+                {footer}
+              </div>
+            )}
           </motion.div>
         </>
       )}

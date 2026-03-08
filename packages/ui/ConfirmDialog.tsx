@@ -29,19 +29,29 @@ export const ConfirmDialog = ({
   isLoading = false,
 }: ConfirmDialogProps) => {
   const icons = {
-    danger: <AlertCircle className="w-12 h-12 text-red-500" />,
+    danger: <AlertCircle className="w-12 h-12 text-red-600" />,
     warning: <AlertTriangle className="w-12 h-12 text-accent" />,
     info: <Info className="w-12 h-12 text-secondary" />,
   }
 
+  const iconBg = {
+    danger: 'bg-red-50',
+    warning: 'bg-accent/10',
+    info: 'bg-secondary/10',
+  }
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="" size="sm">
-      <div className="flex flex-col items-center text-center p-4">
-        <div className="mb-4">{icons[variant]}</div>
-        <h3 className="text-xl font-display text-text mb-2">{title}</h3>
-        <p className="text-muted text-sm mb-8">{description}</p>
+    <Modal isOpen={isOpen} onClose={onClose} showClose={false} size="sm" className="max-w-[400px]">
+      <div className="flex flex-col items-center text-center px-2 py-4">
+        <div className={`mb-5 p-4 rounded-full ${iconBg[variant]}`}>
+          {icons[variant]}
+        </div>
+        <h3 className="text-2xl font-display font-bold text-text mb-3">{title}</h3>
+        <p className="text-muted text-sm font-sans mb-8 leading-relaxed max-w-[280px]">
+          {description}
+        </p>
         <div className="flex gap-3 w-full">
-          <Button variant="ghost" className="flex-1" onClick={onClose} disabled={isLoading}>
+          <Button variant="outline" className="flex-1" onClick={onClose} disabled={isLoading}>
             {cancelLabel}
           </Button>
           <Button

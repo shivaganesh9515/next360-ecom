@@ -70,7 +70,7 @@ export default function AddressForm({ selectedId, onSelect, onNext }: AddressFor
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm">
+      <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
         <div className="flex items-center justify-between mb-8">
           <h2 className="font-display text-2xl font-bold text-primary flex items-center gap-2">
             <span className="w-8 h-8 rounded-xl bg-primary/5 text-primary flex items-center justify-center border border-primary/10">
@@ -94,7 +94,7 @@ export default function AddressForm({ selectedId, onSelect, onNext }: AddressFor
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {isLoading ? (
             Array.from({ length: 2 }).map((_, i) => (
-              <div key={i} className="h-48 rounded-3xl bg-slate-50 animate-pulse border-2 border-slate-50" />
+              <div key={i} className="h-48 rounded-3xl bg-cream animate-pulse border-2 border-cream" />
             ))
           ) : (
             <AnimatePresence>
@@ -107,11 +107,11 @@ export default function AddressForm({ selectedId, onSelect, onNext }: AddressFor
                     "relative p-6 rounded-3xl border-2 transition-all cursor-pointer group",
                     selectedId === addr.id 
                       ? "border-primary bg-primary/5 shadow-lg shadow-primary/5" 
-                      : "border-slate-50 hover:border-primary/20"
+                      : "border-border hover:border-primary/20"
                   )}
                 >
                   <div className="flex justify-between items-start mb-3">
-                    <div className="w-8 h-8 rounded-full border-2 border-slate-100 group-hover:border-primary/20 flex items-center justify-center transition-colors">
+                    <div className="w-8 h-8 rounded-full border-2 border-border group-hover:border-primary/20 flex items-center justify-center transition-colors">
                       {selectedId === addr.id && (
                         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-4 h-4 rounded-full bg-primary" />
                       )}
@@ -121,20 +121,20 @@ export default function AddressForm({ selectedId, onSelect, onNext }: AddressFor
                     )}
                   </div>
 
-                  <p className="font-black text-slate-800 text-lg mb-1">{addr.name}</p>
-                  <div className="flex items-center gap-1.5 text-slate-400 text-xs font-bold mb-4 uppercase tracking-widest">
+                  <p className="font-black text-text text-lg mb-1">{addr.name}</p>
+                  <div className="flex items-center gap-1.5 text-muted text-xs font-bold mb-4 uppercase tracking-widest">
                      <Phone size={12} /> {addr.phone}
                   </div>
                   
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed mb-1">
+                  <p className="text-muted text-sm font-medium leading-relaxed mb-1">
                     {addr.street}
                   </p>
-                  <p className="text-slate-500 text-sm font-medium">
+                  <p className="text-muted text-sm font-medium">
                     {addr.city}, {addr.state} - <span className="text-primary font-black">{addr.pincode}</span>
                   </p>
 
                   {addr.landmark && (
-                    <div className="mt-3 pt-3 border-t border-slate-50 flex items-center gap-2 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                    <div className="mt-3 pt-3 border-t border-border flex items-center gap-2 text-[10px] text-muted font-bold uppercase tracking-widest">
                       <Landmark size={12} className="text-primary/40" />
                       {addr.landmark}
                     </div>
@@ -154,43 +154,43 @@ export default function AddressForm({ selectedId, onSelect, onNext }: AddressFor
               exit={{ opacity: 0, height: 0 }}
               className="overflow-hidden"
             >
-              <div className="mt-8 p-8 bg-slate-50/50 rounded-[2.5rem] border border-slate-100">
+              <div className="mt-8 p-8 bg-cream/50 rounded-[2.5rem] border border-border">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <p className="text-xs font-black uppercase tracking-widest text-slate-400 pl-1">Full Name</p>
-                      <Input placeholder="Enter your name" {...register('name')} className="rounded-2xl h-12 bg-white" />
+                      <p className="text-xs font-black uppercase tracking-widest text-muted pl-1">Full Name</p>
+                      <Input placeholder="Enter your name" {...register('name')} className="rounded-2xl h-12 bg-white border-border focus:border-secondary" />
                       {errors.name && <p className="text-[10px] font-bold text-red-500">{errors.name.message}</p>}
                     </div>
                     <div className="space-y-2">
-                       <p className="text-xs font-black uppercase tracking-widest text-slate-400 pl-1">Phone Number</p>
-                       <Input placeholder="10-digit number" {...register('phone')} className="rounded-2xl h-12 bg-white" />
+                       <p className="text-xs font-black uppercase tracking-widest text-muted pl-1">Phone Number</p>
+                       <Input placeholder="10-digit number" {...register('phone')} className="rounded-2xl h-12 bg-white border-border focus:border-secondary" />
                        {errors.phone && <p className="text-[10px] font-bold text-red-500">{errors.phone.message}</p>}
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <p className="text-xs font-black uppercase tracking-widest text-slate-400 pl-1">Street Address</p>
-                    <Input placeholder="House No, Building, Area" {...register('street')} className="rounded-2xl h-12 bg-white" />
+                    <p className="text-xs font-black uppercase tracking-widest text-muted pl-1">Street Address</p>
+                    <Input placeholder="House No, Building, Area" {...register('street')} className="rounded-2xl h-12 bg-white border-border focus:border-secondary" />
                     {errors.street && <p className="text-[10px] font-bold text-red-500">{errors.street.message}</p>}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="space-y-2">
-                       <p className="text-xs font-black uppercase tracking-widest text-slate-400 pl-1">Pincode</p>
-                       <Input placeholder="6 digits" {...register('pincode')} className="rounded-2xl h-12 bg-white" />
+                       <p className="text-xs font-black uppercase tracking-widest text-muted pl-1">Pincode</p>
+                       <Input placeholder="6 digits" {...register('pincode')} className="rounded-2xl h-12 bg-white border-border focus:border-secondary" />
                        {errors.pincode && <p className="text-[10px] font-bold text-red-500">{errors.pincode.message}</p>}
                     </div>
                     <div className="space-y-2">
-                       <p className="text-xs font-black uppercase tracking-widest text-slate-400 pl-1">City</p>
-                       <Input placeholder="Enter city" {...register('city')} className="rounded-2xl h-12 bg-white" />
+                       <p className="text-xs font-black uppercase tracking-widest text-muted pl-1">City</p>
+                       <Input placeholder="Enter city" {...register('city')} className="rounded-2xl h-12 bg-white border-border focus:border-secondary" />
                        {errors.city && <p className="text-[10px] font-bold text-red-500">{errors.city.message}</p>}
                     </div>
                     <div className="space-y-2">
-                       <p className="text-xs font-black uppercase tracking-widest text-slate-400 pl-1">State</p>
+                       <p className="text-xs font-black uppercase tracking-widest text-muted pl-1">State</p>
                        <select 
                          {...register('state')}
-                         className="w-full h-12 rounded-2xl bg-white border border-slate-200 px-4 text-sm font-medium focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none"
+                         className="w-full h-12 rounded-2xl bg-white border border-border px-4 text-sm font-medium focus:ring-2 focus:ring-secondary/20 transition-all outline-none appearance-none"
                        >
                          <option value="">Select State</option>
                          {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -200,15 +200,15 @@ export default function AddressForm({ selectedId, onSelect, onNext }: AddressFor
                   </div>
 
                   <div className="space-y-2">
-                    <p className="text-xs font-black uppercase tracking-widest text-slate-400 pl-1">Landmark (Optional)</p>
-                    <Input placeholder="E.g. Near Apollo Hospital" {...register('landmark')} className="rounded-2xl h-12 bg-white" />
+                    <p className="text-xs font-black uppercase tracking-widest text-muted pl-1">Landmark (Optional)</p>
+                    <Input placeholder="E.g. Near Apollo Hospital" {...register('landmark')} className="rounded-2xl h-12 bg-white border-border focus:border-secondary" />
                   </div>
 
                   <div className="flex items-center gap-2">
                     {/* Placeholder for Checkbox if implemented as component, otherwise using a simple div for now */}
                     <div className="flex items-center gap-3">
                          <input type="checkbox" id="isDefault" {...register('isDefault')} className="w-5 h-5 accent-secondary cursor-pointer" />
-                         <label htmlFor="isDefault" className="text-xs font-bold text-slate-600 uppercase tracking-widest cursor-pointer">Set as default address</label>
+                         <label htmlFor="isDefault" className="text-xs font-bold text-muted uppercase tracking-widest cursor-pointer">Set as default address</label>
                     </div>
                   </div>
 
@@ -223,7 +223,7 @@ export default function AddressForm({ selectedId, onSelect, onNext }: AddressFor
                       type="button" 
                       variant="ghost" 
                       onClick={() => setShowNewForm(false)}
-                      className="h-14 px-8 rounded-2xl text-slate-400 font-bold"
+                      className="h-14 px-8 rounded-2xl text-muted font-bold hover:bg-cream"
                     >
                       Cancel
                     </Button>
@@ -244,7 +244,7 @@ export default function AddressForm({ selectedId, onSelect, onNext }: AddressFor
         </Button>
       </div>
 
-      <p className="text-center text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] px-12">
+      <p className="text-center text-[10px] font-black text-muted uppercase tracking-[0.2em] px-12">
         🏠 We currently deliver only in major metropolitan areas for maximum freshness.
       </p>
     </div>

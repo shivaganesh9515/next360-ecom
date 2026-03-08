@@ -95,7 +95,7 @@ export default function CouponsPage() {
       accessorKey: 'code',
       header: 'Code',
       cell: (row: any) => (
-        <span className="font-mono font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded">
+        <span className="font-mono font-bold text-text bg-border/40 px-2 py-1 rounded">
           {row.code}
         </span>
       )
@@ -117,7 +117,7 @@ export default function CouponsPage() {
       accessorKey: 'usageCount',
       header: 'Usage',
       cell: (row: any) => (
-        <span className="text-sm text-gray-600">
+        <span className="text-sm text-muted">
           {row.usageCount} {row.usageLimit ? `/ ${row.usageLimit}` : 'uses'}
         </span>
       )
@@ -129,7 +129,7 @@ export default function CouponsPage() {
         const date = new Date(row.expiresAt)
         const isExpired = date < new Date()
         return (
-          <span className={`text-sm ${isExpired ? 'text-red-500 font-medium' : 'text-gray-600'}`}>
+          <span className={`text-sm ${isExpired ? 'text-red-500 font-medium' : 'text-muted'}`}>
             {format(date, 'MMM d, yyyy')}
           </span>
         )
@@ -140,7 +140,7 @@ export default function CouponsPage() {
       header: 'Status',
       cell: (row: any) => (
         <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${
-          row.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+          row.isActive ? 'bg-green-100 text-green-800' : 'bg-border/40 text-text'
         }`}>
           {row.isActive ? 'ACTIVE' : 'INACTIVE'}
         </span>
@@ -152,7 +152,7 @@ export default function CouponsPage() {
         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <button 
             onClick={() => handleEdit(row.original)}
-            className="p-2 text-gray-400 hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
+            className="p-2 text-muted hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
           >
             <Edit className="w-4 h-4" />
           </button>
@@ -162,7 +162,7 @@ export default function CouponsPage() {
                 deleteMutation.mutate(row.id)
               }
             }}
-            className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50"
+            className="p-2 text-muted hover:text-red-600 transition-colors rounded-lg hover:bg-red-50"
           >
             <Trash2 className="w-4 h-4" />
           </button>
@@ -177,7 +177,7 @@ export default function CouponsPage() {
     <div className="animate-in fade-in duration-500 pb-20">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-2xl font-display font-semibold text-gray-900">Discount Coupons</h2>
+          <h2 className="text-2xl font-display font-semibold text-text">Discount Coupons</h2>
           <p className="text-muted text-sm mt-1">Manage promotional codes and offers.</p>
         </div>
         <Button onClick={() => setIsModalOpen(true)} className="flex items-center gap-2">
@@ -185,7 +185,7 @@ export default function CouponsPage() {
         </Button>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-sm border border-border overflow-hidden">
         {isLoading ? (
           <div className="p-12 flex justify-center">
             <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
@@ -203,7 +203,7 @@ export default function CouponsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden max-h-[90vh] flex flex-col">
             <div className="p-6 border-b border-border shrink-0">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-text">
                 {editingCoupon ? 'Edit Coupon' : 'Create New Coupon'}
               </h3>
             </div>
@@ -213,16 +213,16 @@ export default function CouponsPage() {
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Coupon Code</label>
+                    <label className="block text-sm font-medium text-text mb-1">Coupon Code</label>
                     <div className="relative">
-                      <Tag className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                      <Tag className="w-4 h-4 text-muted absolute left-3 top-1/2 -translate-y-1/2" />
                       <Input {...register('code')} placeholder="e.g. SUMMER50" className="pl-9 uppercase" />
                     </div>
                     {errors.code && <p className="text-xs text-red-500 mt-1">{errors.code.message}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Discount Type</label>
+                    <label className="block text-sm font-medium text-text mb-1">Discount Type</label>
                     <select 
                       {...register('discountType')}
                       className="w-full h-11 px-4 border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
@@ -233,7 +233,7 @@ export default function CouponsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-text mb-1">
                       Value {discountType === 'PERCENTAGE' ? '(%)' : '(₹)'}
                     </label>
                     <Input type="number" step="0.01" {...register('discountValue')} />
@@ -241,24 +241,24 @@ export default function CouponsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Min Order Value (₹)</label>
+                    <label className="block text-sm font-medium text-text mb-1">Min Order Value (₹)</label>
                     <Input type="number" {...register('minOrderValue')} placeholder="Optional" />
                   </div>
 
                   {discountType === 'PERCENTAGE' && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Max Discount (₹)</label>
+                      <label className="block text-sm font-medium text-text mb-1">Max Discount (₹)</label>
                       <Input type="number" {...register('maxDiscount')} placeholder="Optional" />
                     </div>
                   )}
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Usage Limit</label>
+                    <label className="block text-sm font-medium text-text mb-1">Usage Limit</label>
                     <Input type="number" {...register('usageLimit')} placeholder="Optional (e.g. 100)" />
                   </div>
 
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Expiration Date & Time</label>
+                    <label className="block text-sm font-medium text-text mb-1">Expiration Date & Time</label>
                     <Input type="datetime-local" {...register('expiresAt')} />
                     {errors.expiresAt && <p className="text-xs text-red-500 mt-1">{errors.expiresAt.message}</p>}
                   </div>
@@ -266,7 +266,7 @@ export default function CouponsPage() {
                   <div className="col-span-2 pt-2">
                     <label className="flex items-center gap-3 cursor-pointer">
                       <input type="checkbox" {...register('isActive')} className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
-                      <span className="text-sm font-medium text-gray-900">Coupon is active</span>
+                      <span className="text-sm font-medium text-text">Coupon is active</span>
                     </label>
                   </div>
 
@@ -274,7 +274,7 @@ export default function CouponsPage() {
               </form>
             </div>
             
-            <div className="p-4 border-t border-border flex justify-end gap-3 bg-gray-50 shrink-0">
+            <div className="p-4 border-t border-border flex justify-end gap-3 bg-black/5 shrink-0">
               <Button type="button" variant="outline" onClick={handleClose}>Cancel</Button>
               <Button type="submit" form="coupon-form" isLoading={saveMutation.isPending}>
                 {editingCoupon ? 'Save Changes' : 'Create Coupon'}

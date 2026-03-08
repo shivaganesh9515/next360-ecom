@@ -35,7 +35,7 @@ export default function NewProductPage() {
   return (
     <div className="animate-in fade-in duration-500 pb-20">
       <div className="mb-6">
-        <h2 className="text-2xl font-display font-semibold text-gray-900">Add New Product</h2>
+        <h2 className="text-2xl font-display font-semibold text-text">Add New Product</h2>
         <p className="text-muted text-sm mt-1">Create a new product for the catalogue.</p>
       </div>
 

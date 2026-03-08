@@ -2,15 +2,15 @@ import { vi } from 'vitest'
 
 // Mock common middlewares
 vi.mock('../../middleware/auth', () => ({
-  authenticate: vi.fn((req, res, next) => {
+  authenticate: vi.fn((req: any, res: any, next: any) => {
     req.user = { id: 'user-123', email: 'test@example.com', role: 'CUSTOMER' }
     next()
   }),
-  optionalAuth: vi.fn((req, res, next) => {
+  optionalAuth: vi.fn((req: any, res: any, next: any) => {
     req.user = { id: 'user-123', email: 'test@example.com', role: 'CUSTOMER' }
     next()
   }),
-  requireRole: vi.fn((role) => (req, res, next) => next()),
+  requireRole: vi.fn((role: any) => (req: any, res: any, next: any) => next()),
 }))
 
 vi.mock('../../middleware/rateLimit', () => {

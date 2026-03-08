@@ -24,28 +24,23 @@ export const QuantitySelector: React.FC<QuantitySelectorProps> = ({
   className,
 }) => {
   const handleDecrement = () => {
-    if (value > min) {
-      onChange(value - 1)
-    }
+    if (value > min) onChange(value - 1)
   }
 
   const handleIncrement = () => {
-    if (value < max) {
-      onChange(value + 1)
-    }
+    if (value < max) onChange(value + 1)
   }
 
   const sizes = {
-    sm: { container: 'h-8 text-sm', button: 'w-8', icon: 'w-3 h-3' },
-    md: { container: 'h-10 text-base', button: 'w-10', icon: 'w-4 h-4' },
+    sm: { button: 'w-8 h-8', icon: 'w-3 h-3', text: 'text-sm' },
+    md: { button: 'w-9 h-9', icon: 'w-4 h-4', text: 'text-sm' },
   }
 
   return (
     <div
       className={cn(
-        'inline-flex items-center border border-border rounded-xl overflow-hidden bg-white',
+        'inline-flex items-center rounded-xl border border-border bg-white',
         disabled && 'opacity-50 pointer-events-none',
-        sizes[size].container,
         className
       )}
     >
@@ -54,16 +49,16 @@ export const QuantitySelector: React.FC<QuantitySelectorProps> = ({
         onClick={handleDecrement}
         disabled={disabled || value <= min}
         className={cn(
-          'flex items-center justify-center hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed',
-          sizes[size].button,
-          'h-full border-r border-border'
+          'flex items-center justify-center hover:bg-cream active:bg-cream/60 transition-colors',
+          'disabled:opacity-30 disabled:cursor-not-allowed',
+          sizes[size].button
         )}
         aria-label="Decrease quantity"
       >
         <Minus className={sizes[size].icon} />
       </button>
 
-      <div className="flex-1 flex items-center justify-center font-medium min-w-[3rem]">
+      <div className={cn('px-4 font-semibold font-sans text-text border-x border-border', sizes[size].text)}>
         {value}
       </div>
 
@@ -72,9 +67,9 @@ export const QuantitySelector: React.FC<QuantitySelectorProps> = ({
         onClick={handleIncrement}
         disabled={disabled || value >= max}
         className={cn(
-          'flex items-center justify-center hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed',
-          sizes[size].button,
-          'h-full border-l border-border'
+          'flex items-center justify-center hover:bg-cream active:bg-cream/60 transition-colors',
+          'disabled:opacity-30 disabled:cursor-not-allowed',
+          sizes[size].button
         )}
         aria-label="Increase quantity"
       >

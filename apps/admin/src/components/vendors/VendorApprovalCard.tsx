@@ -9,7 +9,7 @@ interface VendorApprovalCardProps {
 
 export function VendorApprovalCard({ vendor, onApprove, onReject, isProcessing }: VendorApprovalCardProps) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+    <div className="bg-white rounded-2xl shadow-sm border border-border p-6">
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
         
         {/* Vendor Info */}
@@ -19,29 +19,29 @@ export function VendorApprovalCard({ vendor, onApprove, onReject, isProcessing }
               <Store className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">{vendor.storeName}</h3>
-              <p className="text-sm text-gray-500">Applied by {vendor.user?.name}</p>
+              <h3 className="text-lg font-semibold text-text">{vendor.storeName}</h3>
+              <p className="text-sm text-muted">Applied by {vendor.user?.name}</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-600">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-muted">
             <div className="flex items-center gap-2">
-              <Mail className="w-4 h-4 text-gray-400" />
+              <Mail className="w-4 h-4 text-muted" />
               {vendor.user?.email}
             </div>
             <div className="flex items-center gap-2">
-              <Phone className="w-4 h-4 text-gray-400" />
+              <Phone className="w-4 h-4 text-muted" />
               {vendor.phone || 'N/A'}
             </div>
             <div className="flex items-start gap-2 sm:col-span-2">
-              <MapPin className="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
+              <MapPin className="w-4 h-4 text-muted mt-0.5 shrink-0" />
               <span>{vendor.address}, {vendor.city}, {vendor.state} {vendor.pinCode}</span>
             </div>
           </div>
 
           {vendor.description && (
-            <div className="pt-4 border-t border-gray-100">
-              <p className="text-sm text-gray-700 leading-relaxed">
+            <div className="pt-4 border-t border-border">
+              <p className="text-sm text-text leading-relaxed">
                 "{vendor.description}"
               </p>
             </div>

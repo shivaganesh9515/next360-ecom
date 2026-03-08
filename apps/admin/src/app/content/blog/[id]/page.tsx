@@ -69,11 +69,11 @@ export default function EditBlogPostPage({ params }: { params: Promise<{ id: str
   return (
     <div className="animate-in fade-in duration-500 pb-20">
       <div className="mb-6 flex items-center gap-4">
-        <Link href="/content/blog" className="p-2 border border-border rounded-xl hover:bg-gray-50 text-gray-500 transition-colors">
+        <Link href="/content/blog" className="p-2 border border-border rounded-xl hover:bg-black/5 text-muted transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h2 className="text-2xl font-display font-semibold text-gray-900 leading-none">Edit Blog Post</h2>
+          <h2 className="text-2xl font-display font-semibold text-text leading-none">Edit Blog Post</h2>
         </div>
       </div>
 
@@ -81,12 +81,12 @@ export default function EditBlogPostPage({ params }: { params: Promise<{ id: str
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white p-6 rounded-2xl border border-border shadow-sm space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Post Title</label>
+              <label className="block text-sm font-medium text-text mb-1">Post Title</label>
               <Input {...register('title')} onChange={handleTitleChange} className="text-lg font-medium" />
               {errors.title && <p className="text-xs text-red-500 mt-1">{errors.title.message}</p>}
             </div>
             <div>
-               <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
+               <label className="block text-sm font-medium text-text mb-1">Content</label>
                <BlogEditor content={content || ''} onChange={(html) => setValue('content', html, { shouldValidate: true })} />
                {errors.content && <p className="text-xs text-red-500 mt-1">{errors.content.message}</p>}
             </div>
@@ -95,23 +95,23 @@ export default function EditBlogPostPage({ params }: { params: Promise<{ id: str
 
         <div className="space-y-6">
           <div className="bg-white p-6 rounded-2xl border border-border shadow-sm space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 border-b border-border pb-4">Publishing</h3>
+            <h3 className="text-lg font-semibold text-text border-b border-border pb-4">Publishing</h3>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">URL Slug</label>
+              <label className="block text-sm font-medium text-text mb-1">URL Slug</label>
               <Input {...register('slug')} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Short Excerpt</label>
+              <label className="block text-sm font-medium text-text mb-1">Short Excerpt</label>
               <textarea {...register('excerpt')} className="w-full h-24 px-4 py-2 border rounded-xl focus:ring-2 focus:ring-primary/20 text-sm outline-none resize-none font-sans" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Cover Image URL</label>
+              <label className="block text-sm font-medium text-text mb-1">Cover Image URL</label>
               <Input {...register('imageUrl')} />
             </div>
             <div className="pt-4 mt-2 border-t border-border">
               <label className="flex items-center gap-3 cursor-pointer mb-6">
                 <input type="checkbox" {...register('isPublished')} className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
-                <span className="text-sm font-medium text-gray-900">Publish immediately</span>
+                <span className="text-sm font-medium text-text">Publish immediately</span>
               </label>
               <Button type="submit" size="lg" className="w-full" isLoading={mutation.isPending}>
                 Save Changes

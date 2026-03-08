@@ -37,11 +37,11 @@ export default function VendorDetailsPage({ params }: { params: Promise<{ id: st
   return (
     <div className="animate-in fade-in duration-500 pb-20">
       <div className="mb-6 flex items-center gap-4">
-        <Link href="/vendors" className="p-2 border border-border rounded-xl hover:bg-gray-50 text-gray-500 transition-colors">
+        <Link href="/vendors" className="p-2 border border-border rounded-xl hover:bg-black/5 text-muted transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h2 className="text-2xl font-display font-semibold text-gray-900 leading-none">
+          <h2 className="text-2xl font-display font-semibold text-text leading-none">
             {vendor.storeName}
           </h2>
           <div className="flex items-center gap-2 mt-2">
@@ -54,7 +54,7 @@ export default function VendorDetailsPage({ params }: { params: Promise<{ id: st
                 <Clock className="w-3.5 h-3.5" /> {vendor.status}
               </span>
             )}
-            <span className="text-xs text-gray-500 px-2.5 py-0.5 rounded-full bg-gray-100 font-medium">
+            <span className="text-xs text-muted px-2.5 py-0.5 rounded-full bg-border/40 font-medium">
               {vendor.commissionRate}% Commission
             </span>
           </div>
@@ -65,29 +65,29 @@ export default function VendorDetailsPage({ params }: { params: Promise<{ id: st
         
         {/* Left Col: Info & Payouts */}
         <div className="space-y-6">
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 pb-4 border-b border-gray-100">Contact & Legal</h3>
-            <div className="space-y-4 text-sm text-gray-600">
+          <div className="bg-white rounded-2xl border border-border shadow-sm p-6">
+            <h3 className="text-lg font-semibold text-text mb-4 pb-4 border-b border-border">Contact & Legal</h3>
+            <div className="space-y-4 text-sm text-muted">
               <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-gray-400" />
+                <Mail className="w-4 h-4 text-muted" />
                 {vendor.user?.email}
               </div>
               <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-gray-400" />
+                <Phone className="w-4 h-4 text-muted" />
                 {vendor.phone || 'N/A'}
               </div>
               <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
+                <MapPin className="w-4 h-4 text-muted mt-0.5" />
                 <span>{vendor.address}, {vendor.city}, {vendor.state} {vendor.pinCode}</span>
               </div>
             </div>
             
             {(vendor.gstNumber || vendor.panNumber) && (
-              <div className="mt-6 pt-6 border-t border-gray-100">
-                <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Tax Documents</h4>
+              <div className="mt-6 pt-6 border-t border-border">
+                <h4 className="text-xs font-semibold text-muted uppercase tracking-widest mb-3">Tax Documents</h4>
                 <div className="space-y-2 text-sm">
-                  {vendor.gstNumber && <p><strong className="text-gray-900">GST:</strong> {vendor.gstNumber}</p>}
-                  {vendor.panNumber && <p><strong className="text-gray-900">PAN:</strong> {vendor.panNumber}</p>}
+                  {vendor.gstNumber && <p><strong className="text-text">GST:</strong> {vendor.gstNumber}</p>}
+                  {vendor.panNumber && <p><strong className="text-text">PAN:</strong> {vendor.panNumber}</p>}
                 </div>
               </div>
             )}
@@ -98,10 +98,10 @@ export default function VendorDetailsPage({ params }: { params: Promise<{ id: st
 
         {/* Right Col: Products */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">Vendor Products</h3>
-              <span className="text-sm font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+          <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+            <div className="p-6 border-b border-border flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-text">Vendor Products</h3>
+              <span className="text-sm font-medium text-muted bg-border/40 px-3 py-1 rounded-full">
                 {vendor.products?.length || 0} items
               </span>
             </div>

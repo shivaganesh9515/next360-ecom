@@ -17,21 +17,21 @@ export default function CategoriesPage() {
     {
       accessorKey: 'name',
       header: 'Category Name',
-      cell: (row: any) => <span className="font-semibold text-gray-900">{row.name}</span>
+      cell: (row: any) => <span className="font-semibold text-text">{row.name}</span>
     },
     {
       accessorKey: 'slug',
       header: 'Slug',
-      cell: (row: any) => <span className="text-gray-500 font-mono text-sm">{row.slug}</span>
+      cell: (row: any) => <span className="text-muted font-mono text-sm">{row.slug}</span>
     },
     {
       id: 'actions',
       cell: (row: any) => (
         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button className="p-2 text-gray-400 hover:text-primary transition-colors rounded-lg hover:bg-primary/5">
+          <button className="p-2 text-muted hover:text-primary transition-colors rounded-lg hover:bg-primary/5">
             <Edit className="w-4 h-4" />
           </button>
-          <button className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50">
+          <button className="p-2 text-muted hover:text-red-600 transition-colors rounded-lg hover:bg-red-50">
             <Trash2 className="w-4 h-4" />
           </button>
         </div>
@@ -45,7 +45,7 @@ export default function CategoriesPage() {
     <div className="animate-in fade-in duration-500 pb-20">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-display font-semibold text-gray-900">Categories</h2>
+          <h2 className="text-2xl font-display font-semibold text-text">Categories</h2>
           <p className="text-muted text-sm mt-1">Manage product classification.</p>
         </div>
         <Button className="flex items-center gap-2">
@@ -53,7 +53,7 @@ export default function CategoriesPage() {
         </Button>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-sm border border-border overflow-hidden">
         {isLoading ? (
            <div className="p-12 flex justify-center">
              <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />

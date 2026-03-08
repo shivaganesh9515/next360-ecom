@@ -52,7 +52,7 @@ describe('Auth Service', () => {
   describe('register', () => {
     it('should create a user and return tokens', async () => {
       vi.mocked(prisma.user.findUnique).mockResolvedValue(null)
-      vi.mocked(bcrypt.hash).mockResolvedValue('hashed-password')
+      vi.mocked(bcrypt.hash).mockResolvedValue('hashed-password' as any)
       vi.mocked(prisma.user.create).mockResolvedValue(mockUser as any)
       vi.mocked(tokens.generateAccessToken).mockReturnValue('access-token')
       vi.mocked(tokens.generateRefreshToken).mockReturnValue('refresh-token')
@@ -80,7 +80,7 @@ describe('Auth Service', () => {
   describe('login', () => {
     it('should return tokens on valid credentials', async () => {
       vi.mocked(prisma.user.findUnique).mockResolvedValue(mockUser as any)
-      vi.mocked(bcrypt.compare).mockResolvedValue(true)
+      vi.mocked(bcrypt.compare).mockResolvedValue(true as any)
       vi.mocked(tokens.generateAccessToken).mockReturnValue('access-token')
       vi.mocked(tokens.generateRefreshToken).mockReturnValue('refresh-token')
 
@@ -92,7 +92,7 @@ describe('Auth Service', () => {
 
     it('should throw UNAUTHORIZED on invalid password', async () => {
       vi.mocked(prisma.user.findUnique).mockResolvedValue(mockUser as any)
-      vi.mocked(bcrypt.compare).mockResolvedValue(false)
+      vi.mocked(bcrypt.compare).mockResolvedValue(false as any)
 
       await expect(authService.login('test@example.com', 'wrong'))
         .rejects.toThrow('Invalid email or password')

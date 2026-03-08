@@ -20,7 +20,7 @@ export default function SubscriptionsPage() {
     {
       accessorKey: 'user.name',
       header: 'Customer',
-      cell: (row: any) => <span className="font-medium text-gray-900">{row.user?.name || 'Guest'}</span>
+      cell: (row: any) => <span className="font-medium text-text">{row.user?.name || 'Guest'}</span>
     },
     {
       accessorKey: 'box.name',
@@ -42,7 +42,7 @@ export default function SubscriptionsPage() {
       header: 'Status',
       cell: (row: any) => (
         <span className={`px-2.5 py-1 text-xs font-semibold rounded-full uppercase tracking-widest ${
-          row.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+          row.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-border/40 text-text'
         }`}>
           {row.status}
         </span>
@@ -55,11 +55,11 @@ export default function SubscriptionsPage() {
   return (
     <div className="animate-in fade-in duration-500 pb-20">
       <div className="mb-8">
-        <h2 className="text-2xl font-display font-semibold text-gray-900">Recurring Subscriptions</h2>
+        <h2 className="text-2xl font-display font-semibold text-text">Recurring Subscriptions</h2>
         <p className="text-muted text-sm mt-1">Monitor and manage automated deliveries.</p>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-sm border border-border overflow-hidden">
         {isLoading ? (
           <div className="p-12 flex justify-center">
             <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />

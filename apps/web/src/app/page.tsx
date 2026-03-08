@@ -8,7 +8,6 @@ import SubscriptionBanner from '@/components/home/SubscriptionBanner'
 import SeasonalSection from '@/components/home/SeasonalSection'
 import Testimonials from '@/components/home/Testimonials'
 import ImpactNumbers from '@/components/home/ImpactNumbers'
-import BlogTeaser from '@/components/home/BlogTeaser'
 import NewsletterBanner from '@/components/home/NewsletterBanner'
 
 export const metadata = {
@@ -27,7 +26,6 @@ export default function HomePage() {
       <SeasonalSection />
       <Testimonials />
       <ImpactNumbers />
-      <BlogTeaser />
       <NewsletterBanner />
     </main>
   )

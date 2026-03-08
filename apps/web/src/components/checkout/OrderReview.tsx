@@ -75,7 +75,7 @@ export default function OrderReview({
   return (
     <div className="space-y-6">
       {/* Items Summary */}
-      <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm">
+      <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
         <div className="flex items-center justify-between mb-8">
            <h2 className="font-display text-2xl font-bold text-primary flex items-center gap-2">
             <span className="w-8 h-8 rounded-xl bg-primary/5 text-primary flex items-center justify-center border border-primary/10">
@@ -94,7 +94,7 @@ export default function OrderReview({
         <div className="space-y-6">
            {items.map((item) => (
              <div key={item.id} className="flex gap-4 items-center group">
-                <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 shrink-0">
+                <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-cream border border-border shrink-0">
                    <Image 
                       src={item.product.images[0]} 
                       alt={item.product.name}
@@ -103,10 +103,10 @@ export default function OrderReview({
                    />
                 </div>
                 <div className="flex-1">
-                   <p className="font-bold text-slate-800 text-sm line-clamp-1">{item.product.name}</p>
+                   <p className="font-bold text-text text-sm line-clamp-1">{item.product.name}</p>
                    <div className="flex items-center gap-2 mt-1">
-                      <Badge variant="info" className="text-[9px] h-4 px-1.5 border-slate-200 text-slate-400 font-black">{item.selectedWeight}</Badge>
-                      <span className="text-[10px] font-bold text-slate-300">QTY: {item.quantity}</span>
+                      <Badge variant="info" className="text-[9px] h-4 px-1.5 border-border text-muted font-black">{item.selectedWeight}</Badge>
+                      <span className="text-[10px] font-bold text-muted">QTY: {item.quantity}</span>
                    </div>
                 </div>
                 <div className="text-right">
@@ -119,54 +119,54 @@ export default function OrderReview({
 
       {/* Delivery & Payment Details */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-         <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm">
-            <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 flex items-center justify-between">
+         <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
+            <h3 className="text-xs font-black uppercase tracking-widest text-muted mb-6 flex items-center justify-between">
                Delivery To
                <button onClick={onBack} className="text-secondary hover:underline">Change</button>
             </h3>
             <div className="space-y-2">
-               <p className="font-black text-slate-800">{address.name}</p>
-               <p className="text-slate-500 text-xs font-medium leading-relaxed">
+               <p className="font-black text-text">{address.name}</p>
+               <p className="text-muted text-xs font-medium leading-relaxed">
                   {address.street}, {address.city}, {address.state} - {address.pincode}
                </p>
-               <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest pt-2">
+               <p className="text-muted text-[10px] font-bold uppercase tracking-widest pt-2">
                   📞 {address.phone}
                </p>
             </div>
          </div>
 
-         <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm">
-            <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 flex items-center justify-between">
+         <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
+            <h3 className="text-xs font-black uppercase tracking-widest text-muted mb-6 flex items-center justify-between">
                Payment
                <button onClick={onBack} className="text-secondary hover:underline">Change</button>
             </h3>
-            <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+            <div className="flex items-center gap-4 bg-cream p-4 rounded-2xl border border-border">
                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm">
                   {selectedPaymentMethod === 'cod' ? <Banknote size={20} /> : <CreditCard size={20} />}
                </div>
                <div>
-                  <p className="font-black text-slate-800 text-sm">{PAYMENT_LABELS[selectedPaymentMethod] || selectedPaymentMethod}</p>
-                  <p className="text-slate-400 text-[9px] font-black uppercase tracking-widest mt-0.5">Verified SECURE</p>
+                  <p className="font-black text-text text-sm">{PAYMENT_LABELS[selectedPaymentMethod] || selectedPaymentMethod}</p>
+                  <p className="text-muted text-[9px] font-black uppercase tracking-widest mt-0.5">Verified SECURE</p>
                </div>
             </div>
          </div>
       </div>
 
-      <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm">
+      <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
          <h3 className="font-display text-xl font-bold text-primary mb-6">Final Summary</h3>
          
          <div className="space-y-4 mb-8">
             <div className="flex justify-between items-center text-sm font-medium">
-              <span className="text-slate-500">Items Subtotal ({itemCount})</span>
-              <span className="text-slate-800">{formatPrice(subtotal)}</span>
+              <span className="text-muted">Items Subtotal ({itemCount})</span>
+              <span className="text-text">{formatPrice(subtotal)}</span>
             </div>
             
             <div className="flex justify-between items-center text-sm font-medium">
-              <span className="text-slate-500">Delivery Fee</span>
+              <span className="text-muted">Delivery Fee</span>
               {deliveryFee === 0 ? (
                 <span className="text-secondary font-bold">FREE</span>
               ) : (
-                <span className="text-slate-800">{formatPrice(deliveryFee)}</span>
+                <span className="text-text">{formatPrice(deliveryFee)}</span>
               )}
             </div>
 
@@ -184,7 +184,7 @@ export default function OrderReview({
               </div>
             )}
 
-            <div className="border-t border-slate-50 pt-6 mt-4 flex items-center justify-between">
+            <div className="border-t border-border pt-6 mt-4 flex items-center justify-between">
                <span className="font-display text-2xl font-bold text-primary">Order Total</span>
                <span className="font-display text-3xl font-black text-primary tracking-tighter">{formatPrice(total)}</span>
             </div>
@@ -215,14 +215,14 @@ export default function OrderReview({
             <Button 
                variant="ghost" 
                onClick={onBack}
-               className="h-14 rounded-2xl text-slate-400 font-bold"
+               className="h-14 rounded-2xl text-muted font-bold hover:bg-cream"
             >
                <ArrowLeft size={18} className="mr-2" />
                Back to Payment
             </Button>
          </div>
 
-         <p className="mt-6 text-center text-[10px] text-slate-400 font-bold leading-relaxed max-w-sm mx-auto uppercase tracking-widest">
+         <p className="mt-6 text-center text-[10px] text-muted font-bold leading-relaxed max-w-sm mx-auto uppercase tracking-widest">
            By placing your order, you agree to Next360's <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link> and <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
          </p>
       </div>

@@ -19,3 +19,20 @@ export { PageHeader } from './PageHeader'
 export { EmptyState } from './EmptyState'
 export { ConfirmDialog } from './ConfirmDialog'
 export { DataTable } from './DataTable'
+
+// Animated components (Phase 1 — Advanced UI Upgrade)
+export { GlassCard } from './GlassCard'
+export { SmoothScrollProvider } from './SmoothScrollProvider'
+export { AnimatedCounter } from './AnimatedCounter'
+export { MagneticButton } from './MagneticButton'
+export { RevealText } from './RevealText'
+export { StaggerContainer } from './StaggerContainer'
+export { GradientBorder } from './GradientBorder'
+export { ShimmerSkeleton } from './ShimmerSkeleton'
+
+// Magic UI
+export { ShimmerButton } from './ShimmerButton'
+export { Marquee } from './Marquee'
+export { Meteors } from './Meteors'
+export { BentoGrid, BentoCard } from './BentoGrid'
+export { default as AnimatedGradientText } from './AnimatedGradientText'

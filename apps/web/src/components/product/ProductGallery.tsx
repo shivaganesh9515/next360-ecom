@@ -23,9 +23,9 @@ export default function ProductGallery({ images, name, isOrganic = true }: Produ
 
   return (
     <div className="space-y-4">
-      <div className="relative aspect-square rounded-[2rem] overflow-hidden bg-cream group cursor-zoom-in border border-slate-100 shadow-sm">
+      <div className="relative aspect-square rounded-[2rem] overflow-hidden bg-cream group cursor-zoom-in border border-border shadow-[0_1px_0_rgba(17,38,29,0.08),0_10px_26px_rgba(31,48,40,0.06)]">
         {isOrganic && (
-          <div className="absolute top-6 right-6 z-10">
+          <div className="absolute top-6 right-6 z-10 pointer-events-none">
             <Badge variant="success" size="md" className="bg-primary text-white border-none px-4 py-2 rounded-full font-bold shadow-lg shadow-primary/20">
               ✅ India Organic
             </Badge>
@@ -33,11 +33,20 @@ export default function ProductGallery({ images, name, isOrganic = true }: Produ
         )}
 
         <motion.div
-          animate={{ scale: isZoomed ? 1.2 : 1 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          animate={{ scale: isZoomed ? 1.5 : 1 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
           className="relative w-full h-full"
           onMouseEnter={() => setIsZoomed(true)}
-          onMouseLeave={() => setIsZoomed(false)}
+          onMouseLeave={(e) => {
+            setIsZoomed(false)
+            e.currentTarget.style.transformOrigin = 'center center'
+          }}
+          onMouseMove={(e) => {
+            const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
+            const x = ((e.clientX - left) / width) * 100
+            const y = ((e.clientY - top) / height) * 100
+            e.currentTarget.style.transformOrigin = `${x}% ${y}%`
+          }}
         >
           <Image
             src={activeImage}
@@ -57,7 +66,7 @@ export default function ProductGallery({ images, name, isOrganic = true }: Produ
             onClick={() => setActiveImage(img)}
             className={cn(
               "relative w-24 h-24 rounded-2xl overflow-hidden bg-cream shrink-0 transition-all duration-300 transform active:scale-95",
-              activeImage === img ? "ring-2 ring-primary ring-offset-2 scale-105" : "opacity-60 hover:opacity-100"
+              activeImage === img ? "ring-2 ring-primary ring-offset-2 ring-offset-cream scale-105" : "opacity-60 hover:opacity-100"
             )}
           >
             <Image
@@ -72,3 +81,5 @@ export default function ProductGallery({ images, name, isOrganic = true }: Produ
     </div>
   )
 }
+
+

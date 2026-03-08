@@ -8,9 +8,9 @@ import GoogleAuthButton from './GoogleAuthButton'
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-cream flex">
+    <div className="min-h-screen bg-transparent flex">
       {/* LEFT: Decorative Panel (hidden on mobile) */}
-      <div className="hidden lg:flex w-1/2 bg-primary flex-col justify-between relative overflow-hidden text-white p-12 xl:p-20">
+      <div className="hidden lg:flex w-1/2 bg-primary-dark flex-col justify-between relative overflow-hidden text-white p-12 xl:p-20">
         {/* Subtle background pattern/blobs could go here in future */}
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" 
              style={{ backgroundImage: 'radial-gradient(circle at 20% 150%, white 0%, transparent 50%)' }} />
@@ -54,24 +54,24 @@ export default function LoginPage() {
              <Link href="/" className="hidden lg:inline-flex font-display font-black text-2xl tracking-tight text-primary items-center gap-2 mb-12 hover:opacity-80 transition-opacity">
                 <span className="text-secondary">🌿</span> Next360
              </Link>
-            <h1 className="font-display text-4xl font-black text-slate-800 mb-3">Welcome Back 👋</h1>
-            <p className="text-slate-500 font-medium text-lg">Sign in to your account</p>
+            <h1 className="font-display text-4xl font-black text-text mb-3">Welcome Back 👋</h1>
+            <p className="text-muted font-medium text-lg">Sign in to your account</p>
           </div>
 
           <LoginForm />
 
           <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200"></div>
+              <div className="w-full border-t border-border"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 text-slate-400 font-medium bg-cream">or continue with</span>
+              <span className="px-4 text-muted font-medium bg-transparent">or continue with</span>
             </div>
           </div>
 
           <GoogleAuthButton />
 
-          <p className="mt-8 text-center text-slate-600 font-medium">
+          <p className="mt-8 text-center text-muted font-medium">
             Don't have an account?{' '}
             <Link href="/register" className="text-secondary hover:text-secondary-dark font-bold hover:underline underline-offset-4 transition-all">
               Create one →
@@ -82,3 +82,4 @@ export default function LoginPage() {
     </div>
   )
 }
+

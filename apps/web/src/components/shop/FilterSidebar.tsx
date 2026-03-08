@@ -36,18 +36,18 @@ const FilterSection = ({ title, children, defaultOpen = true }: FilterSectionPro
   const [isOpen, setIsOpen] = useState(defaultOpen)
 
   return (
-    <div className="border-b border-slate-100 last:border-none pb-6 mb-6 last:pb-0 last:mb-0">
+    <div className="border-b border-border/70 last:border-none pb-6 mb-6 last:pb-0 last:mb-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center justify-between w-full text-left group"
       >
-        <h3 className="text-sm font-bold text-slate-800 tracking-tight uppercase">
+        <h3 className="text-sm font-bold text-text tracking-tight uppercase">
           {title}
         </h3>
         <ChevronDown 
           size={18} 
           className={cn(
-            "text-slate-400 transition-transform duration-300",
+            "text-muted transition-transform duration-300",
             isOpen && "rotate-180"
           )} 
         />
@@ -109,8 +109,8 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
   }
 
   return (
-    <aside className="sticky top-24 h-[calc(100vh-120px)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-200">
-      <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
+    <aside className="sticky top-24 h-[calc(100vh-120px)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-border">
+      <div className="bg-white rounded-3xl border border-border/70 p-6 shadow-sm">
         {/* Category */}
         <FilterSection title="Category">
           <div className="space-y-2">
@@ -118,7 +118,7 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
               onClick={() => onChange({ category: 'all' })}
               className={cn(
                 "w-full text-left py-1 text-sm transition-colors",
-                filters.category === 'all' ? "text-primary font-bold" : "text-slate-500 hover:text-slate-800"
+                filters.category === 'all' ? "text-primary font-bold" : "text-muted hover:text-text"
               )}
             >
               All Categories
@@ -129,11 +129,11 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
                 onClick={() => onChange({ category: cat.slug })}
                 className={cn(
                   "flex items-center justify-between w-full text-left py-1 text-sm transition-colors",
-                  filters.category === cat.slug ? "text-primary font-bold" : "text-slate-500 hover:text-slate-800"
+                  filters.category === cat.slug ? "text-primary font-bold" : "text-muted hover:text-text"
                 )}
               >
-                <span>{cat.name}</span>
-                <span className="text-[10px] text-slate-300 font-mono">({cat._count?.products || 0})</span>
+                <span className="font-sans">{cat.name}</span>
+                <span className="text-[10px] text-muted font-mono">({cat._count?.products || 0})</span>
               </button>
             ))}
           </div>
@@ -144,22 +144,22 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
           <div className="space-y-4">
             <div className="flex gap-3">
               <div className="flex-1">
-                <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Min (₹)</label>
+                <label className="text-[10px] uppercase font-bold text-muted mb-1 block">Min (₹)</label>
                 <input 
                   type="number" 
                   value={filters.minPrice}
                   onChange={(e) => onChange({ minPrice: Number(e.target.value) })}
-                  className="w-full h-10 px-3 bg-slate-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 transition-all"
+                  className="w-full h-10 px-3 bg-cream border border-border rounded-xl text-sm focus:ring-2 focus:ring-primary/20 transition-all"
                   placeholder="0"
                 />
               </div>
               <div className="flex-1">
-                <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block">Max (₹)</label>
+                <label className="text-[10px] uppercase font-bold text-muted mb-1 block">Max (₹)</label>
                 <input 
                   type="number" 
                   value={filters.maxPrice}
                   onChange={(e) => onChange({ maxPrice: Number(e.target.value) })}
-                  className="w-full h-10 px-3 bg-slate-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 transition-all"
+                  className="w-full h-10 px-3 bg-cream border border-border rounded-xl text-sm focus:ring-2 focus:ring-primary/20 transition-all"
                   placeholder="5000"
                 />
               </div>
@@ -178,7 +178,7 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
                     "px-3 py-1.5 rounded-full text-[10px] font-bold border transition-all",
                     filters.minPrice === preset.min && filters.maxPrice === preset.max
                       ? "bg-primary text-white border-primary"
-                      : "bg-white text-slate-500 border-slate-100 hover:border-primary/30"
+                      : "bg-white text-muted border-border/70 hover:border-primary/30"
                   )}
                 >
                   {preset.label}
@@ -199,12 +199,12 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
                   "flex items-center gap-2 w-full p-2 rounded-xl border transition-all",
                   filters.rating === r
                     ? "bg-primary/5 border-primary/20"
-                    : "bg-white border-transparent hover:bg-slate-50"
+                    : "bg-surface border-transparent hover:bg-cream"
                 )}
               >
                 <div className="flex gap-0.5">
                   {r === 0 ? (
-                    <span className="text-xs text-slate-500 font-medium">Any rating</span>
+                    <span className="text-xs text-muted font-medium">Any rating</span>
                   ) : (
                     [...Array(5)].map((_, i) => (
                       <Star 
@@ -217,7 +217,7 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
                     ))
                   )}
                 </div>
-                {r > 0 && <span className="text-xs text-slate-500">& above</span>}
+                {r > 0 && <span className="text-xs text-muted">& above</span>}
               </button>
             ))}
           </div>
@@ -226,7 +226,7 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
         {/* Availability */}
         <FilterSection title="Availability">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-600">In Stock Only</span>
+            <span className="text-sm text-muted">In Stock Only</span>
             <Toggle 
               checked={filters.inStock} 
               onChange={(val) => onChange({ inStock: val })} 
@@ -246,7 +246,7 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
                 />
                 <label 
                   htmlFor={`cert-${cert}`}
-                  className="text-sm text-slate-600 cursor-pointer select-none"
+                  className="text-sm text-muted cursor-pointer select-none"
                 >
                   {cert}
                 </label>
@@ -267,7 +267,7 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
                 />
                 <label 
                   htmlFor={`goal-${goal.id}`}
-                  className="text-sm text-slate-600 cursor-pointer select-none flex items-center gap-2"
+                  className="text-sm text-muted cursor-pointer select-none flex items-center gap-2"
                 >
                   <span className="text-lg opacity-80">{goal.emoji}</span>
                   {goal.label}
@@ -278,7 +278,7 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
         </FilterSection>
 
         {isAnyFilterActive && (
-          <div className="pt-6 border-t border-slate-100">
+          <div className="pt-6 border-t border-border/70">
             <Button 
               variant="ghost" 
               size="sm"
@@ -293,3 +293,4 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
     </aside>
   )
 }
+

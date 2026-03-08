@@ -2,6 +2,7 @@
 
 import { m } from 'framer-motion';
 import { Leaf, ShieldCheck, Sprout, Recycle } from 'lucide-react';
+import { Marquee } from '@next360/ui';
 
 const benefits = [
   {
@@ -13,7 +14,7 @@ const benefits = [
   {
     icon: ShieldCheck,
     title: 'Chemical Free',
-    desc: 'No pesticides, no preservatives â€” just pure, honest, clean food.',
+    desc: 'No pesticides, no preservatives — just pure, honest, clean food.',
     color: 'bg-emerald-50 text-emerald-700',
   },
   {
@@ -25,20 +26,30 @@ const benefits = [
   {
     icon: Recycle,
     title: 'Eco Packaged',
-    desc: 'Recyclable and compostable packaging, always â€” zero compromise.',
+    desc: 'Recyclable and compostable packaging, always — zero compromise.',
     color: 'bg-amber-50 text-earth',
   },
 ];
 
+const certificates = [
+  'USDA Organic',
+  'Non-GMO Project Verified',
+  'Fair Trade Certified',
+  'Eco-Cert',
+  'Certified B Corp',
+  'Regenerative Organic Certified',
+  '100% Carbon Neutral'
+];
+
 const WhyOrganic = () => {
   return (
-    <section className="mt-14">
+    <section className="mt-14 overflow-hidden overflow-x-hidden">
       <div className="text-center mb-8">
         <h2 className="gc-display text-2xl sm:text-[30px] leading-[0.95] text-text">
           Why Choose Organic?
         </h2>
         <p className="mt-2 text-muted text-sm font-semibold">
-          Organic isn&apos;t just a label â€” it&apos;s a promise
+          Organic isn&apos;t just a label — it&apos;s a promise
         </p>
       </div>
 
@@ -59,6 +70,18 @@ const WhyOrganic = () => {
             <p className="mt-2 text-muted text-sm font-medium leading-relaxed">{item.desc}</p>
           </m.div>
         ))}
+      </div>
+
+      <div className="mt-24 mb-10 w-full relative">
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+        <Marquee pauseOnHover repeat={4} className="[--duration:40s]">
+          {certificates.map((cert) => (
+             <div key={cert} className="px-8 py-3 bg-surface-muted/50 rounded-full border border-border flex items-center justify-center font-bold text-muted/60 text-sm whitespace-nowrap">
+                 {cert}
+             </div>
+          ))}
+        </Marquee>
       </div>
     </section>
   );

@@ -86,11 +86,11 @@ export default function SubscriptionBanner() {
             </motion.div>
           </div>
           
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-white text-primary p-6 rounded-[2rem] shadow-2xl flex items-center gap-4 border border-slate-100 min-w-[280px]">
+          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-white text-primary p-6 rounded-[2rem] shadow-2xl flex items-center gap-4 border border-border min-w-[280px]">
             <div className="w-12 h-12 bg-cream rounded-2xl flex items-center justify-center text-2xl">🚛</div>
             <div>
               <p className="font-bold leading-tight">Fast Farm Delivery</p>
-              <p className="text-xs text-slate-500 font-medium tracking-wide font-sans underline underline-offset-2 decoration-primary/20">HYDERABAD · BANGALORE · MUMBAI</p>
+              <p className="text-xs text-muted font-medium tracking-wide font-sans underline underline-offset-2 decoration-primary/20">HYDERABAD · BANGALORE · MUMBAI</p>
             </div>
           </div>
         </div>

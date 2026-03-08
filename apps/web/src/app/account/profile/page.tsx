@@ -95,7 +95,7 @@ export default function ProfilePage() {
   return (
     <div className="space-y-6">
       {/* SECTION 1 - Avatar + Basic Info */}
-      <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm flex flex-col md:flex-row items-center gap-6">
+      <div className="bg-white rounded-2xl border border-border p-6 shadow-sm flex flex-col md:flex-row items-center gap-6">
         <div className="relative group cursor-pointer" onClick={() => toast.success("Photo upload coming soon")}>
           <div className="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center font-display text-4xl font-black shadow-lg shadow-primary/20 transition-transform group-hover:scale-105">
             {userInitials}
@@ -105,21 +105,21 @@ export default function ProfilePage() {
           </div>
         </div>
         <div className="text-center md:text-left">
-          <h2 className="font-display text-2xl font-black text-slate-800 mb-1 leading-tight">{user.name}</h2>
+          <h2 className="font-display text-2xl font-black text-text mb-1 leading-tight">{user.name}</h2>
           <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
-            <p className="text-slate-600 font-medium text-sm">{user.email}</p>
+            <p className="text-muted font-medium text-sm">{user.email}</p>
             {user.isVerified && <CheckCircle2 size={14} className="text-secondary" />}
           </div>
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+          <p className="text-[10px] font-bold text-muted uppercase tracking-widest">
             Member since {memberSince}
           </p>
         </div>
       </div>
 
       {/* SECTION 2 - Personal Details */}
-      <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-        <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
-          <h3 className="font-bold text-slate-800 uppercase tracking-widest text-sm">Personal Information</h3>
+      <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
+        <div className="flex justify-between items-center mb-6 border-b border-border pb-4">
+          <h3 className="font-bold text-text uppercase tracking-widest text-sm">Personal Information</h3>
           {!isEditing && (
             <Button variant="ghost" className="text-primary font-bold hover:bg-primary/5 py-1 px-3 h-auto" onClick={() => setIsEditing(true)}>
               Edit
@@ -130,13 +130,13 @@ export default function ProfilePage() {
         <form onSubmit={handleProfileSubmit(onProfileSave)} className="space-y-4 max-w-xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Full Name</label>
+              <label className="text-xs font-bold text-muted uppercase tracking-wider">Full Name</label>
               <input
                 {...registerProfile('name')}
                 disabled={!isEditing}
                 className={cn(
-                  "w-full px-4 py-3 rounded-xl border bg-slate-50 transition-colors font-medium text-slate-800",
-                  isEditing ? "border-slate-300 focus:border-primary focus:ring-1 focus:ring-primary bg-white" : "border-transparent",
+                  "w-full px-4 py-3 rounded-xl border bg-cream transition-colors font-medium text-text",
+                  isEditing ? "border-border focus:border-primary focus:ring-1 focus:ring-primary bg-white" : "border-transparent",
                   profileErrors.name && "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50"
                 )}
               />
@@ -144,13 +144,13 @@ export default function ProfilePage() {
             </div>
             
             <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Phone Number</label>
+              <label className="text-xs font-bold text-muted uppercase tracking-wider">Phone Number</label>
               <input
                 {...registerProfile('phone')}
                 disabled={!isEditing}
                 className={cn(
-                  "w-full px-4 py-3 rounded-xl border bg-slate-50 transition-colors font-medium text-slate-800",
-                  isEditing ? "border-slate-300 focus:border-primary focus:ring-1 focus:ring-primary bg-white" : "border-transparent",
+                  "w-full px-4 py-3 rounded-xl border bg-cream transition-colors font-medium text-text",
+                  isEditing ? "border-border focus:border-primary focus:ring-1 focus:ring-primary bg-white" : "border-transparent",
                   profileErrors.phone && "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50"
                 )}
               />
@@ -159,19 +159,19 @@ export default function ProfilePage() {
           </div>
           
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex justify-between">
+            <label className="text-xs font-bold text-muted uppercase tracking-wider flex justify-between">
               <span>Email Address</span>
-              <span className="text-slate-400 lowercase normal-case tracking-normal">(Cannot be changed)</span>
+              <span className="text-muted normal-case tracking-normal">(Cannot be changed)</span>
             </label>
             <input
               value={user.email}
               disabled
-              className="w-full px-4 py-3 rounded-xl border border-transparent bg-slate-50/50 text-slate-500 font-medium cursor-not-allowed"
+              className="w-full px-4 py-3 rounded-xl border border-transparent bg-cream/50 text-muted font-medium cursor-not-allowed"
             />
           </div>
 
           {isEditing && (
-            <div className="flex gap-3 pt-4 border-t border-slate-100">
+            <div className="flex gap-3 pt-4 border-t border-border">
               <Button type="button" variant="ghost" className="font-bold flex-1 md:flex-none" onClick={() => { setIsEditing(false); resetProfile(); }}>
                 Cancel
               </Button>
@@ -184,8 +184,8 @@ export default function ProfilePage() {
       </div>
 
       {/* SECTION 3 - Notification Preferences */}
-      <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-        <h3 className="font-bold text-slate-800 uppercase tracking-widest text-sm mb-6 border-b border-slate-100 pb-4">
+      <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
+        <h3 className="font-bold text-text uppercase tracking-widest text-sm mb-6 border-b border-border pb-4">
           Notification Preferences
         </h3>
 
@@ -199,19 +199,19 @@ export default function ProfilePage() {
       </div>
 
       {/* SECTION 4 - Change Password */}
-      <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-        <h3 className="font-bold text-slate-800 uppercase tracking-widest text-sm mb-6 border-b border-slate-100 pb-4">
+      <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
+        <h3 className="font-bold text-text uppercase tracking-widest text-sm mb-6 border-b border-border pb-4">
           Security
         </h3>
 
         <form onSubmit={handlePasswordSubmit(onPasswordSave)} className="space-y-4 max-w-xl">
           <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Current Password</label>
+            <label className="text-xs font-bold text-muted uppercase tracking-wider">Current Password</label>
             <input
               type="password"
               {...registerPassword('currentPassword')}
               className={cn(
-                "w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary transition-colors font-medium text-slate-800",
+                "w-full px-4 py-3 rounded-xl border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors font-medium text-text",
                 passwordErrors.currentPassword && "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50"
               )}
             />
@@ -220,12 +220,12 @@ export default function ProfilePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">New Password</label>
+              <label className="text-xs font-bold text-muted uppercase tracking-wider">New Password</label>
               <input
                 type="password"
                 {...registerPassword('newPassword')}
                 className={cn(
-                  "w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary transition-colors font-medium text-slate-800",
+                  "w-full px-4 py-3 rounded-xl border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors font-medium text-text",
                   passwordErrors.newPassword && "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50"
                 )}
               />
@@ -233,12 +233,12 @@ export default function ProfilePage() {
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Confirm New</label>
+              <label className="text-xs font-bold text-muted uppercase tracking-wider">Confirm New</label>
               <input
                 type="password"
                 {...registerPassword('confirmPassword')}
                 className={cn(
-                  "w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary transition-colors font-medium text-slate-800",
+                  "w-full px-4 py-3 rounded-xl border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors font-medium text-text",
                   passwordErrors.confirmPassword && "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50"
                 )}
               />
@@ -262,14 +262,14 @@ function ToggleRow({ label, desc, checked, onChange }: { label: string, desc: st
   return (
     <div className="flex items-center justify-between">
       <div>
-        <h4 className="font-bold text-slate-800 text-sm mb-0.5">{label}</h4>
-        <p className="text-xs font-medium text-slate-500">{desc}</p>
+        <h4 className="font-bold text-text text-sm mb-0.5">{label}</h4>
+        <p className="text-xs font-medium text-muted">{desc}</p>
       </div>
       <button 
         onClick={onChange}
         className={cn(
           "w-12 h-6 rounded-full transition-colors relative shadow-inner flex-shrink-0",
-          checked ? "bg-secondary" : "bg-slate-200"
+          checked ? "bg-secondary" : "bg-border"
         )}
       >
         <span 

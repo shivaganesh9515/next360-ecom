@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { X } from 'lucide-react'
+import { m, AnimatePresence } from 'framer-motion'
 import { ShopFilters } from './FilterSidebar'
 
 interface ActiveFiltersProps {
@@ -38,24 +39,36 @@ export default function ActiveFilters({ filters, onRemove, onClearAll }: ActiveF
   if (activeFilters.length === 0) return null
 
   return (
-    <div className="flex flex-wrap items-center gap-2 mb-6">
-      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">Active Filters:</span>
-      {activeFilters.map((filter, index) => (
-        <button
-          key={`${filter.key}-${filter.value || index}`}
-          onClick={() => onRemove(filter.key, filter.value)}
-          className="group flex items-center gap-1.5 px-3 py-1.5 bg-primary/5 hover:bg-primary/10 text-primary border border-primary/10 rounded-full transition-all"
-        >
-          <span className="text-xs font-medium">{filter.label}</span>
-          <X size={12} className="text-primary/40 group-hover:text-primary transition-colors" />
-        </button>
-      ))}
-      <button
+    <m.div layout className="flex flex-wrap items-center gap-2 mb-6">
+      <span className="text-xs font-bold text-muted uppercase tracking-wider mr-2">Active Filters:</span>
+      <AnimatePresence mode="popLayout">
+        {activeFilters.map((filter, index) => (
+          <m.button
+            layout
+            initial={{ opacity: 0, scale: 0.8, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 0.8, filter: 'blur(4px)' }}
+            key={`${filter.key}-${filter.value || index}`}
+            onClick={() => onRemove(filter.key, filter.value)}
+            className="group flex items-center gap-1.5 px-3 py-1.5 bg-primary/5 hover:bg-primary/10 text-primary border border-primary/10 rounded-full transition-colors"
+          >
+            <span className="text-xs font-medium">{filter.label}</span>
+            <X size={12} className="text-primary/40 group-hover:text-primary transition-colors" />
+          </m.button>
+        ))}
+      </AnimatePresence>
+      <m.button
+        layout
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
         onClick={onClearAll}
-        className="text-xs font-bold text-red-500 hover:text-red-600 transition-colors ml-2"
+        className="text-xs font-bold text-primary hover:text-primary/90 transition-colors ml-2"
       >
         Clear All
-      </button>
-    </div>
+      </m.button>
+    </m.div>
   )
 }
+
+

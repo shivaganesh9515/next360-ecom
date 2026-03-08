@@ -7,7 +7,7 @@ import { IndianRupee, ArrowUpRight, Clock, CheckCircle, Loader2 } from 'lucide-r
 import PayoutRequestModal from '../../../components/payouts/PayoutRequestModal'
 import { format } from 'date-fns'
 import { useQuery } from '@tanstack/react-query'
-import { vendorService } from '../../services/vendorService'
+import { vendorService } from '../../../services/vendorService'
 
 export default function VendorPayoutsPage() {
   const [modalOpen, setModalOpen] = useState(false)

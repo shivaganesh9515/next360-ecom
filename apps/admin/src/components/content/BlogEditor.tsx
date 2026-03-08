@@ -58,8 +58,8 @@ export function BlogEditor({ content, onChange }: BlogEditorProps) {
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`p-2 rounded hover:bg-gray-100 transition-colors ${
-        isActive ? 'bg-primary/10 text-primary' : 'text-gray-600'
+      className={`p-2 rounded hover:bg-border/40 transition-colors ${
+        isActive ? 'bg-primary/10 text-primary' : 'text-muted'
       } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
       <Icon className="w-4 h-4" />
@@ -68,7 +68,7 @@ export function BlogEditor({ content, onChange }: BlogEditorProps) {
 
   return (
     <div className="border border-border rounded-xl bg-white overflow-hidden flex flex-col">
-      <div className="flex items-center flex-wrap gap-1 p-2 border-b border-border bg-gray-50/50 shrink-0">
+      <div className="flex items-center flex-wrap gap-1 p-2 border-b border-border bg-black/5/50 shrink-0">
         <MenuButton icon={Bold} onClick={() => editor.chain().focus().toggleBold().run()} isActive={editor.isActive('bold')} />
         <MenuButton icon={Italic} onClick={() => editor.chain().focus().toggleItalic().run()} isActive={editor.isActive('italic')} />
         <MenuButton icon={Strikethrough} onClick={() => editor.chain().focus().toggleStrike().run()} isActive={editor.isActive('strike')} />

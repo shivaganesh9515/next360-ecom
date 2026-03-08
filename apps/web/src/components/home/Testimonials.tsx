@@ -24,7 +24,7 @@ export default function Testimonials() {
           <h2 className="font-display text-4xl md:text-5xl text-primary font-bold mb-4">
             What Our Customers Say
           </h2>
-          <p className="text-slate-600 font-body text-lg">
+          <p className="text-muted font-sans text-lg">
             Real stories from families who chose a healthier, organic lifestyle.
           </p>
         </div>
@@ -44,15 +44,15 @@ export default function Testimonials() {
 
               <RatingStars rating={testimonial.rating} size="sm" className="mb-4" />
               
-              <p className="text-slate-700 italic font-body leading-relaxed mb-8 flex-1">
+              <p className="text-text italic font-sans leading-relaxed mb-8 flex-1">
                 "{testimonial.review}"
               </p>
 
-              <div className="pt-6 border-t border-slate-50 flex items-center gap-4">
+              <div className="pt-6 border-t border-border flex items-center gap-4">
                 <Avatar name={testimonial.name} src={testimonial.avatar} size="md" className="rounded-2xl" />
                 <div>
-                  <p className="font-bold text-slate-800">{testimonial.name}</p>
-                  <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">{testimonial.city}</p>
+                  <p className="font-bold font-sans text-text">{testimonial.name}</p>
+                  <p className="text-xs text-muted font-sans font-medium uppercase tracking-wider">{testimonial.city}</p>
                 </div>
               </div>
             </Card>
@@ -80,15 +80,15 @@ export default function Testimonials() {
                 </div>
 
                 <RatingStars rating={MOCK_TESTIMONIALS[activeIndex].rating} size="sm" className="mb-4" />
-                <p className="text-slate-700 italic font-body leading-relaxed mb-8">
+                <p className="text-text italic font-sans leading-relaxed mb-8">
                   "{MOCK_TESTIMONIALS[activeIndex].review}"
                 </p>
 
-                <div className="pt-6 border-t border-slate-50 flex items-center gap-4">
+                <div className="pt-6 border-t border-border flex items-center gap-4">
                   <Avatar name={MOCK_TESTIMONIALS[activeIndex].name} src={MOCK_TESTIMONIALS[activeIndex].avatar} size="md" className="rounded-2xl" />
                   <div>
-                    <p className="font-bold text-slate-800">{MOCK_TESTIMONIALS[activeIndex].name}</p>
-                    <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">{MOCK_TESTIMONIALS[activeIndex].city}</p>
+                    <p className="font-bold font-sans text-text">{MOCK_TESTIMONIALS[activeIndex].name}</p>
+                    <p className="text-xs text-muted font-sans font-medium uppercase tracking-wider">{MOCK_TESTIMONIALS[activeIndex].city}</p>
                   </div>
                 </div>
               </Card>

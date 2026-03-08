@@ -9,11 +9,11 @@ export default function CategoryStrip() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <h2 className="font-display text-3xl md:text-4xl text-primary font-bold mb-3">Shop by Category</h2>
-            <p className="text-slate-500 font-body">Finest selection of farm-fresh organic essentials</p>
+            <p className="text-muted font-sans font-medium">Finest selection of farm-fresh organic essentials</p>
           </div>
           <Link 
             href="/shop" 
-            className="text-primary font-bold text-sm tracking-widest uppercase hover:underline underline-offset-4 decoration-2"
+            className="text-primary font-bold font-sans text-sm tracking-widest uppercase hover:underline underline-offset-4 decoration-2"
           >
             Explore All Categories
           </Link>
@@ -24,15 +24,15 @@ export default function CategoryStrip() {
             <Link 
               key={category.id} 
               href={`/shop?category=${category.slug}`}
-              className="group flex flex-col items-center p-6 bg-white rounded-[2.5rem] border border-slate-100 hover:bg-primary transition-all duration-500 shadow-sm hover:shadow-2xl hover:-translate-y-2"
+              className="group flex flex-col items-center p-6 bg-white rounded-2xl border border-border hover:bg-primary transition-all duration-500 shadow-sm hover:shadow-card-hover hover:-translate-y-2"
             >
               <div className="w-20 h-20 rounded-full bg-cream flex items-center justify-center text-4xl mb-4 group-hover:bg-white/10 transition-colors">
                 {category.icon}
               </div>
-              <h3 className="text-sm font-bold text-slate-800 group-hover:text-white transition-colors text-center">
+              <h3 className="text-sm font-bold font-sans text-text group-hover:text-white transition-colors text-center">
                 {category.name}
               </h3>
-              <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 group-hover:text-white/60 transition-colors mt-2">
+              <p className="text-[10px] font-sans uppercase font-bold tracking-widest text-muted group-hover:text-white/60 transition-colors mt-2">
                 12 Products
               </p>
             </Link>

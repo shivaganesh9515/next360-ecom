@@ -3,32 +3,40 @@
 import React from 'react'
 import { m } from 'framer-motion'
 import { Leaf, Handshake, Truck, RefreshCw } from 'lucide-react'
-import { Card } from '@next360/ui'
+import { BentoGrid, BentoCard } from '@next360/ui'
 
 const reasons = [
   {
     icon: Leaf,
     title: 'No Chemicals',
     description: 'Every product is tested for pesticide residue. 100% clean and natural, just as nature intended.',
-    emoji: '🌿'
+    emoji: '🌿',
+    href: '/about',
+    cta: 'Learn More'
   },
   {
     icon: Handshake,
     title: 'Direct from Farms',
     description: 'We partner directly with certified organic farmers, ensuring fair pay and high standards.',
-    emoji: '🤝'
+    emoji: '🤝',
+    href: '/about/farmers',
+    cta: 'Meet Farmers'
   },
   {
     icon: Truck,
     title: 'Same-day Delivery',
     description: 'Fresh from farm to your door within hours of harvest. Quality you can taste.',
-    emoji: '🚚'
+    emoji: '🚚',
+    href: '/shipping',
+    cta: 'View Areas'
   },
   {
     icon: RefreshCw,
     title: 'Easy Returns',
     description: 'Not satisfied with the freshness? Return within 7 days, no questions asked.',
-    emoji: '🔄'
+    emoji: '🔄',
+    href: '/returns',
+    cta: 'Read Policy'
   }
 ]
 
@@ -50,13 +58,13 @@ export default function WhyNext360() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-slate-600 font-body text-lg"
+            className="text-muted font-sans text-lg"
           >
             Beyond organic. We are building a transparent food system for your well-being.
           </m.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <BentoGrid className="lg:grid-cols-4 md:grid-cols-2 grid-cols-1 auto-rows-[20rem]">
           {reasons.map((reason, index) => (
             <m.div
               key={reason.title}
@@ -64,22 +72,26 @@ export default function WhyNext360() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.15, duration: 0.5 }}
+              className={index === 0 || index === 3 ? "lg:col-span-2 col-span-1 md:col-span-2" : "col-span-1"}
             >
-              <Card className="h-full group hover:shadow-2xl transition-all duration-500 border-none bg-white p-10 rounded-[3rem] text-center">
-                <div className="w-24 h-24 bg-cream rounded-full flex items-center justify-center text-5xl mb-8 mx-auto group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                  {reason.emoji}
-                </div>
-                <h3 className="font-display text-2xl text-primary font-bold mb-4">
-                  {reason.title}
-                </h3>
-                <p className="text-slate-500 text-sm leading-relaxed font-body">
-                  {reason.description}
-                </p>
-              </Card>
+              <BentoCard
+                className="h-full border-none shadow-xl shadow-primary/5"
+                name={reason.title}
+                Icon={reason.icon}
+                description={reason.description}
+                href={reason.href}
+                cta={reason.cta}
+                background={
+                  <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] text-9xl pointer-events-none">
+                    {reason.emoji}
+                  </div>
+                }
+              />
             </m.div>
           ))}
-        </div>
+        </BentoGrid>
       </div>
     </section>
   )
 }
+

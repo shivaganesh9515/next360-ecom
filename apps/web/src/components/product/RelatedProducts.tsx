@@ -22,10 +22,10 @@ export default function RelatedProducts({ currentProductId, category }: RelatedP
   if (!isLoading && related.length === 0) return null
 
   return (
-    <section className="mt-32 pt-20 border-t border-slate-100">
+    <section className="mt-32 pt-20 border-t border-border">
       <div className="flex items-center justify-between mb-12">
-        <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
-          You Might Also <span className="text-primary italic">Like</span>
+        <h2 className="text-3xl md:text-4xl font-black font-sans text-primary tracking-tight">
+          You Might Also <span className="text-primary italic font-serif">Like</span>
         </h2>
         <div className="hidden md:flex gap-2">
           {/* Scroll indicators or view all */}

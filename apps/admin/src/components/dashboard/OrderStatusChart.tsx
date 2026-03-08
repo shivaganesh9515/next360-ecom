@@ -17,8 +17,8 @@ const COLORS = {
 
 export function OrderStatusChart({ data }: OrderStatusChartProps) {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-[400px]">
-      <h3 className="text-lg font-semibold text-gray-900 mb-6">Orders by Status</h3>
+    <div className="bg-white p-6 rounded-2xl shadow-sm border border-border h-[400px]">
+      <h3 className="text-lg font-semibold text-text mb-6">Orders by Status</h3>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -47,7 +47,7 @@ export function OrderStatusChart({ data }: OrderStatusChartProps) {
               verticalAlign="bottom" 
               height={36}
               iconType="circle"
-              formatter={(value) => <span className="text-sm text-gray-600 ml-1">{value}</span>}
+              formatter={(value) => <span className="text-sm text-muted ml-1">{value}</span>}
             />
           </PieChart>
         </ResponsiveContainer>

@@ -16,7 +16,7 @@ const statusColors: Record<string, string> = {
   SHIPPED: 'bg-purple-100 text-purple-800',
   DELIVERED: 'bg-green-100 text-green-800',
   CANCELLED: 'bg-red-100 text-red-800',
-  REFUNDED: 'bg-gray-100 text-gray-800',
+  REFUNDED: 'bg-cream text-text',
 }
 
 export function RecentOrdersTable({ data }: RecentOrdersTableProps) {
@@ -31,15 +31,15 @@ export function RecentOrdersTable({ data }: RecentOrdersTableProps) {
       header: 'Customer',
       cell: (row: any) => (
         <div className="flex flex-col">
-          <span className="font-medium text-gray-900">{row.user?.name || 'Guest'}</span>
-          <span className="text-xs text-gray-500">{row.user?.email || ''}</span>
+          <span className="font-medium text-text">{row.user?.name || 'Guest'}</span>
+          <span className="text-xs text-muted">{row.user?.email || ''}</span>
         </div>
       )
     },
     {
       accessorKey: 'createdAt',
       header: 'Date',
-      cell: (row: any) => <span className="text-sm text-gray-600">{format(new Date(row.createdAt), 'MMM d, yyyy')}</span>,
+      cell: (row: any) => <span className="text-sm text-muted">{format(new Date(row.createdAt), 'MMM d, yyyy')}</span>,
     },
     {
       accessorKey: 'total',
@@ -51,7 +51,7 @@ export function RecentOrdersTable({ data }: RecentOrdersTableProps) {
       header: 'Status',
       cell: (row: any) => {
         const status = row.status
-        const color = statusColors[status] || 'bg-gray-100 text-gray-800'
+        const color = statusColors[status] || 'bg-cream text-text'
         return (
           <span className={`px-2.5 py-1 pt-1.5 text-xs font-semibold rounded-full uppercase tracking-wider ${color}`}>
             {status}
@@ -65,7 +65,7 @@ export function RecentOrdersTable({ data }: RecentOrdersTableProps) {
       cell: (row: any) => (
         <Link 
           href={`/orders/${row.id}`}
-          className="p-2 text-gray-400 hover:text-primary transition-colors flex justify-end"
+          className="p-2 text-muted hover:text-primary transition-colors flex justify-end"
         >
           <ChevronRight className="w-5 h-5" />
         </Link>
@@ -74,9 +74,9 @@ export function RecentOrdersTable({ data }: RecentOrdersTableProps) {
   ]
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">Recent Orders</h3>
+    <div className="bg-white rounded-2xl shadow-sm border border-border overflow-hidden">
+      <div className="p-6 border-b border-border flex items-center justify-between">
+        <h3 className="text-lg font-semibold text-text">Recent Orders</h3>
         <Link href="/orders" className="text-sm font-medium text-primary hover:underline">
           View all
         </Link>

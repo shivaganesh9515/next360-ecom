@@ -64,7 +64,7 @@ export default function UsersPage() {
             {row.name?.[0]?.toUpperCase() || 'U'}
           </div>
           <div className="flex flex-col">
-            <span className="font-semibold text-gray-900">{row.name}</span>
+            <span className="font-semibold text-text">{row.name}</span>
             <span className="text-xs text-muted">{row.email}</span>
           </div>
         </div>
@@ -76,7 +76,7 @@ export default function UsersPage() {
       cell: (row: any) => {
         const role = row.role
         const colors: Record<string, string> = {
-          CUSTOMER: 'bg-gray-100 text-gray-600',
+          CUSTOMER: 'bg-border/40 text-muted',
           VENDOR: 'bg-blue-100 text-blue-700',
           ADMIN: 'bg-purple-100 text-purple-700'
         }
@@ -100,7 +100,7 @@ export default function UsersPage() {
     {
       accessorKey: 'createdAt',
       header: 'Joined',
-      cell: (row: any) => <span className="text-sm text-gray-600">{format(new Date(row.createdAt), 'MMM d, yyyy')}</span>
+      cell: (row: any) => <span className="text-sm text-muted">{format(new Date(row.createdAt), 'MMM d, yyyy')}</span>
     },
     {
       id: 'actions',
@@ -112,14 +112,14 @@ export default function UsersPage() {
           <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <button 
               onClick={() => setRoleModalUser(user)}
-              className="p-2 text-gray-400 hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
+              className="p-2 text-muted hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
               title="Change Role"
             >
               <Shield className="w-4 h-4" />
             </button>
             <button 
               onClick={() => setSeedsModalUser(user)}
-              className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-lg hover:bg-green-50"
+              className="p-2 text-muted hover:text-green-600 transition-colors rounded-lg hover:bg-green-50"
               title="Award Seeds"
             >
               <Coins className="w-4 h-4" />
@@ -130,7 +130,7 @@ export default function UsersPage() {
                   banMutation.mutate({ id: user.id, isBanned })
                 }
               }}
-              className={`p-2 transition-colors rounded-lg ${isBanned ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-gray-400 hover:text-red-600 hover:bg-red-50'}`}
+              className={`p-2 transition-colors rounded-lg ${isBanned ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-muted hover:text-red-600 hover:bg-red-50'}`}
               title={isBanned ? 'Unban User' : 'Ban User'}
             >
               <Ban className="w-4 h-4" />
@@ -150,14 +150,14 @@ export default function UsersPage() {
   return (
     <div className="animate-in fade-in duration-500 pb-20">
       <div className="mb-8">
-        <h2 className="text-2xl font-display font-semibold text-gray-900">Users</h2>
+        <h2 className="text-2xl font-display font-semibold text-text">Users</h2>
         <p className="text-muted text-sm mt-1">Manage customers, vendors, and administrators.</p>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gray-50/50">
+      <div className="bg-white rounded-2xl shadow-sm border border-border overflow-hidden">
+        <div className="p-4 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-black/5/50">
           <div className="relative max-w-md w-full">
-            <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-muted absolute left-3 top-1/2 -translate-y-1/2" />
             <Input 
               placeholder="Search by name or email..." 
               className="pl-9 bg-white"
@@ -186,8 +186,8 @@ export default function UsersPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
             <div className="p-6 border-b border-border">
-              <h3 className="text-lg font-semibold text-gray-900">Change User Role</h3>
-              <p className="text-sm text-gray-500 mt-1">Update privileges for {roleModalUser.email}</p>
+              <h3 className="text-lg font-semibold text-text">Change User Role</h3>
+              <p className="text-sm text-muted mt-1">Update privileges for {roleModalUser.email}</p>
             </div>
             <div className="p-6 space-y-4">
               <select 
@@ -200,7 +200,7 @@ export default function UsersPage() {
                 <option value="ADMIN">Admin</option>
               </select>
             </div>
-            <div className="p-4 border-t border-border flex justify-end gap-3 bg-gray-50">
+            <div className="p-4 border-t border-border flex justify-end gap-3 bg-black/5">
               <Button variant="outline" onClick={() => setRoleModalUser(null)}>Cancel</Button>
               <Button 
                 onClick={() => {
@@ -221,20 +221,20 @@ export default function UsersPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
             <div className="p-6 border-b border-border">
-              <h3 className="text-lg font-semibold text-gray-900">Award Next360 Seeds</h3>
-              <p className="text-sm text-gray-500 mt-1">Add loyalty points to {seedsModalUser.email}</p>
+              <h3 className="text-lg font-semibold text-text">Award Next360 Seeds</h3>
+              <p className="text-sm text-muted mt-1">Add loyalty points to {seedsModalUser.email}</p>
             </div>
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Amount</label>
+                <label className="block text-sm font-medium text-text mb-1">Amount</label>
                 <Input type="number" id="seeds-amount" placeholder="e.g. 500" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Reason</label>
+                <label className="block text-sm font-medium text-text mb-1">Reason</label>
                 <Input id="seeds-reason" placeholder="e.g. Referral bonus" />
               </div>
             </div>
-            <div className="p-4 border-t border-border flex justify-end gap-3 bg-gray-50">
+            <div className="p-4 border-t border-border flex justify-end gap-3 bg-black/5">
               <Button variant="outline" onClick={() => setSeedsModalUser(null)}>Cancel</Button>
               <Button 
                 onClick={() => {

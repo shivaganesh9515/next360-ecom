@@ -54,7 +54,7 @@ export function ImageUploader({ images, onChange, maxFiles = 5 }: ImageUploaderP
       <div 
         {...getRootProps()} 
         className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-colors ${
-          isDragActive ? 'border-primary bg-primary/5' : 'border-border bg-gray-50 hover:bg-gray-100'
+          isDragActive ? 'border-primary bg-primary/5' : 'border-border bg-black/5 hover:bg-border/40'
         } ${isUploading || images.length >= maxFiles ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         <input {...getInputProps()} />
@@ -63,7 +63,7 @@ export function ImageUploader({ images, onChange, maxFiles = 5 }: ImageUploaderP
              {isUploading ? (
                <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
              ) : (
-               <UploadCloud className="w-6 h-6 text-gray-400" />
+               <UploadCloud className="w-6 h-6 text-muted" />
              )}
           </div>
           <div className="text-sm">
@@ -76,7 +76,7 @@ export function ImageUploader({ images, onChange, maxFiles = 5 }: ImageUploaderP
       {images.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {images.map((url, index) => (
-            <div key={url} className="relative group rounded-xl overflow-hidden bg-gray-100 aspect-square border border-border">
+            <div key={url} className="relative group rounded-xl overflow-hidden bg-border/40 aspect-square border border-border">
               {/* Note: In a real app we'd use next/image with configured domains. Since this is generic URLs we'll use a normal img tag for safety or unoptimized Next Image */}
               <img
                 src={url}

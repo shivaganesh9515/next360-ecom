@@ -7,7 +7,8 @@ import Providers from '@/components/Providers'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: ['600', '700'],
+  weight: ['400', '600', '700'],
+  style: ['normal', 'italic'],
   variable: '--font-playfair',
   display: 'swap',
 })
@@ -32,13 +33,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
-      <body className="font-sans antialiased text-slate-800 bg-white">
-        <a 
-          href="#main-content" 
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-6 focus:py-3 focus:rounded-xl focus:shadow-2xl focus:text-primary focus:font-bold"
-        >
-          Skip to content
-        </a>
+      <body className="font-sans bg-cream text-text antialiased">
         <Providers>
           <Navbar />
           <main id="main-content" className="min-h-screen">

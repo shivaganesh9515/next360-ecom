@@ -20,7 +20,7 @@ export default function MoodSelector({ onMoodSelect }: MoodSelectorProps) {
   }
 
   return (
-    <section className="py-12 bg-white border-b border-slate-50">
+    <section className="py-12 bg-white border-b border-border">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-center font-display text-2xl md:text-3xl text-primary font-bold mb-10">
           What are you shopping for today?
@@ -37,8 +37,8 @@ export default function MoodSelector({ onMoodSelect }: MoodSelectorProps) {
                 className={cn(
                   "flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold border-2 transition-all duration-300 shrink-0",
                   isActive 
-                    ? "bg-primary border-primary text-white shadow-lg shadow-primary/20 scale-105" 
-                    : "bg-white border-slate-100 text-slate-600 hover:border-primary hover:text-primary"
+                    ? "bg-primary border-primary text-white shadow-md scale-105" 
+                    : "bg-white border-border font-sans text-text hover:border-primary hover:text-primary"
                 )}
               >
                 <span className="text-xl">{mood.emoji}</span>

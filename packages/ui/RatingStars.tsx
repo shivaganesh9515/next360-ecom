@@ -49,7 +49,7 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
               viewBox="0 0 24 24"
               className={cn(
                 sizes[size],
-                isFilled || isHalf ? 'text-accent fill-current' : 'text-gray-300',
+                isFilled || isHalf ? 'text-accent fill-current' : 'text-gray-200 fill-current',
                 interactive && 'cursor-pointer hover:scale-110 transition-transform'
               )}
               onClick={() => interactive && onChange?.(starValue)}
@@ -75,7 +75,7 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
           )
         })}
       </div>
-      {showCount && <span className="text-xs text-muted ml-1">({count})</span>}
+      {showCount && <span className="text-xs text-muted font-sans ml-1">({count})</span>}
     </div>
   )
 }

@@ -2,13 +2,13 @@
 
 import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { m, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { cn } from '@next360/utils'
 import { useQuery } from '@tanstack/react-query'
 import { productService } from '@/services/productService'
 import ProductCard from '../product/ProductCard'
-import ProductCardSkeleton from '../product/ProductCardSkeleton'
+import { RevealText, StaggerContainer, ShimmerSkeleton } from '@next360/ui'
 
 interface FeaturedProductsProps {
   activeMoodTags: string[]
@@ -55,15 +55,16 @@ export default function FeaturedProducts({ activeMoodTags }: FeaturedProductsPro
   ]
 
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="py-24">
+      <div className="max-w-[1240px] mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
           <div className="max-w-xl">
-            <h2 className="font-display text-4xl md:text-5xl text-primary font-bold mb-4">
-              This Week's Farm Picks
-            </h2>
-            <p className="text-slate-500 text-lg font-body">
+            <RevealText 
+              text="This Week's Farm Picks" 
+              className="font-display text-4xl md:text-5xl text-primary font-bold mb-4" 
+            />
+            <p className="text-muted text-lg font-sans">
               Hand-picked organic essentials, harvested at their nutritional peak.
             </p>
           </div>
@@ -77,16 +78,16 @@ export default function FeaturedProducts({ activeMoodTags }: FeaturedProductsPro
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex items-center gap-2 p-1 bg-slate-50 rounded-full w-fit mb-12 border border-slate-100">
+        <div className="flex items-center gap-2 p-1 bg-cream rounded-full w-fit mb-12 border border-border">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as TabType)}
               className={cn(
-                "px-8 py-3 rounded-full text-sm font-bold transition-all duration-300",
+                "px-8 py-3 rounded-full text-sm font-bold font-sans transition-all duration-300",
                 activeTab === tab.id 
-                  ? "bg-primary text-white shadow-lg" 
-                  : "text-slate-500 hover:text-primary"
+                  ? "bg-primary text-white shadow-md" 
+                  : "text-muted hover:text-primary"
               )}
             >
               {tab.label}
@@ -97,33 +98,33 @@ export default function FeaturedProducts({ activeMoodTags }: FeaturedProductsPro
         {/* Grid */}
         <div className="min-h-[600px]">
           <AnimatePresence mode="wait">
-            <m.div
+            <StaggerContainer
               key={activeTab + activeMoodTags.join(',')}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
             >
               {isLoading ? (
                 Array.from({ length: 4 }).map((_, i) => (
-                  <ProductCardSkeleton key={i} />
+                  <div key={i} className="aspect-[3/4]">
+                    <ShimmerSkeleton className="w-full h-full" />
+                  </div>
                 ))
               ) : filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))
               ) : (
-                <div className="col-span-full py-20 bg-cream/30 rounded-[3rem] text-center border-2 border-dashed border-slate-100">
+                <div className="col-span-full py-20 bg-cream rounded-[3rem] text-center border-2 border-dashed border-border">
                   <span className="text-4xl mb-4 block">🧐</span>
                   <h3 className="text-xl font-bold text-primary mb-2">No matches found</h3>
-                  <p className="text-slate-500">Try adjusting your filters or browsing all categories.</p>
+                  <p className="text-muted">Try adjusting your filters or browsing all categories.</p>
                 </div>
               )}
-            </m.div>
+            </StaggerContainer>
           </AnimatePresence>
         </div>
       </div>
     </section>
   )
 }
+
+

@@ -98,7 +98,7 @@ export default function RegisterForm() {
           />
           <button
             type="button"
-            className="absolute right-4 top-[14px] text-slate-400 hover:text-slate-600 transition-colors"
+            className="absolute right-4 top-[14px] text-muted hover:text-text transition-colors"
             onClick={() => setShowPassword(!showPassword)}
             tabIndex={-1}
           >
@@ -114,7 +114,7 @@ export default function RegisterForm() {
           />
           <button
             type="button"
-            className="absolute right-4 top-[14px] text-slate-400 hover:text-slate-600 transition-colors"
+            className="absolute right-4 top-[14px] text-muted hover:text-text transition-colors"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             tabIndex={-1}
           >
@@ -129,13 +129,13 @@ export default function RegisterForm() {
             <input 
               type="checkbox" 
               {...register('terms')}
-              className="peer appearance-none w-5 h-5 border-2 border-slate-300 rounded-md checked:bg-secondary checked:border-secondary transition-colors cursor-pointer"
+              className="peer appearance-none w-5 h-5 border-2 border-border rounded-md checked:bg-secondary checked:border-secondary transition-colors cursor-pointer"
             />
             <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <span className="text-sm font-medium text-slate-600 leading-snug">
+          <span className="text-sm font-medium text-muted leading-snug">
             I agree to the{' '}
             <Link href="/terms" className="text-primary hover:underline underline-offset-2">Terms of Service</Link>
             {' '}and{' '}
@@ -151,7 +151,7 @@ export default function RegisterForm() {
         <Button 
           type="submit" 
           variant="primary" 
-          className="w-full font-bold h-12 text-base shadow-md shadow-primary/20"
+          className="w-full font-bold h-12 text-base shadow-[0_10px_22px_rgba(30,59,47,0.2)]"
           isLoading={registerMutation.isPending}
         >
           Create Account
@@ -160,3 +160,4 @@ export default function RegisterForm() {
     </form>
   )
 }
+

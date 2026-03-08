@@ -40,24 +40,24 @@ export default function VendorsPage() {
     {
       accessorKey: 'storeName',
       header: 'Store Name',
-      cell: (row: any) => <span className="font-semibold text-gray-900">{row.storeName}</span>
+      cell: (row: any) => <span className="font-semibold text-text">{row.storeName}</span>
     },
     {
       accessorKey: 'user.name',
       header: 'Owner',
-      cell: (row: any) => <span className="text-gray-600">{row.user?.name}</span>
+      cell: (row: any) => <span className="text-muted">{row.user?.name}</span>
     },
     {
       accessorKey: 'user.email',
       header: 'Email',
-      cell: (row: any) => <span className="text-sm text-gray-500">{row.user?.email}</span>
+      cell: (row: any) => <span className="text-sm text-muted">{row.user?.email}</span>
     },
     {
       header: 'Sales / Comm.',
       cell: (row: any) => (
         <div className="flex flex-col">
           <span className="text-sm font-medium">₹0</span>
-          <span className="text-xs text-gray-400">{row.commissionRate}% comm.</span>
+          <span className="text-xs text-muted">{row.commissionRate}% comm.</span>
         </div>
       )
     },
@@ -66,7 +66,7 @@ export default function VendorsPage() {
       cell: (row: any) => (
         <Link 
           href={`/vendors/${row.id}`}
-          className="p-2 text-gray-400 hover:text-primary transition-colors flex justify-end"
+          className="p-2 text-muted hover:text-primary transition-colors flex justify-end"
         >
           <ChevronRight className="w-5 h-5" />
         </Link>
@@ -79,18 +79,18 @@ export default function VendorsPage() {
   return (
     <div className="animate-in fade-in duration-500 pb-20">
       <div className="mb-8">
-        <h2 className="text-2xl font-display font-semibold text-gray-900">Vendors</h2>
+        <h2 className="text-2xl font-display font-semibold text-text">Vendors</h2>
         <p className="text-muted text-sm mt-1">Manage vendor accounts, applications, and payouts.</p>
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-gray-200 mb-6">
+      <div className="flex border-b border-border mb-6">
         <button
           onClick={() => setActiveTab('ACTIVE')}
           className={`pb-4 px-6 text-sm font-medium border-b-2 transition-colors ${
             activeTab === 'ACTIVE' 
               ? 'border-primary text-primary' 
-              : 'border-transparent text-gray-500 hover:text-gray-700'
+              : 'border-transparent text-muted hover:text-text'
           }`}
         >
           Active Vendors
@@ -100,7 +100,7 @@ export default function VendorsPage() {
           className={`pb-4 px-6 text-sm font-medium border-b-2 transition-colors ${
             activeTab === 'PENDING' 
               ? 'border-primary text-primary' 
-              : 'border-transparent text-gray-500 hover:text-gray-700'
+              : 'border-transparent text-muted hover:text-text'
           }`}
         >
           Pending Applications
@@ -112,7 +112,7 @@ export default function VendorsPage() {
           <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
         </div>
       ) : activeTab === 'ACTIVE' ? (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-sm border border-border overflow-hidden">
           <DataTable 
             columns={columns} 
             data={vendors} 
@@ -123,7 +123,7 @@ export default function VendorsPage() {
         <div className="space-y-4">
           {vendors.length === 0 ? (
             <div className="bg-white rounded-2xl border border-dashed border-gray-300 p-12 text-center">
-              <p className="text-gray-500">No pending vendor applications at the moment.</p>
+              <p className="text-muted">No pending vendor applications at the moment.</p>
             </div>
           ) : (
             vendors.map((vendor: any) => (
