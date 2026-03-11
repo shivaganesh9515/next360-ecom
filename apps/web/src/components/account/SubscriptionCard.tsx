@@ -31,140 +31,148 @@ export default function SubscriptionCard({ subscription, compact, onUpdate }: Su
   const items = subscription.items.map(item => item.product || MOCK_PRODUCTS.find(p => p.id === item.productId)).filter(Boolean)
 
   const handlePause = () => {
-    if (window.confirm('Are you sure you want to pause this subscription?')) {
+    if (window.confirm('Are you sure you want to pause this subscription node?')) {
       setStatus('PAUSED')
-      toast.success('Subscription paused')
+      toast.success('Subscription node paused')
       onUpdate(subscription.id, 'PAUSED')
     }
   }
 
   const handleResume = () => {
     setStatus('ACTIVE')
-    toast.success('Subscription resumed')
+    toast.success('Subscription node resumed')
     onUpdate(subscription.id, 'ACTIVE')
   }
 
   const handleCancel = () => {
-    if (window.confirm('Are you sure you want to cancel? This cannot be undone.')) {
+    if (window.confirm('Are you sure you want to terminate this subscription? This will purge the recurring node.')) {
       setStatus('CANCELLED')
-      toast.error('Subscription cancelled')
+      toast.error('Subscription terminated')
       onUpdate(subscription.id, 'CANCELLED')
     }
   }
 
   if (compact) {
     return (
-      <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-xl">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-xl shadow-sm border border-slate-100">
+      <div className="flex items-center justify-between p-6 bg-white border border-slate-100 rounded-[2rem] shadow-xl shadow-slate-200/40 group">
+        <div className="flex items-center gap-5">
+          <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-3xl shadow-inner border border-slate-100 group-hover:scale-110 transition-transform duration-500">
             {boxInfo.icon}
           </div>
           <div>
-            <p className="font-bold text-slate-800 text-sm leading-tight">{boxInfo.name}</p>
-            <p className="text-xs font-bold text-slate-400 mt-0.5">
+            <p className="font-black text-slate-900 text-[11px] uppercase tracking-widest leading-none mb-2">{boxInfo.name}</p>
+            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest italic">
               {status === 'ACTIVE' && subscription.nextDelivery 
-                ? `Next: ${new Date(subscription.nextDelivery).toLocaleDateString('en-IN', {month: 'short', day: 'numeric'})}`
-                : status === 'PAUSED' ? 'Paused' : 'Cancelled'}
+                ? `Next Deployment: ${new Date(subscription.nextDelivery).toLocaleDateString('en-IN', {month: 'short', day: 'numeric'})}`
+                : status === 'PAUSED' ? 'Node Paused' : 'Node Discharged'}
             </p>
           </div>
         </div>
-        <Badge variant={status === 'ACTIVE' ? 'active' : status === 'PAUSED' ? 'warning' : 'error'} className="font-bold">
-          {status === 'ACTIVE' ? '● Active' : status === 'PAUSED' ? '⏸ Paused' : '✗ Cancelled'}
+        <Badge variant={status === 'ACTIVE' ? 'active' : status === 'PAUSED' ? 'amber' : 'red'} className="font-black uppercase tracking-[0.2em] text-[8px] px-4 py-1.5 rounded-full border-none shadow-lg">
+          {status === 'ACTIVE' ? 'Active' : status === 'PAUSED' ? 'Paused' : 'Terminated'}
         </Badge>
       </div>
     )
   }
 
   return (
-    <div className={`bg-white rounded-2xl border ${status === 'ACTIVE' ? 'border-primary/20 shadow-md shadow-primary/5' : 'border-slate-100 shadow-sm'} p-5 md:p-6 transition-all`}>
+    <div className={`bg-white rounded-[2.5rem] border ${status === 'ACTIVE' ? 'border-primary/20 shadow-2xl shadow-primary/5' : 'border-slate-100 shadow-xl shadow-slate-200/30'} p-8 md:p-12 transition-all duration-700 group relative overflow-hidden`}>
+      {status === 'ACTIVE' && (
+         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-primary/10 transition-colors" />
+      )}
+      
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-6">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-3xl shadow-sm border border-slate-100 shrink-0">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-8 mb-10 relative z-10">
+        <div className="flex items-center gap-8">
+          <div className="w-20 h-20 rounded-[2rem] bg-slate-50 flex items-center justify-center text-4xl shadow-inner border border-slate-100 shrink-0 group-hover:-rotate-3 transition-transform duration-500">
             {boxInfo.icon}
           </div>
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-display text-xl font-black text-slate-800 leading-tight">{boxInfo.name}</h3>
-              <Badge variant="info" className="font-bold text-[10px] bg-slate-50 uppercase tracking-widest text-slate-500 border-slate-200">
+            <div className="flex flex-wrap items-center gap-4 mb-3">
+              <h3 className="text-2xl font-black text-slate-900 tracking-tight italic leading-none">{boxInfo.name}</h3>
+              <Badge className="font-black text-[8px] bg-slate-900 text-white uppercase tracking-[0.3em] px-4 py-1 rounded-full border-none shadow-xl">
                 {subscription.frequency}
               </Badge>
             </div>
-            <p className="text-sm font-bold text-slate-500">
-              <span className="text-slate-800 mr-1">{formatPrice(subscription.price)}</span>
-              / {(subscription.frequency === 'WEEKLY' ? 'week' : subscription.frequency === 'BIWEEKLY' ? '2 weeks' : 'month')}
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-3">
+              <span className="text-slate-900 text-sm tracking-tight">{formatPrice(subscription.price)}</span>
+              <span className="opacity-20">/</span>
+              <span>{(subscription.frequency === 'WEEKLY' ? 'per deployment' : subscription.frequency === 'BIWEEKLY' ? 'per cycle' : 'per month')}</span>
             </p>
           </div>
         </div>
         
-        <div className="flex flex-col items-start sm:items-end">
-          <Badge variant={status === 'ACTIVE' ? 'active' : status === 'PAUSED' ? 'warning' : 'error'} className="font-bold mb-2">
-            {status === 'ACTIVE' ? '● Active' : status === 'PAUSED' ? '⏸ Paused' : '✗ Cancelled'}
+        <div className="flex flex-col items-start sm:items-end gap-3 text-right">
+          <Badge variant={status === 'ACTIVE' ? 'active' : status === 'PAUSED' ? 'amber' : 'red'} className="font-black uppercase tracking-[0.2em] text-[9px] px-6 py-2 rounded-full border-none shadow-2xl">
+            {status === 'ACTIVE' ? '● System Active' : status === 'PAUSED' ? '⏸ Node Paused' : '✗ Terminated'}
           </Badge>
           {status === 'ACTIVE' && subscription.nextDelivery && (
-            <p className="text-xs font-bold text-slate-400">
-              Next delivery: <span className="text-primary">{new Date(subscription.nextDelivery).toLocaleDateString()}</span>
-            </p>
+            <div className="flex items-center gap-2 text-[9px] font-black text-slate-400 uppercase tracking-widest italic">
+              <Calendar size={12} className="text-primary" />
+              Next Haul: <span className="text-slate-900 ml-1">{new Date(subscription.nextDelivery).toLocaleDateString('en-IN', { month: 'short', day: '2-digit', year: 'numeric' })}</span>
+            </div>
           )}
           {status === 'PAUSED' && (
-            <p className="text-xs font-bold text-amber-500">Subscription paused</p>
+            <p className="text-[9px] font-black text-amber-500 uppercase tracking-widest italic">Flow Halted</p>
           )}
         </div>
       </div>
 
       {/* Items Preview */}
       {items.length > 0 && (
-        <div className="mb-6 p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between overflow-x-auto scrollbar-hide">
+        <div className="mb-10 p-6 rounded-[2rem] bg-slate-50 border border-slate-100 flex items-center justify-between overflow-x-auto scrollbar-hide relative z-10 hover:bg-slate-100/50 transition-colors duration-500">
           <div className="flex items-center gap-2 pr-4 shrink-0">
             {items.slice(0, 4).map((product, i) => (
-              <div key={i} className="w-10 h-10 rounded-full overflow-hidden bg-white border border-slate-200 relative shrink-0 -ml-2 first:ml-0 shadow-sm">
+              <div key={i} className="w-12 h-12 rounded-full overflow-hidden bg-white border-2 border-white relative shrink-0 -ml-4 first:ml-0 shadow-xl group-hover:translate-x-1 transition-transform" style={{ transitionDelay: `${i * 50}ms` }}>
                 <Image src={product?.images[0] || ''} alt={product?.name || ''} fill className="object-cover" />
               </div>
             ))}
             {items.length > 4 && (
-              <div className="w-10 h-10 rounded-full bg-cream border border-secondary/20 flex items-center justify-center text-xs font-black text-secondary shrink-0 -ml-2 shadow-sm z-10 relative">
+              <div className="w-12 h-12 rounded-full bg-slate-900 border-2 border-white flex items-center justify-center text-[10px] font-black text-white shrink-0 -ml-4 shadow-xl z-10 relative">
                 +{items.length - 4}
               </div>
             )}
           </div>
-          <p className="text-xs font-bold text-slate-500 ml-4 shrink-0 pr-2">Contains {items.length} items</p>
+          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-4 shrink-0 flex items-center gap-3">
+             <span className="w-6 h-[1px] bg-slate-200" /> Linked Nodes: <span className="text-slate-900">{items.length} Units</span>
+          </p>
         </div>
       )}
 
       {/* Actions */}
-      <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100">
+      <div className="flex flex-wrap items-center gap-3 pt-8 border-t border-slate-50 relative z-10">
         {status === 'ACTIVE' && (
           <>
-            <Button variant="outline" className="font-bold text-xs" onClick={() => toast.success("Box customization coming soon")}>
-              <Settings2 size={14} className="mr-1.5" />
-              Customize Box
+            <Button variant="outline" className="rounded-full px-8 h-12 border-slate-100 text-[9px] font-black uppercase tracking-[0.2em] shadow-lg hover:border-slate-900" onClick={() => toast.success("Node config sequence starting...")}>
+              <Settings2 size={12} strokeWidth={3} className="mr-2" />
+              Modify Logic
             </Button>
-            <Button variant="ghost" className="font-bold text-xs text-slate-600" onClick={() => {
-              if (window.confirm('Skip next delivery?')) toast.success("Next delivery skipped")
+            <Button variant="ghost" className="rounded-full px-8 h-12 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-900" onClick={() => {
+              if (window.confirm('Skip next deployment cycle?')) toast.success("Cycle bypassed")
             }}>
-              Skip Next
+              Bypass Cycle
             </Button>
-            <Button variant="ghost" className="font-bold text-xs text-amber-600 hover:bg-amber-50 ml-auto" onClick={handlePause}>
-              Pause
+            <Button variant="ghost" className="rounded-full px-8 h-12 text-[9px] font-black uppercase tracking-[0.2em] text-amber-500 hover:bg-amber-50 hover:text-amber-600 ml-auto" onClick={handlePause}>
+              Halt Flow
             </Button>
           </>
         )}
         
         {status === 'PAUSED' && (
           <>
-            <Button variant="primary" className="font-bold text-xs" onClick={handleResume}>
-              Resume Subscription
+            <Button className="rounded-full px-10 h-14 text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-primary/20" onClick={handleResume}>
+              Initialize Resume
             </Button>
-            <Button variant="ghost" className="font-bold text-xs text-red-500 hover:bg-red-50 ml-auto" onClick={handleCancel}>
-              Cancel
+            <Button variant="ghost" className="rounded-full px-8 h-12 text-[9px] font-black uppercase tracking-[0.2em] text-red-400 hover:text-red-500 ml-auto" onClick={handleCancel}>
+              Terminate Node
             </Button>
           </>
         )}
 
         {status !== 'CANCELLED' && (
-          <Button variant="ghost" className="font-bold text-xs text-slate-500 ml-0 sm:ml-auto md:ml-2" onClick={() => toast.success("Schedule modal coming soon")}>
-            <Calendar size={14} className="mr-1.5" />
-            Change Schedule
+          <Button variant="ghost" className="rounded-full px-8 h-12 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-900 ml-0 sm:ml-auto md:ml-2" onClick={() => toast.success("Schedule re-alignment starting...")}>
+            <Calendar size={12} strokeWidth={3} className="mr-2 text-primary" />
+            Sync Timeline
           </Button>
         )}
       </div>

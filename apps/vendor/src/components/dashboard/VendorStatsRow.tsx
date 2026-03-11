@@ -35,8 +35,8 @@ export default function VendorStatsRow({ stats }: { stats: any }) {
         <Card key={metric.title}>
           <div className="p-6 flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">{metric.title}</p>
-              <h3 className="text-2xl font-bold text-gray-900 mt-1">{metric.value}</h3>
+              <p className="text-sm font-medium text-muted">{metric.title}</p>
+              <h3 className="text-2xl font-bold text-text mt-1">{metric.value}</h3>
             </div>
             <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${metric.color}`}>
               <metric.icon className="w-6 h-6" />

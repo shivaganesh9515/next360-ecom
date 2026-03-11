@@ -3,43 +3,53 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { m, AnimatePresence } from 'framer-motion'
-import { Heart, ShoppingCart, Eye, Star, Check } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Heart, ShoppingCart, Check, Zap, Truck, Star as StarIcon, ChevronRight } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn, formatPrice } from '@next360/utils'
-import { Badge, Button, PriceDisplay, RatingStars } from '@next360/ui'
+import { Badge, Button, PriceDisplay, RatingStars, Card } from '@next360/ui'
 import { useCartStore } from '@/store/cartStore'
 import { useWishlistStore } from '@/store/wishlistStore'
+import { useLocationStore } from '@/store/locationStore'
+import { useModeStore } from '@/store/modeStore'
 import { Product } from '@next360/types'
+import { RythuBatch } from '@next360/types/cms'
 
 interface ProductCardProps {
   product: Product
-  showQuickView?: boolean
+  batch?: RythuBatch
+  className?: string
 }
 
-export default function ProductCard({ product, showQuickView = true }: ProductCardProps) {
+export default function ProductCard({ product, batch, className }: ProductCardProps) {
   const [isAdded, setIsAdded] = useState(false)
   const { isWishlisted, toggleWishlist } = useWishlistStore()
   const { addItem, openDrawer } = useCartStore()
+  const { zoneId, deliveryPromise } = useLocationStore()
+  const { activeMode } = useModeStore()
 
   const wishlisted = isWishlisted(product.id)
-  const discountAmount = product.originalPrice - product.price
-  const discountPercent = Math.round((discountAmount / product.originalPrice) * 100)
+  const discountPercent = product.originalPrice > 0 
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
+    : 0
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    
-    addItem(product, 1, product.weight?.[0] || '500g')
-    setIsAdded(true)
-    toast.success(`${product.name} added to cart`, {
-      icon: '🌿'
-    })
 
-    setTimeout(() => {
+    // If batch exists, price should be batch price
+    const finalProduct = batch 
+      ? { ...product, price: batch.pricePerUnit } 
+      : product
+
+    addItem(finalProduct, 1, product.weight?.[0] || '500g')
+    setIsAdded(true)
+    toast.success(`${product.name} added to cart`)
+
+    window.setTimeout(() => {
       setIsAdded(false)
       openDrawer()
-    }, 1500)
+    }, 1200)
   }
 
   const handleWishlist = (e: React.MouseEvent) => {
@@ -48,115 +58,120 @@ export default function ProductCard({ product, showQuickView = true }: ProductCa
     toggleWishlist(product)
   }
 
+  const isRythuMode = activeMode === 'RYTHU_BAZAR'
+  const availablePercent = batch ? (batch.availableQty / batch.batchQty) * 100 : 0
+
   return (
-    <div className="h-full flex flex-col overflow-hidden bg-white rounded-2xl border border-border transition-all duration-300 hover:shadow-card-hover group">
-      {/* Image Area */}
-      <div className="relative aspect-square overflow-hidden bg-cream">
-        <Link href={`/product/${product.slug}`}>
-          <Image 
-            src={product.images[0]} 
+    <div 
+      className={cn('group flex flex-col h-full bg-white transition-all font-sans', className)}
+    >
+      {/* Image Area (Gocart High-Fidelity Style) */}
+      <div className="relative aspect-square overflow-hidden bg-slate-50/50 rounded-[2.5rem] flex items-center justify-center p-12 mb-6 border border-slate-50 group-hover:border-primary/10 group-hover:bg-primary/5 transition-all duration-700 ease-[0.16, 1, 0.3, 1] shadow-inner">
+        <Link href={`/product/${product.slug}`} className="relative w-full h-full">
+          <Image
+            src={product.images[0] || '/images/placeholder.jpg'}
             alt={product.name}
             fill
-            className="object-cover group-hover:scale-110 transition-transform duration-700"
+            className="object-contain transition-transform duration-1000 ease-[0.16, 1, 0.3, 1] group-hover:scale-115 group-hover:-rotate-3 drop-shadow-[0_20px_40px_rgba(0,0,0,0.08)]"
             sizes="(max-width: 768px) 50vw, 25vw"
           />
         </Link>
-        
-        {/* Badges */}
-        <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
+
+        {/* Top Badges (Registry Tags) */}
+        <div className="absolute top-6 left-6 z-10 flex flex-col gap-2">
           {product.isOrganic && (
-            <Badge variant="success" className="bg-white/90 backdrop-blur-sm shadow-sm border-none text-primary font-bold font-sans">
-              🌿 Organic
-            </Badge>
+            <Badge className="bg-primary/10 text-primary border-none rounded-full px-4 py-1.5 font-black text-[9px] uppercase tracking-[0.2em] shadow-sm backdrop-blur-md">Verified Organic</Badge>
           )}
           {discountPercent > 0 && (
-            <Badge variant="sale" className="bg-accent shadow-sm border-none font-bold font-sans">
-              -{discountPercent}%
-            </Badge>
+            <Badge className="bg-orange-500 text-white border-none rounded-full px-4 py-1.5 font-black text-[9px] uppercase tracking-[0.2em] shadow-lg shadow-orange-500/20">-{discountPercent}% Yield</Badge>
           )}
         </div>
 
-        {/* Wishlist Button */}
+        {/* Quick Add Button — High-Fidelity Floating Style */}
         <button 
-          onClick={handleWishlist}
-          className={cn(
-            "absolute top-4 right-4 z-10 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm",
-            wishlisted 
-              ? "bg-red-50 text-red-500 scale-110" 
-              : "bg-white/90 backdrop-blur-sm text-text hover:text-red-400 hover:scale-110"
-          )}
+          onClick={handleAddToCart}
+          disabled={!product.inStock || isAdded}
+          className="absolute bottom-6 right-6 w-14 h-14 rounded-full bg-white shadow-2xl flex items-center justify-center text-slate-800 hover:bg-primary hover:text-white transition-all scale-0 group-hover:scale-100 duration-500 hover:scale-110 active:scale-90 border-none group/cart-btn"
         >
-          <Heart size={20} fill={wishlisted ? "currentColor" : "none"} strokeWidth={2.5} />
+          {isAdded ? <Check size={24} strokeWidth={3} className="text-primary group-hover:text-white" /> : <ShoppingCart size={24} strokeWidth={2.5} />}
         </button>
 
-        {/* Quick View Overlay */}
-        {showQuickView && (
-          <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-            <Link href={`/product/${product.slug}`} onClick={(e) => e.stopPropagation()}>
-              <Button 
-                variant="secondary" 
-                size="sm" 
-                className="bg-white/95 backdrop-blur-sm text-primary font-bold font-sans shadow-xl rounded-full px-6 flex gap-2 hover:scale-105"
-              >
-                <Eye size={18} /> Quick View
-              </Button>
-            </Link>
-          </div>
-        )}
+        {/* Wishlist Button */}
+        <button
+          onClick={handleWishlist}
+          className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/40 backdrop-blur-xl shadow-sm flex items-center justify-center text-slate-400 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100 z-10 border border-white/20 hover:scale-110 active:scale-90"
+        >
+          <Heart size={20} fill={wishlisted ? 'currentColor' : 'none'} className={cn("transition-colors", wishlisted ? 'text-red-500' : '')} />
+        </button>
       </div>
 
-      {/* Info Area */}
-      <div className="p-5 flex flex-col flex-1 gap-2">
-        <div className="flex justify-between items-start">
-          <span className="text-[10px] font-bold text-muted uppercase tracking-widest font-sans">
-            {product.category?.name || 'Produce'}
-          </span>
-          <div className="flex items-center gap-1">
-            <RatingStars rating={product.rating} size="sm" showCount={false} />
-            <span className="text-xs text-muted font-sans">({product.reviewCount})</span>
+      {/* Info Area (Gocart Refined Typography) */}
+      <div className="flex flex-col flex-1 px-4">
+        <div className="flex flex-col gap-1 mb-4">
+          <div className="flex items-center gap-1.5 mb-2">
+             {[...Array(5)].map((_, i) => (
+                <StarIcon 
+                  key={i} 
+                  size={10} 
+                  className={cn(
+                    "transition-colors",
+                    Math.round(product.rating) >= i + 1 ? "text-primary" : "text-slate-200"
+                  )}
+                  fill="currentColor"
+                  strokeWidth={0}
+                />
+             ))}
+             <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">{product.reviewCount} Signals</span>
+          </div>
+          <Link href={`/product/${product.slug}`}>
+            <h3 className="font-black text-lg text-slate-900 tracking-tighter italic leading-none mb-1 group-hover:text-primary transition-colors">
+              {product.name}
+            </h3>
+          </Link>
+          <div className="flex items-center gap-2">
+             <div className="w-1 h-1 rounded-full bg-slate-200" />
+             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">{product.category?.name || 'Produce Collective'}</p>
           </div>
         </div>
-        
-        <Link href={`/product/${product.slug}`} className="flex-1">
-          <h4 className="text-base font-bold font-display text-text line-clamp-2 leading-[1.4] hover:text-primary transition-colors">
-            {product.name}
-          </h4>
-        </Link>
-        
-        <div className="flex items-end justify-between mt-auto pt-2">
-          <PriceDisplay 
-            price={product.price} 
-            originalPrice={product.originalPrice} 
-            size="md" 
-            className="text-primary font-sans"
-          />
-          <span className="text-xs text-muted font-medium font-sans bg-cream border border-border px-2 py-1 rounded-lg">
-            {product.weight?.[0] || '500g'}
-          </span>
+
+        <div className="mt-auto pt-2 flex items-center justify-between">
+          <div className="flex flex-col">
+             <span className="text-[8px] font-black text-slate-300 uppercase tracking-[0.3em] mb-0.5">Asset Val.</span>
+             <div className="flex items-baseline gap-2">
+              <p className="text-2xl font-black text-slate-900 tracking-tighter italic leading-none">
+                {formatPrice(isRythuMode && batch ? batch.pricePerUnit : product.price)}
+              </p>
+              {discountPercent > 0 && !isRythuMode && (
+                <p className="text-xs text-slate-400 line-through font-bold opacity-50 italic">
+                  {formatPrice(product.originalPrice)}
+                </p>
+              )}
+             </div>
+          </div>
+          
+          <div className="flex items-center gap-2 text-slate-300 transition-colors group-hover:text-primary">
+             <span className="text-[8px] font-black uppercase tracking-widest">Detail</span>
+             <ChevronRight size={12} strokeWidth={3} className="group-hover:translate-x-0.5 transition-transform" />
+          </div>
         </div>
 
-        <div className="mt-4">
-          <Button
-            onClick={handleAddToCart}
-            disabled={!product.inStock || isAdded}
-            className={cn(
-              "w-full rounded-xl py-5 font-bold font-sans",
-              (!product.inStock || isAdded) && "pointer-events-none opacity-80"
-            )}
-          >
-            <AnimatePresence mode="wait">
-              {isAdded ? (
-                <m.div key="added" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="flex items-center gap-2">
-                  <Check size={18} strokeWidth={3} /> Added!
-                </m.div>
-              ) : (
-                <m.div key="add" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2">
-                  <ShoppingCart size={18} strokeWidth={2.5} /> Add to Cart
-                </m.div>
-              )}
-            </AnimatePresence>
-          </Button>
-        </div>
+        {/* Platform Details (Rythu Traceability) */}
+        {isRythuMode && batch && (
+           <div className="mt-6 flex flex-col gap-2 p-4 rounded-[1.5rem] bg-orange-50/50 border border-orange-100 shadow-sm">
+              <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-[0.15em] text-orange-700/70">
+                 <span className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-orange-500" /> {batch.farmerName}</span>
+                 <span>{batch.availableQty} kg Avail.</span>
+              </div>
+              <div className="h-1 w-full bg-orange-200/30 rounded-full overflow-hidden">
+                 <motion.div 
+                   initial={{ width: 0 }}
+                   whileInView={{ width: `${availablePercent}%` }}
+                   transition={{ duration: 1.5, ease: "easeOut" }}
+                   className="h-full bg-orange-500 rounded-full" 
+                 />
+              </div>
+           </div>
+        )}
       </div>
     </div>
   )

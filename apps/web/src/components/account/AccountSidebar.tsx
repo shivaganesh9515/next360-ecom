@@ -29,32 +29,38 @@ const NAV_ITEMS = [
 export default function AccountSidebar() {
   const pathname = usePathname()
   const router = useRouter()
-  const { logout } = useAuthStore()
+  const { logout, user } = useAuthStore()
 
   const handleLogout = () => {
     logout()
     router.push('/')
-    toast.success('Logged out successfully')
+    toast.success('System de-authenticated')
   }
 
-  const userInitials = MOCK_USER.name.split(' ').map(n => n[0]).join('')
+  const userInitials = (user?.name || 'User').split(' ').map(n => n[0]).join('')
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden sticky top-24">
+    <div className="bg-white rounded-[3rem] border border-slate-100 overflow-hidden sticky top-32 shadow-2xl shadow-slate-200/40">
       {/* User Card */}
-      <div className="p-5 bg-cream/50 flex flex-col items-center border-b border-slate-100">
-        <div className="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center font-display text-xl font-bold mb-3 shadow-lg shadow-primary/20">
+      <div className="p-8 bg-slate-50 flex flex-col items-center border-b border-slate-100 relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-12 -mt-12 group-hover:scale-110 transition-transform duration-700" />
+        
+        <div className="w-20 h-20 rounded-full bg-slate-900 text-white flex items-center justify-center font-black text-2xl mb-5 shadow-xl shadow-slate-900/20 relative z-10 italic">
           {userInitials}
         </div>
-        <p className="font-bold text-slate-800">{MOCK_USER.name}</p>
-        <p className="text-xs text-slate-500 mb-3">{MOCK_USER.email}</p>
-        <Badge variant="fresh" className="bg-secondary/10 text-secondary border-none font-black px-3 py-1 flex items-center gap-1">
-          🌱 <AnimatedCounter to={MOCK_USER.seeds} /> Seeds
-        </Badge>
+        <p className="font-black text-slate-800 text-lg tracking-tight relative z-10 leading-none mb-1">{user?.name || 'Fleet Operator'}</p>
+        <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] mb-6 relative z-10">{user?.email}</p>
+        
+        <div className="bg-white border border-slate-100 rounded-full px-5 py-2 shadow-sm relative z-10 group/seeds">
+           <span className="text-[10px] font-black text-primary uppercase tracking-widest flex items-center gap-2">
+              <Leaf size={12} strokeWidth={3} className="group-hover/seeds:rotate-12 transition-transform" />
+              <AnimatedCounter to={user?.seeds || 0} /> Equity Nodes
+           </span>
+        </div>
       </div>
 
       {/* Nav List */}
-      <nav className="py-2">
+      <nav className="py-6 px-3">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href
           
@@ -63,36 +69,30 @@ export default function AccountSidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "relative flex items-center gap-3 px-5 py-3 text-sm font-medium transition-colors",
+                "relative flex items-center gap-4 px-6 py-4 text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300 rounded-2xl group",
                 isActive 
-                  ? "text-primary" 
-                  : "text-slate-600 hover:text-primary"
+                  ? "text-slate-900 bg-slate-50 shadow-inner" 
+                  : "text-slate-400 hover:text-slate-900 hover:bg-slate-50/50"
               )}
             >
+              <item.icon size={16} strokeWidth={isActive ? 3 : 2} className={cn("transition-colors", isActive ? 'text-primary' : 'text-slate-300 group-hover:text-slate-500')} />
+              <span className="relative z-10">{item.label}</span>
               {isActive && (
-                <motion.div
-                  layoutId="account-sidebar-active"
-                  className="absolute inset-0 bg-primary/10 border-r-2 border-primary"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                />
+                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-primary" />
               )}
-              <span className="relative z-10 flex items-center gap-3">
-                <item.icon size={16} className={isActive ? 'text-primary' : 'text-slate-400'} />
-                {item.label}
-              </span>
             </Link>
           )
         })}
       </nav>
 
       {/* Logout */}
-      <div className="border-t border-slate-100 mt-2">
+      <div className="p-3 border-t border-slate-50">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-5 py-4 text-sm font-bold text-red-500 hover:bg-red-50 transition-colors"
+          className="w-full flex items-center gap-4 px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-red-400 hover:text-red-500 hover:bg-red-50/50 rounded-2xl transition-all group"
         >
-          <LogOut size={16} />
-          Logout
+          <LogOut size={16} strokeWidth={3} className="group-hover:-translate-x-1 transition-transform" />
+          Terminate Session
         </button>
       </div>
     </div>

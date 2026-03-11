@@ -31,7 +31,7 @@ export default function VendorReviewsPage() {
       cell: ({ row }: any) => (
         <div className="flex items-center text-yellow-500">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} className={`w-4 h-4 ${i < row.rating ? 'fill-current' : 'text-gray-300'}`} />
+            <Star key={i} className={`w-4 h-4 ${i < row.rating ? 'fill-current' : 'text-muted'}`} />
           ))}
         </div>
       )
@@ -49,8 +49,8 @@ export default function VendorReviewsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Customer Reviews</h1>
-        <p className="text-gray-500 text-sm">See what customers are saying about your products.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-text">Customer Reviews</h1>
+        <p className="text-muted text-sm">See what customers are saying about your products.</p>
       </div>
 
       <Card>

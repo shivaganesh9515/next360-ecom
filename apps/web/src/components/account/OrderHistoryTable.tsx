@@ -14,14 +14,14 @@ interface OrderHistoryTableProps {
 export default function OrderHistoryTable({ orders, onViewDetail }: OrderHistoryTableProps) {
   if (orders.length === 0) {
     return (
-      <div className="p-12 text-center flex flex-col items-center justify-center">
-        <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-          <Package className="text-slate-300" size={32} />
+      <div className="p-20 text-center flex flex-col items-center justify-center bg-white rounded-[3rem]">
+        <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-8 shadow-inner border border-slate-100">
+          <Package className="text-slate-300" size={32} strokeWidth={2} />
         </div>
-        <h3 className="font-display text-xl font-bold text-slate-800 mb-2">No orders found</h3>
-        <p className="text-slate-500 font-medium mb-6">Looks like you haven't placed any orders yet.</p>
+        <h3 className="text-2xl font-black text-slate-900 mb-2 tracking-tight italic">No Deployments Found</h3>
+        <p className="text-slate-400 font-bold text-sm mb-10 uppercase tracking-widest">Protocol initialized but log is empty</p>
         <Link href="/shop">
-          <Button variant="primary" className="font-bold">Start Shopping</Button>
+          <Button className="rounded-full px-12 h-14 font-black uppercase tracking-widest text-xs shadow-2xl shadow-primary/20">Initialize Market Haul</Button>
         </Link>
       </div>
     )
@@ -29,50 +29,54 @@ export default function OrderHistoryTable({ orders, onViewDetail }: OrderHistory
 
   return (
     <>
-      {/* Desktop Table (hidden on md-) */}
-      <div className="hidden md:block w-full overflow-x-auto">
+      {/* Desktop Table */}
+      <div className="hidden md:block w-full overflow-hidden">
         <table className="w-full text-left text-sm whitespace-nowrap">
-          <thead className="bg-slate-50/50 text-slate-500 font-bold uppercase tracking-wider text-xs border-b border-slate-100">
+          <thead className="bg-slate-50 text-slate-400 font-black uppercase tracking-[0.25em] text-[9px] border-b border-slate-100">
             <tr>
-              <th className="px-6 py-4">Order #</th>
-              <th className="px-6 py-4">Date</th>
-              <th className="px-6 py-4">Items</th>
-              <th className="px-6 py-4">Total</th>
-              <th className="px-6 py-4">Status</th>
-              <th className="px-6 py-4 text-right">Action</th>
+              <th className="px-10 py-6">Unique ID</th>
+              <th className="px-10 py-6">Timestamp</th>
+              <th className="px-10 py-6">Inventory Load</th>
+              <th className="px-10 py-6">Settlement</th>
+              <th className="px-10 py-6">Operational Status</th>
+              <th className="px-10 py-6 text-right">Audit</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 text-slate-700">
+          <tbody className="divide-y divide-slate-50 text-slate-700 bg-white">
             {orders.map(order => (
-              <tr key={order.id} className="hover:bg-slate-50/50 transition-colors">
-                <td className="px-6 py-4 font-mono font-bold text-primary">{order.orderNumber}</td>
-                <td className="px-6 py-4 font-medium">
+              <tr key={order.id} className="group hover:bg-slate-50/50 transition-all duration-300">
+                <td className="px-10 py-8 font-black text-slate-900 text-xs tracking-tight group-hover:text-primary transition-colors">{order.orderNumber}</td>
+                <td className="px-10 py-8 font-bold text-slate-400 text-xs uppercase tracking-widest">
                   {new Date(order.placedAt).toLocaleDateString('en-IN', {
-                    day: 'numeric', month: 'short', year: 'numeric'
+                    day: '2-digit', month: 'short', year: 'numeric'
                   })}
                 </td>
-                <td className="px-6 py-4 font-medium text-xs">
-                  <span className="font-bold">{order.items.length} items</span>
-                  <span className="text-slate-400 block truncate max-w-[150px]">
-                    {order.items[0].productName} {order.items.length > 1 ? '& more' : ''}
-                  </span>
+                <td className="px-10 py-8">
+                  <div className="flex flex-col gap-1">
+                    <span className="font-black text-slate-900 text-xs">{order.items.length} Nodes Loaded</span>
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest truncate max-w-[200px]">
+                      {order.items[0].productName} {order.items.length > 1 ? `+ ${order.items.length - 1} Others` : ''}
+                    </span>
+                  </div>
                 </td>
-                <td className="px-6 py-4 font-bold">{formatPrice(order.total)}</td>
-                <td className="px-6 py-4">
+                <td className="px-10 py-8 font-black text-slate-900 text-sm italic">{formatPrice(order.total)}</td>
+                <td className="px-10 py-8">
                   <OrderStatusBadge status={order.status} />
                 </td>
-                <td className="px-6 py-4 text-right">
-                  <button 
-                    onClick={() => onViewDetail(order)}
-                    className="text-primary font-bold hover:underline text-xs uppercase tracking-widest mr-4"
-                  >
-                    View Details
-                  </button>
-                  {order.status === 'DELIVERED' && (
-                    <button className="text-secondary font-bold hover:underline text-xs uppercase tracking-widest">
-                      Reorder
+                <td className="px-10 py-8 text-right">
+                  <div className="flex items-center justify-end gap-5">
+                    <button 
+                      onClick={() => onViewDetail(order)}
+                      className="text-[10px] font-black text-primary uppercase tracking-[0.2em] hover:text-slate-900 transition-colors"
+                    >
+                      Analyze
                     </button>
-                  )}
+                    {order.status === 'DELIVERED' && (
+                      <button className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-primary transition-colors">
+                        Clone
+                      </button>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
@@ -80,34 +84,42 @@ export default function OrderHistoryTable({ orders, onViewDetail }: OrderHistory
         </table>
       </div>
 
-      {/* Mobile Cards (hidden on md+) */}
-      <div className="md:hidden divide-y divide-slate-100">
+      {/* Mobile Cards */}
+      <div className="md:hidden divide-y divide-slate-50 bg-white">
         {orders.map(order => (
-          <div key={order.id} className="p-4 space-y-3">
+          <div key={order.id} className="p-8 space-y-6 group">
             <div className="flex justify-between items-start">
               <div>
-                <p className="font-mono font-bold text-primary text-sm">{order.orderNumber}</p>
-                <p className="text-xs font-bold text-slate-400 mt-0.5">
+                <p className="font-black text-slate-900 text-sm tracking-tight mb-1 group-hover:text-primary transition-colors">{order.orderNumber}</p>
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">
                   {new Date(order.placedAt).toLocaleDateString('en-IN', {
-                    day: 'numeric', month: 'short', year: 'numeric'
+                    day: '2-digit', month: 'short', year: 'numeric'
                   })}
                 </p>
               </div>
               <OrderStatusBadge status={order.status} />
             </div>
             
-            <div className="flex justify-between items-center text-sm font-medium">
-              <span className="text-slate-600">{order.items.length} items</span>
-              <span className="font-bold text-slate-900">{formatPrice(order.total)}</span>
+            <div className="flex justify-between items-center">
+              <div className="flex flex-col gap-0.5">
+                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{order.items.length} Nodes Loaded</span>
+                 <span className="font-black text-slate-900 text-base italic">{formatPrice(order.total)}</span>
+              </div>
             </div>
 
-            <div className="flex gap-2 pt-1 border-t border-slate-50">
-              <Button variant="outline" className="flex-1 py-2 text-xs" onClick={() => onViewDetail(order)}>
-                View Details
+            <div className="flex gap-4 pt-2">
+              <Button 
+                variant="outline" 
+                className="flex-1 rounded-full h-12 text-[10px] font-black uppercase tracking-widest border-slate-100 text-slate-400 hover:text-slate-900" 
+                onClick={() => onViewDetail(order)}
+              >
+                Analyze
               </Button>
               {order.status === 'DELIVERED' && (
-                <Button variant="primary" className="flex-1 py-2 text-xs text-white bg-primary">
-                  Reorder
+                <Button 
+                  className="flex-1 rounded-full h-12 text-[10px] font-black uppercase tracking-widest"
+                >
+                  Clone Haul
                 </Button>
               )}
             </div>

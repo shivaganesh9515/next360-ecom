@@ -3,9 +3,8 @@
 import React, { useState } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Star } from 'lucide-react'
-import { Checkbox, Toggle, Button, Badge } from '@next360/ui'
-import { MOCK_CATEGORIES } from '@/lib/mockData'
-import { CERTIFICATIONS, HEALTH_GOALS } from '@next360/utils'
+import { Checkbox, Toggle, Button } from '@next360/ui'
+import { CERTIFICATIONS } from '@next360/utils'
 import { cn } from '@next360/utils'
 
 export interface ShopFilters {
@@ -19,57 +18,12 @@ export interface ShopFilters {
   page: number
   q: string
   healthGoals: string[]
+  deliveryType: string
 }
 
 interface FilterSidebarProps {
   filters: ShopFilters
   onChange: (filters: Partial<ShopFilters>) => void
-}
-
-interface FilterSectionProps {
-  title: string
-  children: React.ReactNode
-  defaultOpen?: boolean
-}
-
-const FilterSection = ({ title, children, defaultOpen = true }: FilterSectionProps) => {
-  const [isOpen, setIsOpen] = useState(defaultOpen)
-
-  return (
-    <div className="border-b border-border/70 last:border-none pb-6 mb-6 last:pb-0 last:mb-0">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-full text-left group"
-      >
-        <h3 className="text-sm font-bold text-text tracking-tight uppercase">
-          {title}
-        </h3>
-        <ChevronDown 
-          size={18} 
-          className={cn(
-            "text-muted transition-transform duration-300",
-            isOpen && "rotate-180"
-          )} 
-        />
-      </button>
-
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <m.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="pt-4">
-              {children}
-            </div>
-          </m.div>
-        )}
-      </AnimatePresence>
-    </div>
-  )
 }
 
 export default function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
@@ -80,7 +34,7 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
     filters.rating > 0 || 
     filters.certified.length > 0 || 
     filters.inStock ||
-    filters.healthGoals.length > 0
+    filters.deliveryType !== 'all'
 
   const handleClearAll = () => {
     onChange({
@@ -90,7 +44,8 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
       rating: 0,
       certified: [],
       inStock: false,
-      healthGoals: []
+      healthGoals: [],
+      deliveryType: 'all'
     })
   }
 
@@ -101,191 +56,125 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
     onChange({ certified: newCertified })
   }
 
-  const toggleHealthGoal = (id: string) => {
-    const newGoals = filters.healthGoals.includes(id)
-      ? filters.healthGoals.filter(g => g !== id)
-      : [...filters.healthGoals, id]
-    onChange({ healthGoals: newGoals })
-  }
-
   return (
-    <aside className="sticky top-24 h-[calc(100vh-120px)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-border">
-      <div className="bg-white rounded-3xl border border-border/70 p-6 shadow-sm">
-        {/* Category */}
-        <FilterSection title="Category">
+    <aside className="sticky top-28 w-64 flex-shrink-0">
+      <div className="bg-white rounded-2xl border border-border shadow-card p-6 space-y-8">
+        
+        {/* Delivery Speed Filter */}
+        <div className="space-y-4">
+          <h3 className="text-[10px] text-muted uppercase tracking-[0.15em] font-black">
+            Delivery Speed
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { label: '⚡ Express (< 1hr)', value: 'HYPERLOCAL' },
+              { label: '🚚 1-3 Days', value: 'NATIONAL' },
+              { label: 'All', value: 'all' }
+            ].map((option) => {
+              const isActive = filters.deliveryType === option.value
+              return (
+                <button
+                  key={option.value}
+                  onClick={() => onChange({ deliveryType: option.value })}
+                  className={cn(
+                    "px-3 py-1.5 rounded-full border text-[10px] font-black uppercase tracking-wider transition-all duration-200",
+                    isActive 
+                      ? "bg-primary text-white border-primary shadow-sm" 
+                      : "border-border text-muted hover:border-primary/40 hover:text-primary"
+                  )}
+                >
+                  {option.label}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        <hr className="border-border/50" />
+
+        {/* Categories (Simplified) */}
+        <div className="space-y-4">
+          <h3 className="text-[10px] text-muted uppercase tracking-[0.15em] font-black">
+            Category
+          </h3>
           <div className="space-y-2">
-            <button
-              onClick={() => onChange({ category: 'all' })}
-              className={cn(
-                "w-full text-left py-1 text-sm transition-colors",
-                filters.category === 'all' ? "text-primary font-bold" : "text-muted hover:text-text"
-              )}
-            >
-              All Categories
-            </button>
-            {MOCK_CATEGORIES.map(cat => (
+            {['Vegetables', 'Fruits', 'Grains', 'Oils & Ghee'].map(cat => (
               <button
-                key={cat.id}
-                onClick={() => onChange({ category: cat.slug })}
+                key={cat}
+                onClick={() => onChange({ category: cat.toLowerCase() })}
                 className={cn(
-                  "flex items-center justify-between w-full text-left py-1 text-sm transition-colors",
-                  filters.category === cat.slug ? "text-primary font-bold" : "text-muted hover:text-text"
+                  "block w-full text-left text-xs font-bold transition-colors",
+                  filters.category === cat.toLowerCase() ? "text-primary" : "text-muted hover:text-text"
                 )}
               >
-                <span className="font-sans">{cat.name}</span>
-                <span className="text-[10px] text-muted font-mono">({cat._count?.products || 0})</span>
+                {cat}
               </button>
             ))}
           </div>
-        </FilterSection>
+        </div>
+
+        <hr className="border-border/50" />
 
         {/* Price Range */}
-        <FilterSection title="Price Range">
-          <div className="space-y-4">
-            <div className="flex gap-3">
-              <div className="flex-1">
-                <label className="text-[10px] uppercase font-bold text-muted mb-1 block">Min (₹)</label>
-                <input 
-                  type="number" 
-                  value={filters.minPrice}
-                  onChange={(e) => onChange({ minPrice: Number(e.target.value) })}
-                  className="w-full h-10 px-3 bg-cream border border-border rounded-xl text-sm focus:ring-2 focus:ring-primary/20 transition-all"
-                  placeholder="0"
-                />
-              </div>
-              <div className="flex-1">
-                <label className="text-[10px] uppercase font-bold text-muted mb-1 block">Max (₹)</label>
-                <input 
-                  type="number" 
-                  value={filters.maxPrice}
-                  onChange={(e) => onChange({ maxPrice: Number(e.target.value) })}
-                  className="w-full h-10 px-3 bg-cream border border-border rounded-xl text-sm focus:ring-2 focus:ring-primary/20 transition-all"
-                  placeholder="5000"
-                />
-              </div>
-            </div>
-            
-            <div className="flex flex-wrap gap-2">
-              {[
-                { label: 'Under ₹200', min: 0, max: 200 },
-                { label: '₹200-₹500', min: 200, max: 500 },
-                { label: '₹500+', min: 500, max: 5000 }
-              ].map((preset) => (
-                <button
-                  key={preset.label}
-                  onClick={() => onChange({ minPrice: preset.min, maxPrice: preset.max })}
-                  className={cn(
-                    "px-3 py-1.5 rounded-full text-[10px] font-bold border transition-all",
-                    filters.minPrice === preset.min && filters.maxPrice === preset.max
-                      ? "bg-primary text-white border-primary"
-                      : "bg-white text-muted border-border/70 hover:border-primary/30"
-                  )}
-                >
-                  {preset.label}
-                </button>
-              ))}
+        <div className="space-y-4">
+          <h3 className="text-[10px] text-muted uppercase tracking-[0.15em] font-black">
+            Price Range
+          </h3>
+          <div className="flex flex-col gap-3">
+            <input 
+              type="range" 
+              min="0" 
+              max="5000" 
+              step="100"
+              value={filters.maxPrice}
+              onChange={(e) => onChange({ maxPrice: Number(e.target.value) })}
+              className="accent-primary"
+            />
+            <div className="flex justify-between text-[10px] font-black text-text">
+              <span>₹0</span>
+              <span>₹{filters.maxPrice}</span>
             </div>
           </div>
-        </FilterSection>
+        </div>
+
+        <hr className="border-border/50" />
 
         {/* Rating */}
-        <FilterSection title="Minimum Rating">
+        <div className="space-y-4">
+          <h3 className="text-[10px] text-muted uppercase tracking-[0.15em] font-black">
+            Minimum Rating
+          </h3>
           <div className="space-y-2">
-            {[5, 4, 3, 0].map((r) => (
+            {[4, 3, 2].map((r) => (
               <button
                 key={r}
                 onClick={() => onChange({ rating: r })}
                 className={cn(
-                  "flex items-center gap-2 w-full p-2 rounded-xl border transition-all",
-                  filters.rating === r
-                    ? "bg-primary/5 border-primary/20"
-                    : "bg-surface border-transparent hover:bg-cream"
+                  "flex items-center gap-2 w-full transition-all",
+                  filters.rating === r ? "text-primary" : "text-muted"
                 )}
               >
                 <div className="flex gap-0.5">
-                  {r === 0 ? (
-                    <span className="text-xs text-muted font-medium">Any rating</span>
-                  ) : (
-                    [...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        size={14} 
-                        className={cn(
-                          i < r ? "fill-yellow-400 text-yellow-400" : "text-slate-200"
-                        )} 
-                      />
-                    ))
-                  )}
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={12} fill={i < r ? 'currentColor' : 'none'} />
+                  ))}
                 </div>
-                {r > 0 && <span className="text-xs text-muted">& above</span>}
+                <span className="text-[10px] font-black">& up</span>
               </button>
             ))}
           </div>
-        </FilterSection>
-
-        {/* Availability */}
-        <FilterSection title="Availability">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted">In Stock Only</span>
-            <Toggle 
-              checked={filters.inStock} 
-              onChange={(val) => onChange({ inStock: val })} 
-            />
-          </div>
-        </FilterSection>
-
-        {/* Certifications */}
-        <FilterSection title="Certifications">
-          <div className="space-y-3">
-            {CERTIFICATIONS.map(cert => (
-              <div key={cert} className="flex items-center gap-3">
-                <Checkbox 
-                  id={`cert-${cert}`}
-                  checked={filters.certified.includes(cert)}
-                  onChange={() => toggleCertified(cert)}
-                />
-                <label 
-                  htmlFor={`cert-${cert}`}
-                  className="text-sm text-muted cursor-pointer select-none"
-                >
-                  {cert}
-                </label>
-              </div>
-            ))}
-          </div>
-        </FilterSection>
-
-        {/* Health Goals */}
-        <FilterSection title="Health Goals">
-          <div className="space-y-3">
-            {HEALTH_GOALS.map(goal => (
-              <div key={goal.id} className="flex items-center gap-3">
-                <Checkbox 
-                  id={`goal-${goal.id}`}
-                  checked={filters.healthGoals.includes(goal.id)}
-                  onChange={() => toggleHealthGoal(goal.id)}
-                />
-                <label 
-                  htmlFor={`goal-${goal.id}`}
-                  className="text-sm text-muted cursor-pointer select-none flex items-center gap-2"
-                >
-                  <span className="text-lg opacity-80">{goal.emoji}</span>
-                  {goal.label}
-                </label>
-              </div>
-            ))}
-          </div>
-        </FilterSection>
+        </div>
 
         {isAnyFilterActive && (
-          <div className="pt-6 border-t border-border/70">
+          <div className="pt-2">
             <Button 
               variant="ghost" 
+              fullWidth
               size="sm"
               onClick={handleClearAll}
-              className="w-full text-red-500 hover:text-red-600 hover:bg-red-50 h-11 rounded-2xl"
+              className="text-red-500 hover:bg-red-50 font-bold uppercase tracking-widest text-[10px] h-10 rounded-xl"
             >
-              Clear All Filters
+              Clear All
             </Button>
           </div>
         )}
@@ -293,4 +182,3 @@ export default function FilterSidebar({ filters, onChange }: FilterSidebarProps)
     </aside>
   )
 }
-

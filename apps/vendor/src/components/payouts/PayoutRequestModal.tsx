@@ -53,9 +53,9 @@ export default function PayoutRequestModal({ isOpen, onClose, availableBalance }
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
-          <h3 className="text-lg font-bold text-gray-900">Request Payout</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">✕</button>
+        <div className="px-6 py-4 border-b border-border flex justify-between items-center">
+          <h3 className="text-lg font-bold text-text">Request Payout</h3>
+          <button onClick={onClose} className="text-muted hover:text-muted">✕</button>
         </div>
         
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
@@ -73,7 +73,7 @@ export default function PayoutRequestModal({ isOpen, onClose, availableBalance }
             onChange={(e) => setAmount(e.target.value)}
           />
 
-          <div className="text-xs text-gray-500 font-medium bg-gray-50 p-3 rounded">
+          <div className="text-xs text-muted font-medium bg-cream/50 p-3 rounded">
             Note: Funds will be transferred to your registered bank account via NEFT/IMPS.
           </div>
 

@@ -31,21 +31,19 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
       {STEPS.map((s, idx) => {
         const isCompleted = currentStep > s.step
         const isActive = currentStep === s.step
-        const isUpcoming = currentStep < s.step
 
         return (
           <div key={s.step} className="flex flex-col items-center gap-3 relative">
             <motion.div
               initial={false}
               animate={{
-                scale: isActive ? 1.1 : 1,
-                backgroundColor: isCompleted ? '#2D5016' : isActive ? '#142609' : '#FFFFFF',
-                borderColor: isCompleted ? '#2D5016' : isActive ? '#142609' : '#E2E8F0'
+                scale: isActive ? 1 : 0.9,
+                backgroundColor: isCompleted ? '#16a34a' : isActive ? '#0f172a' : '#f8fafc',
+                borderColor: isCompleted ? '#16a34a' : isActive ? '#0f172a' : '#f1f5f9'
               }}
               className={cn(
-                "w-10 h-10 rounded-full border-2 flex items-center justify-center transition-shadow duration-300",
-                isActive && "shadow-xl shadow-primary/20 ring-4 ring-primary/10",
-                isUpcoming && "text-muted"
+                "w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all",
+                isActive && "shadow-2xl shadow-slate-900/20 ring-4 ring-slate-900/5"
               )}
             >
               <AnimatePresence mode="wait">
@@ -56,7 +54,7 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                   >
-                    <Check size={20} className="text-white" strokeWidth={3} />
+                    <Check size={22} className="text-white" strokeWidth={4} />
                   </motion.div>
                 ) : (
                   <motion.div
@@ -65,7 +63,7 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
                     animate={{ opacity: 1 }}
                     className={cn(
                       "font-black text-sm",
-                      isActive ? "text-white" : "text-muted"
+                      isActive ? "text-white" : "text-slate-400"
                     )}
                   >
                     {s.step}
@@ -75,18 +73,11 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
             </motion.div>
 
             <span className={cn(
-              "text-[10px] font-black uppercase tracking-widest transition-colors duration-300",
-              isActive ? "text-primary" : isCompleted ? "text-secondary" : "text-muted"
+              "text-[10px] font-black uppercase tracking-[0.2em] transition-colors duration-300",
+              isActive ? "text-slate-900" : isCompleted ? "text-primary" : "text-slate-300"
             )}>
               {s.label}
             </span>
-
-            {isActive && (
-              <motion.div 
-                layoutId="active-indicator"
-                className="absolute -bottom-2 w-1.5 h-1.5 rounded-full bg-primary"
-              />
-            )}
           </div>
         )
       })}

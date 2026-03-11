@@ -3,7 +3,20 @@ import { redis } from '../../config/redis'
 import { AppError } from '../../shared/errors/AppError'
 
 export async function getProducts(filters: any) {
-  const { category, minPrice, maxPrice, rating, search, sort, page = 1, limit = 12 } = filters
+  const {
+    category,
+    minPrice,
+    maxPrice,
+    rating,
+    search,
+    sort,
+    page = 1,
+    limit = 12,
+    zoneId,
+    mode,
+    deliveryType,
+    healthGoals,
+  } = filters
 
   const cacheKey = `products:list:${JSON.stringify(filters)}`
   const cached = await redis.get(cacheKey)
@@ -24,6 +37,24 @@ export async function getProducts(filters: any) {
       { name: { contains: search, mode: 'insensitive' } },
       { shortDesc: { contains: search, mode: 'insensitive' } },
     ]
+  }
+  if (deliveryType) where.deliveryType = deliveryType
+  if (mode) where.platformModes = { has: mode }
+  if (zoneId) {
+    where.productZones = {
+      some: {
+        zoneId,
+        isAvailable: true,
+      },
+    }
+  }
+  const parsedHealthGoals = Array.isArray(healthGoals)
+    ? healthGoals
+    : typeof healthGoals === 'string'
+    ? [healthGoals]
+    : []
+  if (parsedHealthGoals.length > 0) {
+    where.healthGoalTags = { hasSome: parsedHealthGoals }
   }
 
   let orderBy: any = { createdAt: 'desc' }

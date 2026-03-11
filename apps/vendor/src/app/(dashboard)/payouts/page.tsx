@@ -24,109 +24,130 @@ export default function VendorPayoutsPage() {
     payouts: []
   }
 
-  const columns: any[] = [
+  const displayColumns: any[] = [
     { 
       accessorKey: 'id', 
-      header: 'Transfer ID',
-      cell: ({ row }: any) => <span className="font-mono text-sm">#{row.id.slice(-6)}</span>
+      header: 'Transfer Seq',
+      cell: ({ row }: any) => <span className="font-black text-[10px] tracking-tighter italic text-slate-400 uppercase">SEQ-{row.original.id.slice(-8)}</span>
     },
     { 
       accessorKey: 'createdAt', 
-      header: 'Date',
-      cell: ({ row }: any) => format(new Date(row.createdAt), 'MMM dd, yyyy')
+      header: 'Finalization Date',
+      cell: ({ row }: any) => <span className="font-bold text-slate-500">{format(new Date(row.original.createdAt), 'dd / MM / yyyy')}</span>
     },
     {
       accessorKey: 'amount',
-      header: 'Amount',
-      cell: ({ row }: any) => <span className="font-bold">₹{(row.amount / 100).toLocaleString('en-IN')}</span>
+      header: 'Settlement Amount',
+      cell: ({ row }: any) => <span className="font-black text-slate-900 tracking-tighter italic text-lg">₹{(row.original.amount / 100).toLocaleString('en-IN')}</span>
     },
-    { accessorKey: 'reference', header: 'Reference' },
+    { accessorKey: 'reference', header: 'Registry Ref' },
     {
       accessorKey: 'status',
-      header: 'Status',
+      header: 'Final State',
       cell: ({ row }: any) => {
-        return row.status === 'COMPLETED' 
-          ? <Badge className="bg-green-100 text-green-800">Completed</Badge>
-          : <Badge className="bg-yellow-100 text-yellow-800">Processing</Badge>
+        return row.original.status === 'COMPLETED' 
+          ? <Badge className="rounded-full px-5 py-1.5 border-none bg-primary text-white font-black text-[9px] uppercase tracking-widest shadow-lg shadow-primary/20">Finalized</Badge>
+          : <Badge className="rounded-full px-5 py-1.5 border-none bg-amber-100 text-amber-700 font-black text-[9px] uppercase tracking-widest shadow-sm">In Sequence</Badge>
       }
     }
   ]
 
-  if (isLoading) return <div className="flex h-64 items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-green-600" /></div>
+  if (isLoading) return <div className="flex h-64 items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Payouts & Earnings</h1>
-          <p className="text-gray-500 text-sm">Manage your finances and track bank transfers.</p>
+    <div className="space-y-12 pb-24 font-sans max-w-[1600px] mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-8 px-4">
+        <div className="max-w-2xl">
+          <div className="flex items-center gap-4 mb-6">
+             <div className="h-1.5 w-12 bg-primary rounded-full shadow-sm" />
+             <div className="text-[10px] uppercase tracking-[0.5em] font-black text-primary/60 italic">Treasury Protocol</div>
+          </div>
+          <h1 className="font-display text-7xl font-black text-slate-900 tracking-tighter italic leading-none">Yield & Assets</h1>
+          <p className="mt-8 text-lg font-bold text-slate-500 leading-relaxed opacity-80 decoration-primary/20 underline underline-offset-8">Managing high-fidelity financial settlements and bank transfer sequences across the network.</p>
         </div>
-        <Button onClick={() => setModalOpen(true)} className="bg-green-600 hover:bg-green-700">
-          Request Payout
+        <Button onClick={() => setModalOpen(true)} className="rounded-[2rem] px-12 py-10 font-black text-sm uppercase tracking-[0.3em] shadow-2xl shadow-primary/20 hover:scale-[1.05] active:scale-95 transition-all text-white bg-primary border-none group relative overflow-hidden shrink-0">
+           <span className="relative z-10 flex items-center gap-4">
+              <ArrowUpRight className="h-6 w-6" strokeWidth={3} />
+              Request Settlement
+           </span>
+           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-green-600 text-white shadow-md">
-          <div className="p-6">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-green-100 font-medium">Available Balance</p>
-                <h3 className="text-4xl font-bold mt-2">₹{(payoutData.balance / 100).toLocaleString('en-IN')}</h3>
-              </div>
-              <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
-                <IndianRupee className="w-6 h-6 text-white" />
-              </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="bg-primary p-12 rounded-[3.5rem] text-white shadow-2xl shadow-primary/30 relative overflow-hidden group col-span-1 lg:col-span-1 min-h-[380px] flex flex-col justify-between">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-[80px] rounded-full -mr-32 -mt-32 group-hover:scale-150 transition-transform duration-1000" />
+          <div className="relative z-10">
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/60 mb-8 italic">Available Yield</p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-4xl font-black opacity-40 italic mt-auto">₹</span>
+              <h3 className="text-7xl font-black tracking-tighter italic leading-none">{(payoutData.balance / 100).toLocaleString('en-IN')}</h3>
             </div>
-            <Button onClick={() => setModalOpen(true)} variant="outline" className="w-full mt-6 bg-transparent border-white text-white hover:bg-white/10 hover:text-white">
-              Withdraw Funds <ArrowUpRight className="w-4 h-4 ml-2" />
+          </div>
+          <div className="relative z-10 pt-10">
+            <div className="flex items-center gap-4 mb-8">
+               <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-xl border border-white/10 shadow-sm">
+                 <IndianRupee className="w-6 h-6 text-white" strokeWidth={3} />
+               </div>
+               <p className="text-[10px] font-black uppercase tracking-widest text-white/80">Authorized Liquidity</p>
+            </div>
+            <Button onClick={() => setModalOpen(true)} variant="outline" className="w-full py-8 rounded-[1.5rem] bg-white/10 border-white/20 text-white font-black text-xs uppercase tracking-widest hover:bg-white hover:text-primary transition-all duration-500 shadow-xl group/btn overflow-hidden border-none text-center block">
+              <span className="flex items-center justify-center gap-3">Instant Transfer <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" /></span>
             </Button>
           </div>
-        </Card>
+        </div>
 
-        <Card>
-          <div className="p-6 flex flex-col justify-center h-full">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center shrink-0">
-                <Clock className="w-6 h-6 text-yellow-600" />
+        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-white p-12 rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50 relative overflow-hidden group flex flex-col justify-center">
+            <div className="flex items-center gap-6 mb-8">
+              <div className="w-16 h-16 rounded-[1.5rem] bg-amber-50 border border-amber-100 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-500">
+                <Clock className="w-8 h-8 text-amber-500" strokeWidth={2.5} />
               </div>
               <div>
-                <p className="text-gray-500 font-medium text-sm">Pending Transfers</p>
-                <h3 className="text-2xl font-bold text-gray-900">₹{(payoutData.pending / 100).toLocaleString('en-IN')}</h3>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-2">Pending Sequences</p>
+                <h3 className="text-4xl font-black text-slate-900 tracking-tighter italic">₹{(payoutData.pending / 100).toLocaleString('en-IN')}</h3>
               </div>
             </div>
+            <p className="text-xs font-bold text-slate-400 italic opacity-60 ml-2">Verification in progress for 3 active nodes.</p>
           </div>
-        </Card>
 
-        <Card>
-          <div className="p-6 flex flex-col justify-center h-full">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                <CheckCircle className="w-6 h-6 text-blue-600" />
+          <div className="bg-white p-12 rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50 relative overflow-hidden group flex flex-col justify-center">
+            <div className="flex items-center gap-6 mb-8">
+              <div className="w-16 h-16 rounded-[1.5rem] bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-500">
+                <CheckCircle className="w-8 h-8 text-emerald-500" strokeWidth={2.5} />
               </div>
               <div>
-                <p className="text-gray-500 font-medium text-sm">Total Withdrawn</p>
-                <h3 className="text-2xl font-bold text-gray-900">₹{(payoutData.withdrawn / 100).toLocaleString('en-IN')}</h3>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-2">Total Extraction</p>
+                <h3 className="text-4xl font-black text-slate-900 tracking-tighter italic">₹{(payoutData.withdrawn / 100).toLocaleString('en-IN')}</h3>
               </div>
             </div>
+            <p className="text-xs font-bold text-slate-400 italic opacity-60 ml-2">Successfully finalized network settlements.</p>
           </div>
-        </Card>
+        </div>
       </div>
 
-      <Card>
-        <div className="p-6 border-b border-border">
-          <h2 className="text-lg font-semibold">Transfer History</h2>
+      <div className="bg-white p-2 rounded-[3.5rem] border border-slate-100 shadow-[0_50px_100px_rgba(0,0,0,0.04)] overflow-hidden relative group">
+        <div className="p-10 border-b border-slate-50 flex items-center justify-between bg-slate-50/50">
+           <div className="flex items-center gap-3">
+              <div className="h-1 w-6 bg-slate-200 rounded-full" />
+              <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400 italic">Transfer Log Matrix</h2>
+           </div>
+           <div className="h-10 px-5 rounded-full bg-slate-100/50 border border-slate-200/50 flex items-center gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Active Verification</p>
+           </div>
         </div>
-        <div className="p-6">
-          <DataTable columns={columns} data={payoutData.payouts || []} searchKey="id" />
+        <div className="no-scrollbar overflow-x-auto">
+          <DataTable columns={displayColumns} data={payoutData.payouts || []} />
         </div>
-      </Card>
+      </div>
 
       <PayoutRequestModal 
         isOpen={modalOpen} 
         onClose={() => setModalOpen(false)} 
         availableBalance={payoutData.balance} 
       />
+    </div>
     </div>
   )
 }

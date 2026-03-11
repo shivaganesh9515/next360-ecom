@@ -1,115 +1,38 @@
 "use client"
 
-import React, { useState } from 'react'
-import { m, AnimatePresence } from 'framer-motion'
-import { Send, CheckCircle2 } from 'lucide-react'
-import { Button, Input, Badge } from '@next360/ui'
+import React from 'react'
+import { Button, Input } from '@next360/ui'
 
 export default function NewsletterBanner() {
-  const [email, setEmail] = useState('')
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email) return
-    
-    setIsLoading(true)
-    // Simulate API Call
-    setTimeout(() => {
-      setIsLoading(false)
-      setIsSubmitted(true)
-      setEmail('')
-    }, 1500)
-  }
-
   return (
-    <section className="py-24 bg-accent/10 relative overflow-hidden">
-      {/* Decorative Orbs */}
-      <div className="absolute -top-24 -left-24 w-64 h-64 bg-accent/20 rounded-full blur-3xl opacity-50" />
-      <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-primary/20 rounded-full blur-3xl opacity-50" />
-
-      <div className="max-w-3xl mx-auto px-4 text-center relative z-10">
-        <m.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="flex flex-col items-center"
-        >
-          <Badge variant="sale" className="bg-accent text-white font-bold mb-6 px-4 py-1.5 rounded-full shadow-lg shadow-accent/20">
-            🎁 LIMITED TIME OFFER
-          </Badge>
-          
-          <h2 className="font-display text-4xl md:text-5xl text-primary font-bold mb-4 leading-tight">
-            Get 10% Off Your First Order
-          </h2>
-          
-          <p className="text-text text-lg mb-10 max-w-lg mx-auto font-sans">
-            Join 50,000+ conscious families getting fresh organic produce delivered every single week.
-          </p>
-
-          <AnimatePresence mode="wait">
-            {!isSubmitted ? (
-              <m.form
-                key="form"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                onSubmit={handleSubmit}
-                className="w-full max-w-lg flex flex-col sm:flex-row gap-3"
-              >
-                <div className="flex-1">
-                  <Input
-                    type="email"
-                    placeholder="Enter your email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="h-14 rounded-2xl bg-white border-2 border-primary/10 transition-all focus:border-primary focus:ring-4 focus:ring-primary/5 text-lg"
-                  />
-                </div>
-                <Button 
-                  type="submit" 
-                  size="lg" 
-                  disabled={isLoading}
-                  className="h-14 px-10 rounded-2xl font-bold text-lg min-w-[160px] shadow-xl shadow-primary/20"
-                >
-                  {isLoading ? (
-                    <m.div 
-                      animate={{ rotate: 360 }} 
-                      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                    >
-                      🌱
-                    </m.div>
-                  ) : (
-                    <span className="flex items-center gap-2">Subscribe <Send size={18} /></span>
-                  )}
-                </Button>
-              </m.form>
-            ) : (
-              <m.div
-                key="success"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-white p-8 rounded-[2.5rem] shadow-2xl border border-primary/10 flex flex-col items-center gap-4 w-full max-w-lg"
-              >
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                  <CheckCircle2 size={32} />
-                </div>
-                <div>
-                  <h3 className="font-bold font-sans text-xl text-primary mb-1">You're in the inner circle!</h3>
-                  <p className="text-muted font-sans font-medium">Check your inbox for your 10% discount code 🌿</p>
-                </div>
-              </m.div>
-            )}
-          </AnimatePresence>
-
-          {!isSubmitted && (
-            <p className="mt-4 text-xs text-muted font-bold font-sans uppercase tracking-[0.15em]">
-              🔒 NO SPAM. UNSUBSCRIBE ANYTIME.
-            </p>
-          )}
-        </m.div>
+    <section className="bg-white py-24 md:py-40 font-sans border-t border-slate-50">
+      <div className="max-w-2xl mx-auto text-center px-8">
+        <div className="flex items-center justify-center gap-3 mb-8">
+           <div className="h-1 w-6 bg-primary/30 rounded-full" />
+           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/60 italic">Sequence Dispatch</p>
+        </div>
+        <h2 className="font-black text-5xl md:text-7xl text-slate-900 mb-8 leading-[0.9] tracking-tighter italic">
+          Protocol <span className="text-primary italic">Updates</span>
+        </h2>
+        <p className="text-slate-400 font-bold italic text-lg mb-12 leading-relaxed opacity-60">
+          Subscribe to our high-fidelity supply chain sequences for premium yields and farm intelligence.
+        </p>
+        
+        <form className="flex flex-col sm:flex-row gap-4 p-2 bg-slate-50 rounded-[3rem] border border-slate-100 shadow-sm focus-within:shadow-xl focus-within:border-primary/20 transition-all duration-700">
+          <Input 
+            type="email" 
+            placeholder="Identity Verification (Email)" 
+            className="flex-1 h-16 rounded-full bg-transparent border-none focus:ring-0 px-8 font-bold italic text-slate-900 placeholder:text-slate-300"
+            required 
+          />
+          <Button size="lg" className="h-16 px-12 rounded-full font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-primary/20 bg-primary text-white border-none hover:scale-[1.03] active:scale-95 transition-all duration-500">
+            Join Nexus
+          </Button>
+        </form>
+        
+        <p className="text-[9px] text-slate-400 font-black uppercase tracking-[0.4em] mt-8 italic opacity-40">
+          Secure Transmission. Zero INTERMEDIARY interference.
+        </p>
       </div>
     </section>
   )

@@ -23,9 +23,9 @@ export default function WishlistPage() {
   if (!mounted) return null
 
   const handleClearAll = () => {
-    if (window.confirm('Are you sure you want to clear your wishlist?')) {
+    if (window.confirm('Are you sure you want to clear your saved protocol?')) {
       clearWishlist()
-      toast.success('Wishlist cleared')
+      toast.success('Inventory log cleared')
     }
   }
 
@@ -33,53 +33,58 @@ export default function WishlistPage() {
     addToCart(product, 1, product.weight[0]) // using default weight
     removeItem(product.id)
     openDrawer()
-    toast.success('Moved to cart!')
+    toast.success('Moved to deployment!')
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-sm min-h-[50vh]">
+    <div className="bg-white rounded-[3rem] border border-slate-100 overflow-hidden shadow-2xl shadow-slate-200/40 min-h-[50vh]">
       {/* Header */}
-      <div className="p-5 md:p-6 border-b border-border flex justify-between items-center">
-        <h1 className="font-display text-2xl font-black text-text">
-          Saved Products <span className="text-muted text-lg">({items.length})</span>
-        </h1>
+      <div className="p-8 md:p-12 border-b border-slate-50 flex justify-between items-end">
+        <div>
+           <div className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-4 flex items-center gap-3 italic">
+              <span className="w-8 h-[2.5px] bg-primary" /> Staged Nodes
+           </div>
+           <h1 className="text-3xl font-black text-slate-900 tracking-tight italic leading-none">
+             Haul Manifest <span className="text-slate-300 text-2xl ml-2">[{items.length.toString().padStart(2, '0')}]</span>
+           </h1>
+        </div>
         {items.length > 0 && (
           <button 
             onClick={handleClearAll}
-            className="text-xs font-bold uppercase tracking-widest text-muted hover:text-red-500 transition-colors"
+            className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-red-500 transition-all border-b-2 border-transparent hover:border-red-500/20 pb-1"
           >
-            Clear All
+            Purge Manifest
           </button>
         )}
       </div>
 
       {/* Content */}
       {items.length === 0 ? (
-        <div className="p-16 text-center flex flex-col items-center justify-center">
-          <div className="w-16 h-16 bg-cream/50 rounded-full flex items-center justify-center mb-4">
-            <Heart className="text-muted" size={32} />
+        <div className="p-24 text-center flex flex-col items-center justify-center">
+          <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-10 shadow-inner border border-slate-100">
+            <Heart className="text-slate-200" size={40} strokeWidth={2} />
           </div>
-          <h3 className="font-display text-xl font-bold text-text mb-2">No saved products yet</h3>
-          <p className="text-muted font-medium mb-6">Tap the ♡ on any product to save it for later.</p>
+          <h3 className="text-2xl font-black text-slate-900 mb-2 tracking-tight italic">Manifest Empty</h3>
+          <p className="text-slate-400 font-bold uppercase tracking-widest text-[11px] mb-12">No nodes have been staged for acquisition</p>
           <Link href="/shop">
-            <Button variant="primary" className="font-bold">Browse Products</Button>
+            <Button className="rounded-full px-14 h-16 font-black uppercase tracking-[0.2em] text-xs shadow-2xl shadow-primary/20">Initialize Market Scan</Button>
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 p-4 md:p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-8 md:p-12 bg-slate-50/50">
           {items.map(product => (
-            <div key={product.id} className="flex flex-col h-full bg-white rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
+            <div key={product.id} className="flex flex-col h-full bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-slate-950/5 transition-all duration-700 group">
               <div className="flex-1 relative">
                 {/* We use ProductCard which already has styling & wishlist toggle */}
                 <ProductCard product={product} />
               </div>
-              <div className="px-4 pb-4 bg-white relative z-10 -mt-2">
+              <div className="px-8 pb-8 pt-2 bg-white relative z-10 -mt-4">
                 <Button 
                   variant="outline" 
-                  className="w-full text-xs font-bold py-2 border-primary/20 hover:bg-primary/5 text-primary"
+                  className="w-full h-12 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border-slate-100 text-slate-400 hover:text-white hover:bg-slate-900 group-hover:border-slate-900 transition-all duration-500"
                   onClick={() => handleMoveToCart(product)}
                 >
-                  Move to Cart
+                  Initialize Haul
                 </Button>
               </div>
             </div>

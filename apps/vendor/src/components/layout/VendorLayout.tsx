@@ -1,28 +1,44 @@
-import React, { useState } from 'react';
-import VendorSidebar from './VendorSidebar';
-import VendorHeader from './VendorHeader';
+'use client'
+
+import React, { useState } from 'react'
+import VendorSidebar from './VendorSidebar'
+import VendorHeader from './VendorHeader'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function VendorLayout({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="flex h-screen overflow-hidden w-full bg-[radial-gradient(900px_420px_at_85%_-180px,rgba(136,183,157,0.12),transparent_62%),#f7f3ea]">
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 z-20 bg-black/35 backdrop-blur-[2px] lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+    <div className="flex h-screen overflow-hidden bg-[#FDFCF9] font-sans">
+      {/* Visual Accents */}
+      <div className="absolute top-0 left-0 w-full h-[300px] bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+      </AnimatePresence>
 
       <VendorSidebar open={sidebarOpen} setOpen={setSidebarOpen} />
 
-      <div className="flex flex-col flex-1 overflow-hidden w-full h-full">
+      <div className="flex-1 flex flex-col min-w-0 relative z-10 overflow-hidden">
         <VendorHeader onMenuClick={() => setSidebarOpen(true)} />
-
-        <main className="flex-1 overflow-y-auto p-4 lg:p-8">
-          <div className="mx-auto max-w-[1240px]">{children}</div>
+        <main className="flex-1 overflow-y-auto px-6 py-8 md:px-10 lg:px-12 custom-scrollbar">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {children}
+          </motion.div>
         </main>
       </div>
     </div>
-  );
+  )
 }

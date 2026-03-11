@@ -41,10 +41,10 @@ export default function VendorOrderDetailPage({ params }: { params: { id: string
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
-      <div className="flex justify-between items-center bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+      <div className="flex justify-between items-center bg-white p-6 rounded-xl shadow-sm border border-border">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Order {mockOrder.id}</h1>
-          <p className="text-gray-500 mt-1">Please fulfill the items below.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-text">Order {mockOrder.id}</h1>
+          <p className="text-muted mt-1">Please fulfill the items below.</p>
         </div>
         <div className="flex gap-3">
           <Button 
@@ -73,19 +73,19 @@ export default function VendorOrderDetailPage({ params }: { params: { id: string
               <h2 className="text-lg font-semibold">Items to Fulfill</h2>
             </div>
             <div className="p-6">
-              <div className="divide-y divide-gray-100">
-                {mockOrder.items.map((item) => (
+              <div className="divide-y divide-border">
+                {mockOrder.items.map((item, idx) => (
                   <div key={item.id} className="py-4 flex gap-4">
-                    <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-100 relative shrink-0">
+                    <div className="w-16 h-16 rounded-md overflow-hidden bg-cream relative shrink-0">
                       <Image src={item.image} alt={item.name} fill className="object-cover" />
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-medium text-gray-900">{item.name}</h4>
-                      <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                      <h4 className="font-medium text-text">{item.name}</h4>
+                      <p className="text-sm text-muted">Qty: {item.quantity}</p>
                     </div>
                     <div className="text-right">
-                      <div className="font-medium text-gray-900">₹{(item.price / 100).toLocaleString('en-IN')}</div>
-                      <div className="text-xs text-gray-500">Total: ₹{((item.price * item.quantity) / 100).toLocaleString('en-IN')}</div>
+                      <div className="font-medium text-text">₹{(item.price / 100).toLocaleString('en-IN')}</div>
+                      <div className="text-xs text-muted">Total: ₹{((item.price * item.quantity) / 100).toLocaleString('en-IN')}</div>
                     </div>
                   </div>
                 ))}
@@ -101,16 +101,16 @@ export default function VendorOrderDetailPage({ params }: { params: { id: string
             </div>
             <div className="p-6 space-y-4 text-sm">
               <div>
-                <span className="text-gray-500 block">Name</span>
-                <span className="font-medium text-gray-900">{mockOrder.customerName}</span>
+                <span className="text-muted block">Name</span>
+                <span className="font-medium text-text">{mockOrder.customerName}</span>
               </div>
               <div>
-                <span className="text-gray-500 block">Phone</span>
-                <span className="font-medium text-gray-900">{mockOrder.customerPhone}</span>
+                <span className="text-muted block">Phone</span>
+                <span className="font-medium text-text">{mockOrder.customerPhone}</span>
               </div>
               <div>
-                <span className="text-gray-500 block">Shipping Address</span>
-                <span className="font-medium text-gray-900">{mockOrder.address}</span>
+                <span className="text-muted block">Shipping Address</span>
+                <span className="font-medium text-text">{mockOrder.address}</span>
               </div>
             </div>
           </Card>
@@ -121,15 +121,15 @@ export default function VendorOrderDetailPage({ params }: { params: { id: string
             </div>
             <div className="p-6 space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Items Subtotal</span>
-                <span className="font-medium text-gray-900">₹{(mockOrder.subtotal / 100).toLocaleString('en-IN')}</span>
+                <span className="text-muted">Items Subtotal</span>
+                <span className="font-medium text-text">₹{(mockOrder.subtotal / 100).toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Platform Commission (15%)</span>
+                <span className="text-muted">Platform Commission (15%)</span>
                 <span className="font-medium text-red-600">-₹{(mockOrder.commission / 100).toLocaleString('en-IN')}</span>
               </div>
-              <div className="pt-3 border-t border-gray-100 flex justify-between font-bold">
-                <span className="text-gray-900">Net Earnings</span>
+              <div className="pt-3 border-t border-border flex justify-between font-bold">
+                <span className="text-text">Net Earnings</span>
                 <span className="text-green-600">₹{(mockOrder.netEarnings / 100).toLocaleString('en-IN')}</span>
               </div>
             </div>

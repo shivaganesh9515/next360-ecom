@@ -14,6 +14,7 @@ const config: Config = {
         accent:    '#F4A300',
         earth:     '#8B5E3C',
         cream:     '#FAF6ED',
+        text:      '#1A1A1A',
         muted:     '#6B7280',
         border:    '#E5E0D4',
       },
@@ -22,35 +23,19 @@ const config: Config = {
         display: ['var(--font-playfair)', 'serif'],
       },
       boxShadow: {
-        'card':    '0 2px 12px rgba(0,0,0,0.08)',
+        'card':       '0 2px 12px rgba(0,0,0,0.08)',
         'card-hover': '0 8px 24px rgba(0,0,0,0.12)',
-        'nav':     '0 2px 20px rgba(0,0,0,0.08)',
+        'nav':        '0 2px 20px rgba(0,0,0,0.08)',
       },
       borderRadius: {
         'xl':  '12px',
         '2xl': '16px',
         '3xl': '24px',
       },
-      screens: {
-        'xs': '375px',
-      },
       animation: {
-        'fade-up':   'fadeUp 0.5s ease forwards',
-        'fade-in':   'fadeIn 0.4s ease forwards',
-        'spin-slow': 'spin 3s linear infinite',
-        'bounce-slow': 'bounce 2s infinite',
-        'count-up':  'countUp 1s ease forwards',
-        'shimmer':   'shimmer 1.5s infinite',
+        'shimmer': 'shimmer 1.5s infinite',
       },
       keyframes: {
-        fadeUp: {
-          '0%':   { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        fadeIn: {
-          '0%':   { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
         shimmer: {
           '0%':   { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },

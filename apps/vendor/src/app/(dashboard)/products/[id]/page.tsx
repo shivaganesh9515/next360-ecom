@@ -21,11 +21,11 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Edit Product</h1>
-        <p className="text-gray-500 text-sm">Update prices, stock, or description. Changes may require re-approval.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-text">Edit Product</h1>
+        <p className="text-muted text-sm">Update prices, stock, or description. Changes may require re-approval.</p>
       </div>
       
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-xl shadow-sm border border-border p-6">
         <VendorProductForm initialData={mockInitialData} />
       </div>
     </div>

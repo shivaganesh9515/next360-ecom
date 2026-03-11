@@ -9,7 +9,6 @@ export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputE
   checked: boolean
   onChange: (checked: boolean) => void
   error?: string
-  variant?: 'light' | 'dark'
 }
 
 export const Checkbox = ({
@@ -19,14 +18,13 @@ export const Checkbox = ({
   onChange,
   error,
   disabled,
-  variant = 'light',
   ...props
 }: CheckboxProps) => {
   return (
     <div className="flex flex-col gap-1.5">
       <label
         className={cn(
-          'flex items-center gap-3 cursor-pointer select-none group',
+          'flex items-center gap-4 cursor-pointer select-none group',
           disabled && 'opacity-50 cursor-not-allowed',
           className
         )}
@@ -42,30 +40,24 @@ export const Checkbox = ({
           />
           <div
             className={cn(
-              'w-4 h-4 rounded border transition-all duration-200 flex items-center justify-center',
+              'w-6 h-6 rounded-lg border-2 transition-all duration-300 flex items-center justify-center',
               checked
-                ? 'bg-secondary border-secondary'
+                ? 'bg-primary border-primary scale-110'
                 : error
-                ? 'border-red-400'
-                : variant === 'light'
-                ? 'border-border bg-white group-hover:border-secondary/50'
-                : 'border-white/30 bg-white/5 group-hover:border-white/50',
-              'peer-focus-visible:ring-2 peer-focus-visible:ring-secondary peer-focus-visible:ring-offset-2'
+                ? 'border-red-500'
+                : 'border-slate-200 bg-slate-50 group-hover:border-slate-300',
             )}
           >
-            {checked && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
+            {checked && <Check className="w-4 h-4 text-white" strokeWidth={4} />}
           </div>
         </div>
         {label && (
-          <span className={cn(
-            'text-sm font-sans',
-            variant === 'dark' ? 'text-white/90' : 'text-text'
-          )}>
+          <span className="text-sm font-medium text-slate-700">
             {label}
           </span>
         )}
       </label>
-      {error && <p className="text-xs text-red-500 font-sans">{error}</p>}
+      {error && <p className="text-xs text-red-500 ml-10">{error}</p>}
     </div>
   )
 }

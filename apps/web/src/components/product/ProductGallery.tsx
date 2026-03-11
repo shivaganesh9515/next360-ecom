@@ -22,19 +22,19 @@ export default function ProductGallery({ images, name, isOrganic = true }: Produ
     : [images[0], images[0], images[0], images[0]]
 
   return (
-    <div className="space-y-4">
-      <div className="relative aspect-square rounded-[2rem] overflow-hidden bg-cream group cursor-zoom-in border border-border shadow-[0_1px_0_rgba(17,38,29,0.08),0_10px_26px_rgba(31,48,40,0.06)]">
+    <div className="space-y-6">
+      <div className="relative aspect-square rounded-[2.5rem] overflow-hidden bg-slate-50 group cursor-zoom-in border border-slate-50 shadow-none">
         {isOrganic && (
-          <div className="absolute top-6 right-6 z-10 pointer-events-none">
-            <Badge variant="success" size="md" className="bg-primary text-white border-none px-4 py-2 rounded-full font-bold shadow-lg shadow-primary/20">
-              ✅ India Organic
+          <div className="absolute top-6 left-6 z-10 pointer-events-none">
+            <Badge variant="green" size="md" className="shadow-lg shadow-green-100">
+              Organic Certified
             </Badge>
           </div>
         )}
 
         <motion.div
-          animate={{ scale: isZoomed ? 1.5 : 1 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          animate={{ scale: isZoomed ? 1.4 : 1 }}
+          transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
           className="relative w-full h-full"
           onMouseEnter={() => setIsZoomed(true)}
           onMouseLeave={(e) => {
@@ -52,28 +52,28 @@ export default function ProductGallery({ images, name, isOrganic = true }: Produ
             src={activeImage}
             alt={name}
             fill
-            className="object-cover"
+            className="object-contain p-12"
             priority
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
           />
         </motion.div>
       </div>
 
-      <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+      <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
         {thumbnails.map((img: string, idx: number) => (
           <button
             key={idx}
             onClick={() => setActiveImage(img)}
             className={cn(
-              "relative w-24 h-24 rounded-2xl overflow-hidden bg-cream shrink-0 transition-all duration-300 transform active:scale-95",
-              activeImage === img ? "ring-2 ring-primary ring-offset-2 ring-offset-cream scale-105" : "opacity-60 hover:opacity-100"
+              "relative w-20 h-20 rounded-[1.5rem] overflow-hidden bg-slate-50 shrink-0 transition-all duration-300 transform active:scale-90",
+              activeImage === img ? "ring-2 ring-primary ring-offset-4 ring-offset-white scale-105" : "opacity-50 hover:opacity-100 border border-transparent"
             )}
           >
             <Image
               src={img}
               alt={`${name} thumb ${idx}`}
               fill
-              className="object-cover"
+              className="object-contain p-3"
             />
           </button>
         ))}

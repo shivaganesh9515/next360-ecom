@@ -25,8 +25,8 @@ export default function DashboardLayout({
     }
   }, [isClient, isAuthenticated, router, pathname])
 
-  if (!isClient) return <div className="min-h-screen bg-gray-50"></div>
-  if (!isAuthenticated && !pathname.startsWith('/login') && !pathname.startsWith('/register')) return <div className="min-h-screen bg-gray-50"></div>
+  if (!isClient) return <div className="min-h-screen bg-cream/50"></div>
+  if (!isAuthenticated && !pathname.startsWith('/login') && !pathname.startsWith('/register')) return <div className="min-h-screen bg-cream/50"></div>
 
   return <VendorLayout>{children}</VendorLayout>
 }

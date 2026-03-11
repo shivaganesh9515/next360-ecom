@@ -1,23 +1,29 @@
+import { cn } from '@next360/utils'
+ 
 export const ORDER_STATUS_COLORS: Record<string, string> = {
-  PENDING: 'bg-yellow-100 text-yellow-800',
-  CONFIRMED: 'bg-blue-100 text-blue-800',
-  PROCESSING: 'bg-indigo-100 text-indigo-800',
-  SHIPPED: 'bg-purple-100 text-purple-800',
-  DELIVERED: 'bg-green-100 text-green-800',
-  CANCELLED: 'bg-red-100 text-red-800',
-  REFUNDED: 'bg-border/40 text-text',
+  PENDING: 'bg-amber-500/10 text-amber-500 border-amber-500/20',
+  CONFIRMED: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  PROCESSING: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
+  SHIPPED: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+  DELIVERED: 'bg-primary/20 text-primary border-primary/30',
+  CANCELLED: 'bg-rose-500/10 text-rose-500 border-rose-500/20',
+  REFUNDED: 'bg-white/5 text-slate-500 border-white/10',
 }
-
+ 
 interface OrderStatusBadgeProps {
   status: string
   className?: string
 }
-
+ 
 export function OrderStatusBadge({ status, className = '' }: OrderStatusBadgeProps) {
-  const color = ORDER_STATUS_COLORS[status] || 'bg-border/40 text-text'
+  const color = ORDER_STATUS_COLORS[status] || 'bg-white/5 text-slate-500 border-white/10'
   return (
-    <span className={`px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${color} ${className}`}>
-      {status}
+    <span className={cn(
+      "px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-[0.3em] border shadow-inner italic transition-all",
+      color,
+      className
+    )}>
+      {status} Protocol
     </span>
   )
 }

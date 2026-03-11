@@ -39,7 +39,7 @@ export default function VendorRecentOrders() {
           DELIVERED: 'bg-green-100 text-green-800',
         }
         return (
-          <Badge className={statuses[row.status] || 'bg-gray-100 text-gray-800'} variant="info">
+          <Badge className={statuses[row.status] || 'bg-cream text-text'} variant="info">
             {row.status}
           </Badge>
         )

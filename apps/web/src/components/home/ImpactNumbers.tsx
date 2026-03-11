@@ -1,54 +1,50 @@
 "use client"
 
 import React from 'react'
-import { GlassCard, AnimatedCounter, StaggerContainer } from '@next360/ui'
+import { motion } from 'framer-motion'
 
 const stats = [
-  { value: 500, suffix: '+', label: 'Farmers Supported' },
-  { value: 12,  suffix: '',  label: 'States Covered' },
-  { value: 50,  suffix: 'K+', label: 'Happy Customers' },
-  { value: 100, suffix: '%', label: 'Certified Organic' }
+  { value: '500+', label: 'Network Partners' },
+  { value: '50k+', label: 'Verified Nodes' },
+  { value: '0.0', label: 'Molecular Latency' },
+  { value: '100%', label: 'Protocol Integrity' }
 ]
 
 export default function ImpactNumbers() {
   return (
-    <section className="py-24 bg-primary relative overflow-hidden">
-      {/* Decorative SVG Pattern */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <pattern id="dot-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-             <circle cx="2" cy="2" r="1" fill="white" />
-          </pattern>
-          <rect width="100%" height="100%" fill="url(#dot-pattern)" />
-        </svg>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="font-display text-3xl md:text-5xl text-white font-bold opacity-90">Our Growing Impact</h2>
+    <section className="max-w-[1600px] mx-auto px-10 mb-20 font-sans">
+      <div className="bg-primary rounded-[5rem] py-24 md:py-32 relative overflow-hidden shadow-[0_50px_100px_rgba(22,163,74,0.2)]">
+        {/* Cinematic Background */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-[0.05] pointer-events-none">
+           <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+             <path d="M0 0 L100 100 M100 0 L0 100" stroke="white" strokeWidth="0.5" />
+           </svg>
         </div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/10 blur-[150px] rounded-full animate-pulse duration-[8000ms]" />
 
-        <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {stats.map((stat) => (
-            <GlassCard 
-              key={stat.label} 
-              hover 
-              className="p-8 text-center flex flex-col items-center justify-center min-h-[180px] border-white/10"
-            >
-              <AnimatedCounter 
-                to={stat.value} 
-                suffix={stat.suffix} 
-                className="font-display text-5xl md:text-6xl font-bold text-white tracking-tight drop-shadow-md" 
-                duration={2.5}
-              />
-              <p className="text-white/70 font-bold uppercase tracking-widest text-xs mt-4">
-                {stat.label}
-              </p>
-            </GlassCard>
-          ))}
-        </StaggerContainer>
+        <div className="max-w-7xl mx-auto px-8 relative z-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-12">
+            {stats.map((stat, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true }}
+                className="text-center group"
+              >
+                <div className="font-black text-6xl md:text-8xl text-white mb-6 tracking-tighter italic leading-none group-hover:scale-110 transition-transform duration-700">
+                  {stat.value}
+                </div>
+                <div className="h-1 w-8 bg-white/20 mx-auto mb-6 rounded-full group-hover:w-16 group-hover:bg-white/40 transition-all duration-700" />
+                <div className="text-[10px] font-black text-white/50 uppercase tracking-[0.4em] italic">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
 }
-

@@ -11,40 +11,50 @@ interface BlogCardProps {
 export default function BlogCard({ post }: BlogCardProps) {
   return (
     <Link href={`/blog/${post.slug}`} className="group block">
-      <div className="h-full bg-white rounded-2xl overflow-hidden border border-border hover:shadow-card-hover transition-all duration-300 flex flex-col">
+      <div className="h-full bg-white rounded-[2.5rem] overflow-hidden border border-slate-50 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-700 flex flex-col hover:-translate-y-2">
         {/* Image Container */}
-        <div className="relative aspect-video overflow-hidden bg-slate-100">
+        <div className="relative aspect-video overflow-hidden bg-slate-50">
           <Image
             src={post.thumbnail}
             alt={post.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className="object-cover transition-transform duration-1000 group-hover:scale-110"
           />
+          <div className="absolute top-6 right-6">
+             <Badge className="bg-white/90 backdrop-blur-sm border-none shadow-xl text-slate-900 font-black px-4 py-1.5 uppercase tracking-widest text-[8px] rounded-full">
+               {post.category}
+             </Badge>
+          </div>
         </div>
 
         {/* Content Container */}
-        <div className="p-5 flex flex-col flex-grow">
-          <div className="mb-3 flex items-center gap-2">
-            <Badge variant="fresh" size="sm" className="font-bold text-[10px] uppercase tracking-wider bg-primary/10 text-primary border-none">
-              {post.category}
-            </Badge>
+        <div className="p-8 flex flex-col flex-grow">
+          <div className="flex items-center gap-3 text-[8px] font-black text-primary uppercase tracking-[0.2em] mb-4">
+             <span className="w-5 h-[2px] bg-primary" />
+             Entry {post.id.slice(-4).toUpperCase()}
           </div>
           
-          <h3 className="font-display text-lg font-bold text-slate-800 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
+          <h3 className="text-xl font-black text-slate-900 line-clamp-2 leading-tight group-hover:text-primary transition-all duration-300 tracking-tight italic mb-4">
             {post.title}
           </h3>
           
-          <p className="text-sm text-slate-500 line-clamp-2 mt-2 font-medium leading-relaxed flex-grow">
+          <p className="text-sm text-slate-400 font-bold leading-relaxed line-clamp-3 mb-8 flex-grow">
             {post.excerpt}
           </p>
 
-          <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-400 uppercase tracking-widest">
-            <span>
-              {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                month: 'short', day: 'numeric', year: 'numeric'
-              })}
-            </span>
-            <span>{post.readTime}</span>
+          <div className="mt-auto pt-8 border-t border-slate-50 flex items-center justify-between text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">
+            <div className="flex items-center gap-2">
+              <span className="text-slate-900">{post.readTime}</span>
+              <span className="opacity-30">•</span>
+              <span>
+                {new Date(post.publishedAt).toLocaleDateString('en-IN', {
+                  month: 'short', day: '2-digit'
+                })}
+              </span>
+            </div>
+            <div className="w-6 h-6 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-500">
+               +
+            </div>
           </div>
         </div>
       </div>

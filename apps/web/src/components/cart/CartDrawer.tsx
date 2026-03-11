@@ -1,23 +1,35 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { X, ShoppingCart, ArrowRight, Truck } from 'lucide-react'
+import { X, ShoppingCart, ArrowRight, Truck, TicketPercent } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { formatPrice } from '@next360/utils'
 import { Button, EmptyState, AnimatedCounter } from '@next360/ui'
 import { useCartStore } from '@/store/cartStore'
 import CartItem from './CartItem'
+import CouponSelectorModal from './CouponSelectorModal'
+import { useQuery } from '@tanstack/react-query'
+import { cartService } from '@/services/cartService'
 
 export default function CartDrawer() {
   const router = useRouter()
+  const [isCouponModalOpen, setIsCouponModalOpen] = useState(false)
   const { 
     items, 
     isDrawerOpen, 
     closeDrawer, 
     getSubtotal, 
-    getItemCount 
+    getItemCount,
+    coupon 
   } = useCartStore()
+
+  const { data: coupons = [] } = useQuery({
+    queryKey: ['coupons'],
+    queryFn: cartService.getCoupons,
+    staleTime: 5 * 60 * 1000,
+    enabled: isDrawerOpen // Only fetch when drawer opens
+  })
 
   const subtotal = getSubtotal()
   const freeShippingThreshold = 499
@@ -32,6 +44,11 @@ export default function CartDrawer() {
     <AnimatePresence>
       {isDrawerOpen && (
         <>
+          <CouponSelectorModal 
+            isOpen={isCouponModalOpen} 
+            onClose={() => setIsCouponModalOpen(false)} 
+            coupons={coupons}
+          />
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -50,40 +67,46 @@ export default function CartDrawer() {
             className="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl z-[101] flex flex-col"
           >
             {/* Header */}
-            <div className="p-6 border-b border-border flex items-center justify-between bg-white sticky top-0">
+            <div className="p-8 border-b border-slate-50 flex items-center justify-between bg-white sticky top-0 z-10">
               <div className="flex items-center gap-3">
-                <h2 className="text-xl font-display font-bold text-text">Your Cart</h2>
-                <div className="bg-secondary/10 text-secondary px-2.5 py-0.5 rounded-full text-xs font-bold font-sans">
-                  {getItemCount()} items
+                <h2 className="text-2xl font-black text-slate-900 tracking-tight">Daily Basket</h2>
+                <div className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">
+                  {getItemCount()} Items
                 </div>
               </div>
               <button 
                 onClick={closeDrawer}
-                className="p-2 hover:bg-cream rounded-full transition-colors text-muted hover:text-text"
+                className="w-10 h-10 flex items-center justify-center bg-slate-50 rounded-full text-slate-400 hover:text-slate-900 transition-colors"
               >
-                <X size={24} />
+                <X size={20} />
               </button>
             </div>
 
             {/* Body */}
-            <div className="flex-1 overflow-y-auto px-2">
+            <div className="flex-1 overflow-y-auto px-4 py-4 md:px-6">
               <AnimatePresence mode="popLayout" initial={false}>
                 {items.length > 0 ? (
-                  items.map((item) => (
-                    <CartItem key={item.id} item={item} />
-                  ))
+                  <div className="space-y-6">
+                    {items.map((item) => (
+                      <CartItem key={item.id} item={item} />
+                    ))}
+                  </div>
                 ) : (
-                  <div className="h-full flex items-center justify-center p-8">
-                    <EmptyState 
-                      icon={<ShoppingCart size={48} />}
-                      title="Your cart is empty"
-                      description="Looks like you haven't added any premium organic products yet."
-                      action={
-                        <Button onClick={() => handleNavigate('/shop')}>
-                          Start Shopping
-                        </Button>
-                      }
-                    />
+                  <div className="h-full flex flex-col items-center justify-center p-8 text-center">
+                    <div className="w-24 h-24 rounded-full bg-slate-50 flex items-center justify-center text-slate-200 mb-6">
+                      <ShoppingCart size={40} />
+                    </div>
+                    <h3 className="text-xl font-black text-slate-900 mb-2">Basket is empty</h3>
+                    <p className="text-sm text-slate-400 max-w-[200px] mb-8 font-medium leading-relaxed">
+                      Looks like you haven't added any fresh produce yet.
+                    </p>
+                    <Button 
+                      variant="primary" 
+                      className="rounded-full px-8"
+                      onClick={() => handleNavigate('/shop')}
+                    >
+                      Start Picking
+                    </Button>
                   </div>
                 )}
               </AnimatePresence>
@@ -91,61 +114,65 @@ export default function CartDrawer() {
 
             {/* Footer */}
             {items.length > 0 && (
-              <div className="p-6 border-t border-border bg-white">
+              <div className="p-8 border-t border-slate-50 bg-white space-y-6">
                 {/* Shipping Info */}
-                <div className="mb-6 p-4 bg-cream rounded-2xl border border-border flex items-start gap-4">
-                  <div className="bg-secondary/10 p-2 rounded-xl text-secondary">
-                    <Truck size={20} />
-                  </div>
-                  <div className="flex-1">
-                    {subtotal >= freeShippingThreshold ? (
-                      <div>
-                        <p className="text-sm font-bold text-primary font-sans">🎉 Free delivery applied</p>
-                        <p className="text-xs text-muted font-sans mt-0.5">Your order qualifies for free standard shipping.</p>
-                      </div>
-                    ) : (
-                      <div>
-                        <p className="text-sm font-semibold text-text font-sans">
-                          Add <span className="text-primary font-bold">{formatPrice(remainingForFreeShipping)}</span> more for free delivery
+                <div className="p-5 bg-slate-50 rounded-3xl border border-slate-100">
+                  <div className="flex items-center gap-4 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
+                      <Truck size={20} />
+                    </div>
+                    <div className="flex-1">
+                      {subtotal >= freeShippingThreshold ? (
+                        <p className="text-xs font-black text-primary uppercase tracking-widest">🎉 Free shipping applied</p>
+                      ) : (
+                        <p className="text-xs font-black text-slate-900 uppercase tracking-widest">
+                          Add <span className="text-primary">{formatPrice(remainingForFreeShipping)}</span> for free
                         </p>
-                        <div className="mt-2.5 w-full h-1.5 bg-border rounded-full overflow-hidden">
-                          <motion.div 
-                            initial={{ width: 0 }}
-                            animate={{ width: `${(Math.min(subtotal / freeShippingThreshold, 1)) * 100}%` }}
-                            className="h-full bg-secondary"
-                          />
-                        </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
+                  </div>
+                  <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(Math.min(subtotal / freeShippingThreshold, 1)) * 100}%` }}
+                      className="h-full bg-primary"
+                    />
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center mb-6">
-                  <span className="text-muted font-medium font-sans">Subtotal</span>
-                  <span className="text-2xl font-display font-bold text-text">
-                    <AnimatedCounter to={subtotal / 100} prefix="₹" decimals={2} />
-                  </span>
+                <div className="flex justify-between items-end">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Basket Subtotal</span>
+                    <span className="text-3xl font-black text-slate-900 leading-none">
+                       {formatPrice(subtotal)}
+                    </span>
+                  </div>
+                  <button 
+                    onClick={() => setIsCouponModalOpen(true)}
+                    className="flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-widest bg-primary/5 px-4 py-2 rounded-full hover:bg-primary/10 transition-colors"
+                  >
+                    <TicketPercent size={14} />
+                    {coupon ? 'Discount Applied' : 'Add Coupon'}
+                  </button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="flex flex-col gap-3">
                   <Button 
-                    variant="outline" 
-                    className="py-6 rounded-xl font-bold font-sans"
-                    onClick={() => handleNavigate('/cart')}
-                  >
-                    View Cart
-                  </Button>
-                  <Button 
-                    className="py-6 rounded-xl font-bold font-sans flex gap-2 group"
+                    variant="primary" 
+                    className="w-full h-14 rounded-full font-black uppercase tracking-[0.1em] text-sm shadow-2xl shadow-primary/10"
                     onClick={() => handleNavigate('/checkout')}
                   >
-                    Checkout 
-                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    Go to Checkout 
+                    <ArrowRight size={18} className="ml-2" />
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full h-12 rounded-full font-black uppercase tracking-[0.1em] text-[10px] text-slate-400 hover:text-slate-900"
+                    onClick={() => handleNavigate('/cart')}
+                  >
+                    Expand Basket Info
                   </Button>
                 </div>
-                <p className="text-center text-xs text-muted mt-4 font-sans">
-                  Taxes and shipping calculated at checkout
-                </p>
               </div>
             )}
           </motion.div>

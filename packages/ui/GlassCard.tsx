@@ -9,7 +9,7 @@ interface GlassCardProps {
   className?: string
   glow?: boolean
   hover?: boolean
-  as?: "div" | "section" | "article"
+  tone?: "dark" | "light"
 }
 
 /**
@@ -21,6 +21,7 @@ export function GlassCard({
   className,
   glow = false,
   hover = false,
+  tone = "light",
 }: GlassCardProps) {
   const motionProps: HTMLMotionProps<"div"> = hover
     ? {
@@ -33,25 +34,31 @@ export function GlassCard({
     <motion.div
       {...motionProps}
       className={cn(
-        // Slick Glass base
         "relative rounded-2xl overflow-hidden",
-        "border border-white/[0.08]",
         "backdrop-blur-[20px] saturate-[180%]",
-        // Shadow system
-        "shadow-[0_8px_32px_rgba(0,0,0,0.4)]",
-        // Custom inline styles handle the rgba background (Tailwind can't do this)
+        tone === "dark"
+          ? "border border-white/[0.08] text-white shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
+          : "border border-black/5 text-[var(--color-text)] shadow-[0_20px_50px_rgba(24,36,27,0.08)]",
         glow && hover
-          ? "hover:shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_40px_rgba(76,175,125,0.2)]"
+          ? "hover:shadow-[0_20px_50px_rgba(24,36,27,0.12),0_0_40px_rgba(76,175,125,0.18)]"
           : glow
-          ? "shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_40px_rgba(76,175,125,0.12)]"
+          ? "shadow-[0_20px_50px_rgba(24,36,27,0.12),0_0_40px_rgba(76,175,125,0.12)]"
           : "",
         "transition-shadow duration-300",
         className
       )}
       style={{
-        background: "rgba(255,255,255,0.04)",
+        background: tone === "dark" ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.78)",
       }}
     >
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-0",
+          tone === "dark"
+            ? "bg-[radial-gradient(circle_at_top_left,rgba(124,179,66,0.12),transparent_36%),linear-gradient(180deg,rgba(255,255,255,0.06),transparent_45%)]"
+            : "bg-[radial-gradient(circle_at_top_left,rgba(124,179,66,0.14),transparent_36%),linear-gradient(180deg,rgba(255,255,255,0.72),rgba(255,255,255,0.08))]"
+        )}
+      />
       {children}
     </motion.div>
   )

@@ -1,97 +1,76 @@
 "use client"
 
 import React from 'react'
-import { m } from 'framer-motion'
-import { Leaf, Handshake, Truck, RefreshCw } from 'lucide-react'
-import { BentoGrid, BentoCard } from '@next360/ui'
+import { motion } from 'framer-motion'
+import { ShieldCheck, Wheat, Truck, Leaf } from 'lucide-react'
 
 const reasons = [
   {
-    icon: Leaf,
-    title: 'No Chemicals',
-    description: 'Every product is tested for pesticide residue. 100% clean and natural, just as nature intended.',
-    emoji: '🌿',
-    href: '/about',
-    cta: 'Learn More'
+    icon: <ShieldCheck />,
+    title: 'Verified Protocol',
+    desc: 'Every product undergoes pesticide analysis. 100% molecularly clean and natural.'
   },
   {
-    icon: Handshake,
-    title: 'Direct from Farms',
-    description: 'We partner directly with certified organic farmers, ensuring fair pay and high standards.',
-    emoji: '🤝',
-    href: '/about/farmers',
-    cta: 'Meet Farmers'
+    icon: <Wheat />,
+    title: 'Direct Registry',
+    desc: 'Fair yield for farmers, lower entry price for you. No intermediary latency.'
   },
   {
-    icon: Truck,
-    title: 'Same-day Delivery',
-    description: 'Fresh from farm to your door within hours of harvest. Quality you can taste.',
-    emoji: '🚚',
-    href: '/shipping',
-    cta: 'View Areas'
+    icon: <Truck />,
+    title: 'Velocity Delivery',
+    desc: 'Harvested at sequence dawn, delivered by peak dusk. Zero distribution lag.'
   },
   {
-    icon: RefreshCw,
-    title: 'Easy Returns',
-    description: 'Not satisfied with the freshness? Return within 7 days, no questions asked.',
-    emoji: '🔄',
-    href: '/returns',
-    cta: 'Read Policy'
+    icon: <Leaf />,
+    title: 'Circular Assets',
+    desc: 'Zero-plastic mission. 100% compostable or reusable molecular structures.'
   }
 ]
 
 export default function WhyNext360() {
   return (
-    <section className="py-24 bg-cream/40 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <m.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="font-display text-4xl md:text-5xl text-primary font-bold mb-4"
-          >
-            Why Choose Next360?
-          </m.h2>
-          <m.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-muted font-sans text-lg"
-          >
-            Beyond organic. We are building a transparent food system for your well-being.
-          </m.p>
+    <section className="bg-white py-24 md:py-40 font-sans border-b border-slate-50">
+      <div className="max-w-[1600px] mx-auto px-8 md:px-12">
+        <div className="text-center mb-24 max-w-3xl mx-auto">
+          <div className="flex items-center justify-center gap-3 mb-6">
+             <div className="h-1 w-6 bg-secondary/30 rounded-full" />
+             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-secondary/60 italic">Platform Architecture</p>
+          </div>
+          <h2 className="font-black text-5xl md:text-8xl text-slate-900 tracking-tighter italic leading-none mb-8">
+            Why <span className="text-primary">Registry</span> Control?
+          </h2>
+          <p className="text-slate-400 text-lg md:text-xl font-bold italic opacity-60 leading-relaxed">
+            Implementing a direct-to-protocol supply chain for peak biological performance.
+          </p>
         </div>
 
-        <BentoGrid className="lg:grid-cols-4 md:grid-cols-2 grid-cols-1 auto-rows-[20rem]">
-          {reasons.map((reason, index) => (
-            <m.div
-              key={reason.title}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-12">
+          {reasons.map((item, i) => (
+            <motion.div 
+              key={i}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.15, duration: 0.5 }}
-              className={index === 0 || index === 3 ? "lg:col-span-2 col-span-1 md:col-span-2" : "col-span-1"}
+              className="flex flex-col items-center text-center group"
             >
-              <BentoCard
-                className="h-full border-none shadow-xl shadow-primary/5"
-                name={reason.title}
-                Icon={reason.icon}
-                description={reason.description}
-                href={reason.href}
-                cta={reason.cta}
-                background={
-                  <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] text-9xl pointer-events-none">
-                    {reason.emoji}
-                  </div>
-                }
-              />
-            </m.div>
+              <div className="relative mb-10">
+                <div className="absolute inset-0 bg-secondary/20 rounded-[2.5rem] rotate-12 -z-10 group-hover:rotate-[20deg] transition-transform duration-700" />
+                <div className="w-24 h-24 rounded-[2rem] bg-white text-secondary flex items-center justify-center shadow-[0_20px_40px_rgba(0,0,0,0.05)] border border-slate-50 group-hover:bg-secondary group-hover:text-white group-hover:-translate-y-2 transition-all duration-700">
+                  {React.cloneElement(item.icon as React.ReactElement<any>, { size: 40, strokeWidth: 2.5 })}
+                </div>
+              </div>
+              <h3 className="font-black text-2xl text-slate-900 tracking-tighter italic mb-4">
+                {item.title}
+              </h3>
+              <p className="text-[13px] text-slate-400 font-bold italic opacity-70 leading-loose max-w-[220px]">
+                {item.desc}
+              </p>
+              <div className="mt-8 h-1 w-0 bg-primary/20 rounded-full group-hover:w-16 transition-all duration-700" />
+            </motion.div>
           ))}
-        </BentoGrid>
+        </div>
       </div>
     </section>
   )
 }
-

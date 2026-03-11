@@ -15,6 +15,9 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
     "@google-cloud/pubsub": "^4.9.0",
     "@google-cloud/storage": "^7.15.0",

@@ -55,20 +55,20 @@ export default function VendorSettingsPage() {
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Settings</h1>
-        <p className="text-gray-500 text-sm">Manage your store's information and payout details.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-text">Settings</h1>
+        <p className="text-muted text-sm">Manage your store's information and payout details.</p>
       </div>
 
-      <div className="flex border-b border-gray-200">
+      <div className="flex border-b border-border">
         <button 
           onClick={() => setTab('profile')}
-          className={`px-4 py-2 text-sm font-medium border-b-2 ${tab === 'profile' ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+          className={`px-4 py-2 text-sm font-medium border-b-2 ${tab === 'profile' ? 'border-green-600 text-green-600' : 'border-transparent text-muted hover:text-text'}`}
         >
           Store Profile
         </button>
         <button 
           onClick={() => setTab('bank')}
-          className={`px-4 py-2 text-sm font-medium border-b-2 ${tab === 'bank' ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+          className={`px-4 py-2 text-sm font-medium border-b-2 ${tab === 'bank' ? 'border-green-600 text-green-600' : 'border-transparent text-muted hover:text-text'}`}
         >
           Bank Details
         </button>

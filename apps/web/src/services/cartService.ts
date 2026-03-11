@@ -1,9 +1,14 @@
-import type { Cart, ApiResponse } from '@next360/types'
+import type { Cart, Coupon, ApiResponse } from '@next360/types'
 import { api } from './api'
 
 export const cartService = {
   getCart: async () => {
     const res = await api.get<ApiResponse<Cart>>('/cart')
+    return res.data.data
+  },
+
+  getCoupons: async () => {
+    const res = await api.get<ApiResponse<Coupon[]>>('/storefront/coupons')
     return res.data.data
   },
 

@@ -29,6 +29,9 @@ export default function ActiveFilters({ filters, onRemove, onClearAll }: ActiveF
   if (filters.inStock) {
     activeFilters.push({ key: 'inStock', label: 'In Stock' })
   }
+  if (filters.deliveryType !== 'all') {
+    activeFilters.push({ key: 'deliveryType', label: `Delivery: ${filters.deliveryType}` })
+  }
   filters.certified.forEach(cert => {
     activeFilters.push({ key: 'certified', value: cert, label: cert })
   })

@@ -4,6 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useQuery } from '@tanstack/react-query'
 import { productService } from '@/services/productService'
+import Link from 'next/link'
 import ProductCard from '@/components/product/ProductCard'
 import ProductCardSkeleton from '@/components/product/ProductCardSkeleton'
 
@@ -22,13 +23,15 @@ export default function RelatedProducts({ currentProductId, category }: RelatedP
   if (!isLoading && related.length === 0) return null
 
   return (
-    <section className="mt-32 pt-20 border-t border-border">
-      <div className="flex items-center justify-between mb-12">
-        <h2 className="text-3xl md:text-4xl font-black font-sans text-primary tracking-tight">
-          You Might Also <span className="text-primary italic font-serif">Like</span>
+    <section className="mt-24 pt-16 border-t border-slate-50">
+      <div className="flex items-center justify-between mb-10">
+        <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
+          Explore <span className="text-primary italic">Similar</span> Picks
         </h2>
         <div className="hidden md:flex gap-2">
-          {/* Scroll indicators or view all */}
+           <Link href={`/shop?category=${category}`} className="text-primary font-black text-[10px] uppercase tracking-widest flex items-center gap-1.5 group bg-slate-50 px-5 py-2.5 rounded-full hover:bg-slate-100 transition-all">
+             View All {category}
+           </Link>
         </div>
       </div>
 
@@ -43,7 +46,7 @@ export default function RelatedProducts({ currentProductId, category }: RelatedP
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: idx * 0.1 }}
+            transition={{ duration: 0.5, delay: idx * 0.05 }}
           >
             <ProductCard product={product} />
           </motion.div>

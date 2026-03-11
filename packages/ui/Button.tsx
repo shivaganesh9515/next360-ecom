@@ -1,9 +1,9 @@
 import React from 'react'
 import { cn } from '@next360/utils'
-import { Spinner } from './Spinner'
+import { Loader2 } from 'lucide-react'
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'outline' | 'icon'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger'
   size?: 'sm' | 'md' | 'lg'
   isLoading?: boolean
   leftIcon?: React.ReactNode
@@ -27,46 +27,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const baseStyles = [
-      'inline-flex items-center justify-center gap-2',
-      'font-sans font-medium whitespace-nowrap',
-      'cursor-pointer select-none',
-      'transition-all duration-200',
-      'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2',
-    ].join(' ')
-
     const variants = {
-      primary: [
-        'bg-primary text-white',
-        'hover:bg-primary/90',
-        'shadow-sm hover:shadow-md',
-        'active:scale-[0.98]',
-      ].join(' '),
-      secondary: [
-        'bg-secondary text-white',
-        'hover:bg-secondary/90',
-        'active:scale-[0.98]',
-      ].join(' '),
-      ghost: [
-        'bg-transparent text-primary',
-        'hover:bg-primary/[0.08] hover:text-primary',
-      ].join(' '),
-      danger: [
-        'bg-red-600 text-white',
-        'hover:bg-red-700',
-        'active:scale-[0.98]',
-      ].join(' '),
-      outline: [
-        'border-2 border-primary text-primary bg-transparent',
-        'hover:bg-primary hover:text-white',
-        'active:scale-[0.98]',
-      ].join(' '),
-      icon: [
-        'bg-transparent text-muted',
-        'hover:bg-primary/[0.08] hover:text-primary',
-        'rounded-xl aspect-square !p-0',
-      ].join(' '),
+      primary: 'bg-primary text-white hover:bg-primary/90 shadow-sm hover:shadow-md',
+      secondary: 'bg-secondary text-white hover:bg-secondary/90',
+      ghost: 'bg-transparent text-primary hover:bg-primary/8',
+      outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white',
+      danger: 'bg-red-600 text-white hover:bg-red-700',
     }
 
     const sizes = {
@@ -75,29 +41,28 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       lg: 'px-7 py-3 text-base rounded-xl h-12',
     }
 
-    const iconSizes = {
-      sm: 'w-8 h-8',
-      md: 'w-10 h-10',
-      lg: 'w-12 h-12',
-    }
-
     return (
       <button
         ref={ref}
         disabled={disabled || isLoading}
         className={cn(
-          baseStyles,
+          'font-sans font-medium inline-flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2',
           variants[variant],
-          variant === 'icon' ? iconSizes[size] : sizes[size],
+          sizes[size],
           fullWidth && 'w-full',
           className
         )}
         {...props}
       >
-        {isLoading && <Spinner size="sm" color={variant === 'outline' || variant === 'ghost' ? 'primary' : 'white'} className="mr-1" />}
-        {!isLoading && leftIcon}
-        {isLoading ? <span>Loading...</span> : children}
-        {!isLoading && rightIcon}
+        {isLoading ? (
+          <Loader2 className="w-4 h-4 animate-spin text-current" />
+        ) : (
+          <>
+            {leftIcon}
+            {children}
+            {rightIcon}
+          </>
+        )}
       </button>
     )
   }

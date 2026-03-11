@@ -6,7 +6,7 @@ import { Product } from '@next360/types'
 import { useCartStore } from '@/store/cartStore'
 import { useWishlistStore } from '@/store/wishlistStore'
 import { Button, QuantitySelector, Badge, PriceDisplay, StaggerContainer } from '@next360/ui'
-import { cn } from '@next360/utils'
+import { cn, formatPrice } from '@next360/utils'
 import { toast } from 'react-hot-toast'
 
 interface ProductInfoProps {
@@ -16,98 +16,90 @@ interface ProductInfoProps {
 const weightOptions = ['250g', '500g', '1kg', '2kg']
 
 export default function ProductInfo({ product }: ProductInfoProps) {
-  const [selectedWeight, setSelectedWeight] = useState(product.weight || '500g')
+  const [selectedWeight, setSelectedWeight] = useState(product.weight?.[0] || '500g')
   const [quantity, setQuantity] = useState(1)
 
   const addItem = useCartStore((state) => state.addItem)
   const openDrawer = useCartStore((state) => state.openDrawer)
   
-  // Use try-catch or optional chaining if wishlistStore might not be fully ready/exported
   const toggleWishlist = useWishlistStore((state) => state.toggleWishlist)
   const isWishlisted = useWishlistStore((state) => state.isWishlisted(product.id))
 
   const handleAddToCart = () => {
     addItem(product, quantity, selectedWeight)
     openDrawer()
-    toast.success(`${product.name} added to cart!`, {
-      icon: '🌿',
-      style: {
-        borderRadius: '1rem',
-        background: '#fff',
-        color: '#15803d',
-        fontWeight: 'bold',
-      },
-    })
   }
 
   const handleWishlist = () => {
     toggleWishlist(product)
-    toast(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist', {
-      icon: isWishlisted ? '💔' : '❤️',
-    })
   }
 
   return (
-    <StaggerContainer className="flex flex-col h-full" staggerDelay={0.1}>
-      {/* Category & Badge */}
-      <div className="flex items-center gap-3 mb-4">
-        <span className="text-sm font-bold text-primary uppercase tracking-widest">{product.category?.name}</span>
-        <span className="w-1.5 h-1.5 rounded-full bg-border" />
-        <span className="text-sm font-bold text-muted uppercase tracking-widest">{product.region}</span>
+    <div className="flex flex-col h-full">
+      {/* Category & Region */}
+      <div className="flex items-center gap-3 mb-6">
+        <span className="text-[11px] font-black text-primary uppercase tracking-[0.2em]">{product.category?.name || 'Produce'}</span>
+        <span className="w-1 h-1 rounded-full bg-slate-200" />
+        <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">{product.region}</span>
       </div>
 
-      <h1 className="text-4xl md:text-5xl font-black text-text leading-tight mb-4">
+      <h1 className="text-4xl md:text-6xl font-black text-slate-900 leading-[1.1] mb-6">
         {product.name}
       </h1>
 
-      <div className="flex items-center gap-6 mb-8">
+      <div className="flex items-center gap-6 mb-10">
         <div className="flex items-center gap-2">
-          <div className="flex gap-0.5">
+          <div className="flex gap-1">
             {[...Array(5)].map((_, i) => (
               <Star 
                 key={i} 
-                size={18} 
+                size={16} 
                 className={cn(
-                  i < Math.floor(product.rating) ? "fill-yellow-400 text-yellow-400" : "text-border"
+                  i < Math.round(product.rating) ? "fill-primary text-primary" : "fill-slate-100 text-slate-100"
                 )} 
               />
             ))}
           </div>
-          <span className="text-lg font-black text-text">{product.rating}</span>
+          <span className="text-sm font-black text-slate-900">{product.rating}</span>
         </div>
-        <span className="text-muted font-bold">({product.reviewCount} Reviews)</span>
+        <span className="text-slate-400 font-bold text-sm tracking-tight">{product.reviewCount} Reviews from verified customers</span>
       </div>
 
-      <div className="mb-8">
-        <PriceDisplay 
-          price={product.price} 
-          originalPrice={product.originalPrice} 
-          size="lg" 
-        />
+      <div className="mb-10 lg:pr-10">
+        <div className="flex items-baseline gap-4 mb-4">
+           <p className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+             {formatPrice(product.price)}
+           </p>
+           {product.originalPrice > product.price && (
+             <p className="text-xl text-slate-400 line-through font-medium">
+               {formatPrice(product.originalPrice)}
+             </p>
+           )}
+        </div>
         {product.originalPrice > product.price && (
-          <Badge variant="sale" className="mt-2 inline-flex">
-            Save ₹{(product.originalPrice - product.price) / 100} today
-          </Badge>
+          <div className="inline-flex items-center gap-2 bg-red-50 text-red-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-red-100">
+            Limited Time Offer: Save {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+          </div>
         )}
       </div>
 
-      <p className="text-muted text-lg leading-relaxed mb-8">
+      <p className="text-slate-500 text-lg leading-relaxed mb-10 max-w-xl">
         {product.shortDesc}
       </p>
 
       {/* Weight Selector */}
-      <div className="mb-8">
-        <h3 className="text-sm font-black text-text uppercase tracking-wider mb-4">Select Weight</h3>
-        <div className="flex flex-wrap gap-3">
-          {weightOptions.map((w) => (
+      <div className="mb-10">
+        <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.2em] mb-4">Quantity Specs</h3>
+        <div className="flex flex-wrap gap-2">
+          {(product.weight?.length ? product.weight : weightOptions).map((w) => (
             <button
               key={w}
               onClick={() => setSelectedWeight(w)}
               className={cn(
-                "px-6 py-3 rounded-2xl text-sm font-bold transition-all border-2",
+                "px-6 py-2.5 rounded-full text-xs font-black transition-all border-2 uppercase tracking-widest",
                 selectedWeight === w
-                  ? "bg-primary/5 border-primary text-primary shadow-lg shadow-primary/5"
-                  : "bg-white border-border text-muted hover:border-primary"
+                  ? "bg-slate-900 border-slate-900 text-white"
+                  : "bg-white border-slate-100 text-slate-400 hover:border-slate-300 hover:text-slate-700"
               )}
             >
               {w}
@@ -117,60 +109,58 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       {/* Call to Action */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-8">
-        <div className="bg-cream p-2 rounded-2xl border border-border">
+      <div className="flex flex-col sm:flex-row gap-4 mb-12">
+        <div className="bg-slate-50 p-2 rounded-full border border-slate-100 flex items-center">
           <QuantitySelector 
             value={quantity} 
             onChange={setQuantity}
             max={product.stock}
+            className="border-none bg-transparent"
           />
         </div>
         
         <Button 
           size="lg" 
-          className="flex-1 rounded-[1.25rem] text-lg font-black h-auto py-5 shadow-xl shadow-primary/20"
+          variant="primary"
+          className="flex-1 font-black uppercase tracking-[0.15em] py-6 shadow-2xl shadow-primary/10"
           onClick={handleAddToCart}
           disabled={!product.inStock}
         >
-          <ShoppingCart size={22} className="mr-2" />
-          {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+          {product.inStock ? 'Add to Daily Basket' : 'Currently Unavailable'}
         </Button>
 
         <button
           onClick={handleWishlist}
           className={cn(
-            "p-5 rounded-[1.25rem] border-2 transition-all",
+            "p-5 rounded-full border-2 transition-all group",
             isWishlisted 
               ? "bg-red-50 border-red-100 text-red-500" 
-              : "bg-white border-border text-muted hover:text-red-500 hover:border-red-100"
+              : "bg-white border-slate-100 text-slate-300 hover:text-red-500 hover:border-red-100"
           )}
         >
-          <Heart size={24} className={isWishlisted ? "fill-current" : ""} />
+          <Heart size={24} className={cn("transition-transform group-hover:scale-110", isWishlisted ? "fill-current" : "")} />
         </button>
       </div>
 
-      {/* Features */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-6 bg-cream rounded-[2rem] border border-border">
-        <div className="flex flex-col items-center text-center gap-2">
-          <div className="p-3 bg-surface rounded-2xl text-primary shadow-sm border border-border">
-            <Truck size={20} />
-          </div>
-          <span className="text-xs font-bold text-muted">Free Fresh Delivery</span>
+      {/* Trust Badges */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100/50">
+        <div className="flex flex-col gap-2">
+          <Truck size={20} className="text-primary" />
+          <span className="text-[11px] font-black text-slate-900 uppercase tracking-widest">Flash Delivery</span>
+          <p className="text-[10px] text-slate-500 leading-tight">Same day delivery across enabled zones.</p>
         </div>
-        <div className="flex flex-col items-center text-center gap-2">
-          <div className="p-3 bg-surface rounded-2xl text-primary shadow-sm border border-border">
-            <ShieldCheck size={20} />
-          </div>
-          <span className="text-xs font-bold text-muted">Organic Certified</span>
+        <div className="flex flex-col gap-2">
+          <ShieldCheck size={20} className="text-primary" />
+          <span className="text-[11px] font-black text-slate-900 uppercase tracking-widest">100% Organic</span>
+          <p className="text-[10px] text-slate-500 leading-tight">Verified certifications for every batch.</p>
         </div>
-        <div className="flex flex-col items-center text-center gap-2">
-          <div className="p-3 bg-surface rounded-2xl text-primary shadow-sm border border-border">
-            <RefreshCw size={20} />
-          </div>
-          <span className="text-xs font-bold text-muted">Easy Returns</span>
+        <div className="flex flex-col gap-2">
+          <RefreshCw size={20} className="text-primary" />
+          <span className="text-[11px] font-black text-slate-900 uppercase tracking-widest">Quality Return</span>
+          <p className="text-[10px] text-slate-500 leading-tight">No questions asked return if not fresh.</p>
         </div>
       </div>
-    </StaggerContainer>
+    </div>
   )
 }
 

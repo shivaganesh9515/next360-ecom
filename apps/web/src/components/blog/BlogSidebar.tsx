@@ -9,39 +9,39 @@ export default function BlogSidebar() {
   const categories = MOCK_BLOG_CATEGORIES.filter(c => c.label !== 'All')
 
   return (
-    <div className="sticky top-24 space-y-6">
+    <div className="sticky top-32 space-y-10">
       {/* Search Widget */}
-      <div className="bg-white rounded-2xl border border-border p-4">
+      <div className="bg-white rounded-[2rem] border border-slate-100 p-6 shadow-xl shadow-slate-200/40">
         <div className="relative">
           <input 
             type="text" 
-            placeholder="Search articles..." 
-            className="w-full h-11 pl-4 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-medium placeholder:text-slate-400"
+            placeholder="Query Node..." 
+            className="w-full h-14 pl-6 pr-12 bg-slate-50 border-none rounded-full text-[11px] font-black uppercase tracking-widest outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-slate-300"
           />
-          <button className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors">
-            <Search size={18} />
+          <button className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors">
+            <Search size={18} strokeWidth={3} />
           </button>
         </div>
       </div>
 
       {/* Categories Widget */}
-      <div className="bg-white rounded-2xl border border-border p-5">
-        <h3 className="font-display font-bold text-lg text-slate-800 mb-4 pb-3 border-b border-slate-100">
-          Categories
+      <div className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-xl shadow-slate-200/40">
+        <h3 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.3em] mb-8 pb-4 border-b border-slate-50">
+          Knowledge Vectors
         </h3>
-        <ul className="space-y-3">
+        <ul className="space-y-4">
           {categories.map((category) => (
             <li key={category.label}>
               <Link 
                 href={`/blog?category=${category.label}`}
-                className="group flex items-center justify-between text-sm font-medium text-slate-600 hover:text-primary transition-colors"
+                className="group flex items-center justify-between text-[11px] font-black text-slate-400 uppercase tracking-[0.15em] hover:text-primary transition-all underline-offset-8"
               >
-                <span className="flex items-center gap-2">
-                  <ChevronRight size={14} className="text-slate-300 group-hover:text-primary transition-colors" />
+                <span className="flex items-center gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-slate-100 group-hover:bg-primary group-hover:scale-125 transition-all" />
                   {category.label}
                 </span>
-                <span className="bg-slate-50 text-slate-400 text-xs py-0.5 px-2.5 rounded-full border border-slate-100">
-                  {category.count}
+                <span className="text-[9px] opacity-40">
+                  {category.count.toString().padStart(2, '0')}
                 </span>
               </Link>
             </li>
@@ -50,28 +50,28 @@ export default function BlogSidebar() {
       </div>
 
       {/* Popular Posts Widget */}
-      <div className="bg-white rounded-2xl border border-border p-5">
-        <h3 className="font-display font-bold text-lg text-slate-800 mb-4 pb-3 border-b border-slate-100">
-          Popular Posts
+      <div className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-xl shadow-slate-200/40">
+        <h3 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.3em] mb-8 pb-4 border-b border-slate-50">
+          High Performance
         </h3>
-        <div className="space-y-4">
+        <div className="space-y-8">
           {popularPosts.map((post) => (
-            <Link key={post.id} href={`/blog/${post.slug}`} className="group flex gap-3 items-center">
-              <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0">
+            <Link key={post.id} href={`/blog/${post.slug}`} className="group flex gap-4 items-center">
+              <div className="relative w-16 h-16 rounded-2xl overflow-hidden shrink-0 bg-slate-50 border border-slate-100">
                 <Image 
                   src={post.thumbnail} 
                   alt={post.title} 
                   fill 
-                  className="object-cover group-hover:scale-110 transition-transform duration-500" 
+                  className="object-cover group-hover:scale-110 transition-transform duration-700" 
                 />
               </div>
-              <div>
-                <h4 className="text-sm font-bold text-slate-800 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
+              <div className="flex-1 min-w-0">
+                <h4 className="text-xs font-black text-slate-900 line-clamp-2 leading-tight group-hover:text-primary transition-colors tracking-tight italic">
                   {post.title}
                 </h4>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
-                  {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                    month: 'short', day: 'numeric', year: 'numeric'
+                <p className="text-[8px] font-black text-slate-300 uppercase tracking-widest mt-2">
+                  {new Date(post.publishedAt).toLocaleDateString('en-IN', {
+                    month: 'short', day: '2-digit'
                   })}
                 </p>
               </div>
@@ -80,27 +80,36 @@ export default function BlogSidebar() {
         </div>
       </div>
 
-      {/* Compact Newsletter Widget */}
-      <div className="bg-primary text-white rounded-2xl p-6 relative overflow-hidden">
-        <div className="absolute -top-10 -right-10 w-24 h-24 bg-white/10 rounded-full blur-xl pointer-events-none" />
-        <h3 className="font-display font-black text-xl mb-2 relative z-10">Get weekly organic tips</h3>
-        <p className="text-sm text-primary-light mb-4 font-medium relative z-10">
-          Recipes, farming insights, and exclusive subscriber offers.
-        </p>
-        <form className="relative z-10" onSubmit={(e) => { e.preventDefault(); alert("Mock Subscribe!") }}>
-          <input 
-            type="email" 
-            placeholder="Your email address" 
-            className="w-full h-11 px-4 mb-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 text-sm outline-none focus:border-white focus:bg-white/20 transition-all font-medium"
-            required
-          />
-          <button 
-            type="submit" 
-            className="w-full h-11 bg-white text-primary font-bold rounded-xl hover:bg-slate-50 active:scale-[0.98] transition-all shadow-lg"
-          >
-            Subscribe
-          </button>
-        </form>
+      {/* Newsletter Widget */}
+      <div className="bg-slate-900 text-white rounded-[2.5rem] p-10 relative overflow-hidden shadow-2xl">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full -mr-16 -mt-16 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full -ml-12 -mb-12 blur-2xl" />
+        
+        <div className="relative z-10">
+          <div className="text-[8px] font-black uppercase tracking-[0.4em] text-primary mb-6 italic flex items-center gap-3">
+             <span className="w-6 h-[1px] bg-primary" /> Feed Subscription
+          </div>
+          <h3 className="text-2xl font-black mb-4 tracking-tighter leading-none italic">Sync your performance.</h3>
+          <p className="text-[10px] text-slate-400 font-bold mb-8 uppercase tracking-widest leading-loose">
+            High-fidelity updates delivered to your primary node.
+          </p>
+          <form onSubmit={(e) => { e.preventDefault(); alert("Mock Subscribe!") }}>
+            <div className="space-y-3">
+              <input 
+                type="email" 
+                placeholder="EMAIL ADDRESS" 
+                className="w-full h-12 px-6 rounded-full bg-white/5 border border-white/10 text-[10px] font-black text-white placeholder:text-white/20 outline-none focus:bg-white/10 focus:border-primary/50 transition-all tracking-widest"
+                required
+              />
+              <button 
+                type="submit" 
+                className="w-full h-12 bg-white text-slate-900 text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-primary hover:text-white transition-all duration-500 shadow-xl"
+              >
+                Initialize Sync
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   )

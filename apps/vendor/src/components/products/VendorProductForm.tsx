@@ -110,10 +110,10 @@ export default function VendorProductForm({ initialData }: { initialData?: any }
         <Input label="Stock Count" type="number" {...register('stockCount')} error={errors.stockCount?.message} />
         
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Category</label>
+          <label className="text-sm font-medium text-text">Category</label>
           <select 
             {...register('categoryId')}
-            className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            className="flex h-10 w-full rounded-md border border-border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
           >
             <option value="">Select a category</option>
             {categoryOptions.map((c: any) => (
@@ -128,9 +128,9 @@ export default function VendorProductForm({ initialData }: { initialData?: any }
             type="checkbox" 
             id="isOrganic"
             {...register('isOrganic')}
-            className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
+            className="h-4 w-4 rounded border-border text-green-600 focus:ring-green-500"
           />
-          <label htmlFor="isOrganic" className="text-sm font-medium text-gray-700">
+          <label htmlFor="isOrganic" className="text-sm font-medium text-text">
             This product is 100% Organic certified
           </label>
         </div>
@@ -141,10 +141,10 @@ export default function VendorProductForm({ initialData }: { initialData?: any }
       </div>
 
       <div className="space-y-4">
-        <label className="text-sm font-medium text-gray-700">Product Images</label>
+        <label className="text-sm font-medium text-text">Product Images</label>
         <div className="flex flex-wrap gap-4">
           {images.map((url, i) => (
-            <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-200">
+            <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border border-border">
               <Image src={url} alt={`Preview ${i}`} fill className="object-cover" />
               <button 
                 type="button" 
@@ -156,13 +156,13 @@ export default function VendorProductForm({ initialData }: { initialData?: any }
             </div>
           ))}
           
-          <label className="w-24 h-24 rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors">
+          <label className="w-24 h-24 rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center cursor-pointer hover:bg-cream/50 transition-colors">
             {uploading ? (
-              <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+              <Loader2 className="w-6 h-6 animate-spin text-muted" />
             ) : (
               <>
-                <UploadCloud className="w-6 h-6 text-gray-400 mb-1" />
-                <span className="text-xs text-gray-500">Upload</span>
+                <UploadCloud className="w-6 h-6 text-muted mb-1" />
+                <span className="text-xs text-muted">Upload</span>
               </>
             )}
             <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageUpload} disabled={uploading} />
@@ -170,7 +170,7 @@ export default function VendorProductForm({ initialData }: { initialData?: any }
         </div>
       </div>
 
-      <div className="pt-6 border-t border-gray-200 flex justify-end gap-4">
+      <div className="pt-6 border-t border-border flex justify-end gap-4">
         <Button variant="outline" type="button" onClick={() => router.back()}>Cancel</Button>
         <Button type="submit" className="bg-green-600 hover:bg-green-700" disabled={isSubmitting}>
           {isSubmitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}

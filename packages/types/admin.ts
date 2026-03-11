@@ -1,14 +1,4 @@
-export interface Banner {
-  id: string
-  title: string
-  subtitle?: string
-  imageUrl: string
-  mobileImageUrl?: string
-  ctaText: string
-  ctaLink: string
-  displayOrder: number
-  isActive: boolean
-}
+// Banner is now defined in cms.ts with zone/mode awareness
 
 export interface AuditLog {
   id: string

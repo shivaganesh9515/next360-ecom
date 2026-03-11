@@ -33,87 +33,96 @@ export default function CartSummary({
   if (itemCount === 0) return null
 
   return (
-    <div className="sticky top-24 space-y-4">
-      <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
-        <h2 className="font-display text-2xl font-bold text-primary mb-6 flex items-center gap-2">
+    <div className="sticky top-28 space-y-6">
+      <div className="bg-white rounded-[3rem] border border-slate-100 p-10 shadow-2xl shadow-slate-200/50 relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-700" />
+        
+        <h2 className="text-2xl font-black text-slate-900 mb-10 flex items-center gap-3 tracking-tight relative z-10">
           Order Summary
-          <span className="w-6 h-6 rounded-full bg-primary/5 text-primary text-[10px] flex items-center justify-center border border-primary/10">
-            {itemCount}
+          <span className="text-[10px] bg-slate-900 text-white px-3 py-1 rounded-full uppercase tracking-widest font-black">
+            {itemCount} Units
           </span>
         </h2>
 
-        <div className="space-y-4">
-          <div className="flex justify-between items-center text-sm font-medium">
-            <span className="text-muted">Subtotal ({itemCount} items)</span>
-            <span className="text-text">{formatPrice(subtotal)}</span>
+        <div className="space-y-6 relative z-10">
+          <div className="flex justify-between items-center text-sm font-bold text-slate-400 uppercase tracking-widest">
+            <span>Basket Subtotal</span>
+            <span className="text-slate-900">{formatPrice(subtotal)}</span>
           </div>
 
-          <div className="flex justify-between items-center text-sm font-medium">
-            <span className="text-muted">Delivery</span>
+          <div className="flex justify-between items-center text-sm font-bold uppercase tracking-widest">
+            <span className="text-slate-400">Logistics</span>
             {isFreeDelivery ? (
-              <span className="text-secondary font-bold">FREE</span>
+              <span className="text-primary font-black">0.00 FREE</span>
             ) : (
-              <span className="text-text">{formatPrice(deliveryFee)}</span>
+              <span className="text-slate-900">{formatPrice(deliveryFee)}</span>
             )}
           </div>
 
           {discount > 0 && (
             <motion.div 
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              className="flex justify-between items-center text-sm font-medium text-secondary"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex justify-between items-center text-sm font-bold text-primary uppercase tracking-widest italic"
             >
-              <span>Discount {coupon?.code && `(${coupon.code})`}</span>
+              <span>Protocol Applied</span>
               <span>-{formatPrice(discount)}</span>
             </motion.div>
           )}
 
-          <div className="border-t border-border pt-4 mt-2">
-            <div className="flex justify-between items-end mb-1">
-              <span className="font-display text-xl font-bold text-primary">Total</span>
-              <span className="font-display text-2xl font-black text-primary">{formatPrice(total)}</span>
+          <div className="pt-8 border-t border-slate-50 mt-4 space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-300">Total Settlement</span>
+              <span className="text-4xl font-black text-slate-900 tracking-tighter leading-none italic">{formatPrice(total)}</span>
             </div>
-            <p className="text-[10px] text-muted font-bold uppercase tracking-widest text-right">
-              Inclusive of all taxes
+            <p className="text-[9px] text-slate-300 font-bold uppercase tracking-[0.1em] text-right">
+               Net Value • Taxes Included • 256-bit Secure
             </p>
           </div>
         </div>
 
-        {showCoupon && <CouponInput />}
+        {showCoupon && <div className="mt-10"><CouponInput /></div>}
 
         {showCheckoutButton && (
           <Button 
             onClick={() => router.push('/checkout')}
-            className="w-full h-14 rounded-[1.25rem] font-black text-lg mt-8 shadow-xl shadow-primary/20 group"
+            className="w-full h-18 py-8 rounded-full font-black text-lg uppercase mt-10 shadow-2xl shadow-primary/20 group relative overflow-hidden"
           >
-            <span>Proceed to Checkout</span>
-            <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
+            <span className="relative z-10 flex items-center justify-center gap-3">
+               Initialize Checkout
+               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" strokeWidth={3} />
+            </span>
           </Button>
         )}
 
-        <div className="mt-8 flex flex-col gap-4">
-          <div className="flex items-center justify-center gap-6 opacity-30 grayscale contrast-125">
-             <CreditCard size={24} />
-             <Wallet size={24} />
-             <ShoppingBag size={24} />
+        <div className="mt-10 flex flex-col gap-5 relative z-10">
+          <div className="flex items-center justify-center gap-8 opacity-20 hover:opacity-40 transition-opacity">
+             <CreditCard size={20} strokeWidth={3} />
+             <Wallet size={20} strokeWidth={3} />
+             <ShoppingBag size={20} strokeWidth={3} />
           </div>
-          <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-muted uppercase tracking-[0.2em]">
-            <ShieldCheck size={14} className="text-secondary" />
-            Secure & Encrypted Checkout
+          <div className="flex items-center justify-center gap-2 text-[9px] font-black text-slate-300 uppercase tracking-[0.25em]">
+            <ShieldCheck size={14} className="text-primary" />
+            Verified Encrypted Node
           </div>
         </div>
       </div>
 
       {savings > 0 && (
         <motion.div 
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-secondary/5 rounded-3xl p-4 border border-secondary/10 flex flex-col items-center gap-1"
+          className="bg-primary/5 rounded-[2rem] p-6 border border-primary/10 flex items-center gap-5 shadow-sm"
         >
-          <p className="text-secondary font-bold text-sm">🎉 Great choice!</p>
-          <p className="text-secondary/70 text-xs font-medium">
-            You are saving <span className="font-black">{formatPrice(savings)}</span> on this order
-          </p>
+          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-primary">
+             <span className="text-xl">✨</span>
+          </div>
+          <div className="space-y-0.5">
+            <p className="text-primary font-black text-[10px] uppercase tracking-widest">Optimized Value</p>
+            <p className="text-primary/70 text-sm font-bold">
+              You saved <span className="text-primary font-black">{formatPrice(savings)}</span> today
+            </p>
+          </div>
         </motion.div>
       )}
     </div>

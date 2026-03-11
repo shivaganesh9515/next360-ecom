@@ -1,3 +1,5 @@
+import type { DeliveryType, PlatformMode, ProductZone } from './location'
+
 export type ProductApproval = 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'
 
 export interface Product {
@@ -40,6 +42,13 @@ export interface Product {
   orderCount: number
   approvalStatus: ProductApproval
   createdAt: string
+
+  // Location + Mode fields
+  deliveryType?: DeliveryType
+  platformModes?: PlatformMode[]
+  lat?: number | null
+  lng?: number | null
+  productZones?: ProductZone[]
 }
 
 export interface Category {

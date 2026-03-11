@@ -53,119 +53,176 @@ export function ProductForm({ initialData, onSubmit, categories = [], vendors = 
   const images = watch('images')
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-12 pb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         
         {/* Main Details */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white p-6 rounded-2xl border border-border shadow-sm space-y-6">
-            <h3 className="text-lg font-semibold text-text border-b border-border pb-4">General Information</h3>
+        <div className="lg:col-span-2 space-y-10">
+          <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50 space-y-10">
+            <div className="flex items-center gap-4">
+               <div className="h-1.5 w-12 bg-primary rounded-full shadow-sm" />
+               <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">Node Configuration</h3>
+            </div>
             
-            <div className="space-y-4">
+            <div className="space-y-8">
               <div>
-                <label className="block text-sm font-medium text-text mb-1">Product Name</label>
-                <Input {...register('name')} placeholder="E.g., Organic Honey" error={errors.name?.message} />
-                {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>}
+                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 ml-2">Product Name</label>
+                <Input 
+                  {...register('name')} 
+                  placeholder="E.g., Quantum Emerald Honey" 
+                  className="rounded-full py-7 px-8 bg-slate-50/50 border-slate-100 focus:bg-white focus:shadow-xl transition-all font-bold text-slate-800"
+                  error={errors.name?.message} 
+                />
+                {errors.name && <p className="text-[9px] font-black text-rose-500 mt-2 ml-4 uppercase tracking-widest">{errors.name.message}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-text mb-1">Description</label>
+                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 ml-2">Operational Description</label>
                 <textarea 
                   {...register('description')}
-                  className="w-full h-32 px-4 py-2 border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm outline-none resize-none font-sans"
-                  placeholder="Enter detailed description..."
+                  className="w-full h-48 px-8 py-6 bg-slate-50/50 border border-slate-100 rounded-[2rem] focus:bg-white focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all text-sm outline-none resize-none font-sans font-bold text-slate-700 placeholder:text-slate-400"
+                  placeholder="Enter detailed system parameters..."
                 />
-                {errors.description && <p className="text-xs text-red-500 mt-1">{errors.description.message}</p>}
+                {errors.description && <p className="text-[9px] font-black text-rose-500 mt-2 ml-4 uppercase tracking-widest">{errors.description.message}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-text mb-1">Product Images</label>
-                <ImageUploader 
-                  images={images} 
-                  onChange={(newImages) => setValue('images', newImages, { shouldValidate: true })} 
-                />
-                {errors.images && <p className="text-xs text-red-500 mt-1">{errors.images.message}</p>}
+                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4 ml-2">Visual Arrays</label>
+                <div className="bg-slate-50/50 rounded-[2.5rem] p-4 border border-slate-100/50">
+                  <ImageUploader 
+                    images={images} 
+                    onChange={(newImages) => setValue('images', newImages, { shouldValidate: true })} 
+                  />
+                </div>
+                {errors.images && <p className="text-[9px] font-black text-rose-500 mt-3 ml-4 uppercase tracking-widest">{errors.images.message}</p>}
               </div>
             </div>
           </div>
           
-          <div className="bg-white p-6 rounded-2xl border border-border shadow-sm space-y-6">
-            <h3 className="text-lg font-semibold text-text border-b border-border pb-4">Pricing & Inventory</h3>
-            <div className="grid grid-cols-2 gap-4">
+          <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50 space-y-10">
+            <div className="flex items-center gap-4">
+               <div className="h-1.5 w-12 bg-primary rounded-full shadow-sm" />
+               <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">Inventory Metrics</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <label className="block text-sm font-medium text-text mb-1">Price (₹)</label>
-                <Input type="number" step="0.01" {...register('price')} placeholder="0.00" error={errors.price?.message} />
-                {errors.price && <p className="text-xs text-red-500 mt-1">{errors.price.message}</p>}
+                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 ml-2">Market Price (₹)</label>
+                <Input 
+                  type="number" 
+                  step="0.01" 
+                  {...register('price')} 
+                  placeholder="0.00" 
+                  className="rounded-full py-7 px-8 bg-slate-50/50 border-slate-100 focus:bg-white transition-all font-black text-primary text-xl italic"
+                  error={errors.price?.message} 
+                />
+                {errors.price && <p className="text-[9px] font-black text-rose-500 mt-2 ml-4 uppercase tracking-widest">{errors.price.message}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium text-text mb-1">Stock Quantity</label>
-                <Input type="number" {...register('stock')} placeholder="0" error={errors.stock?.message} />
-                {errors.stock && <p className="text-xs text-red-500 mt-1">{errors.stock.message}</p>}
+                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 ml-2">Network Stock</label>
+                <Input 
+                  type="number" 
+                  {...register('stock')} 
+                  placeholder="0" 
+                  className="rounded-full py-7 px-8 bg-slate-50/50 border-slate-100 focus:bg-white transition-all font-black text-slate-800 text-xl"
+                  error={errors.stock?.message} 
+                />
+                {errors.stock && <p className="text-[9px] font-black text-rose-500 mt-2 ml-4 uppercase tracking-widest">{errors.stock.message}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium text-text mb-1">SKU</label>
-                <Input {...register('sku')} placeholder="PROD-XXX" error={errors.sku?.message} />
-                {errors.sku && <p className="text-xs text-red-500 mt-1">{errors.sku.message}</p>}
+                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 ml-2">Serial Key (SKU)</label>
+                <Input 
+                  {...register('sku')} 
+                  placeholder="PROD-SEQUENCE" 
+                  className="rounded-full py-7 px-8 bg-slate-50/50 border-slate-100 focus:bg-white transition-all font-bold text-slate-600 tracking-widest uppercase"
+                  error={errors.sku?.message} 
+                />
+                {errors.sku && <p className="text-[9px] font-black text-rose-500 mt-2 ml-4 uppercase tracking-widest">{errors.sku.message}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium text-text mb-1">Organic %</label>
-                <Input type="number" {...register('organicPercentage')} placeholder="100" error={errors.organicPercentage?.message} />
-                {errors.organicPercentage && <p className="text-xs text-red-500 mt-1">{errors.organicPercentage.message}</p>}
+                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 ml-2">Organic Index %</label>
+                <Input 
+                  type="number" 
+                  {...register('organicPercentage')} 
+                  placeholder="100" 
+                  className="rounded-full py-7 px-8 bg-slate-50/50 border-slate-100 focus:bg-white transition-all font-black text-emerald-600 text-xl"
+                  error={errors.organicPercentage?.message} 
+                />
+                {errors.organicPercentage && <p className="text-[9px] font-black text-rose-500 mt-2 ml-4 uppercase tracking-widest">{errors.organicPercentage.message}</p>}
               </div>
             </div>
           </div>
         </div>
 
         {/* Sidebar Organization Settings */}
-        <div className="space-y-6">
-          <div className="bg-white p-6 rounded-2xl border border-border shadow-sm space-y-6 flex flex-col h-full justify-between">
-            <div>
-              <h3 className="text-lg font-semibold text-text border-b border-border pb-4 mb-4">Organization</h3>
+        <div className="space-y-10">
+          <div className="bg-slate-900 p-10 rounded-[3rem] border border-white/5 shadow-[0_50px_100px_rgba(15,23,42,0.3)] flex flex-col h-full relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_100%_0%,rgba(22,163,74,0.08),transparent)] pointer-events-none" />
+            
+            <div className="relative z-10 flex-1">
+              <div className="flex items-center gap-3 mb-10">
+                 <div className="h-1.5 w-8 bg-primary rounded-full shadow-sm" />
+                 <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-500">Registry Protocol</h3>
+              </div>
               
-              <div className="space-y-4">
+              <div className="space-y-8">
                 <div>
-                  <label className="block text-sm font-medium text-text mb-1">Category</label>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-2">Logic Sector</label>
                   <select 
                     {...register('categoryId')}
-                    className="w-full h-11 px-4 border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm transition-all"
+                    className="w-full h-16 px-8 bg-white/[0.03] border border-white/10 rounded-full focus:bg-white/[0.08] focus:border-primary outline-none text-xs font-black uppercase tracking-widest text-white transition-all appearance-none cursor-pointer"
                   >
-                    <option value="">Select Category</option>
+                    <option value="" className="bg-slate-900">Select Sector</option>
                     {categories.map((c) => (
-                      <option key={c.id} value={c.id}>{c.name}</option>
+                      <option key={c.id} value={c.id} className="bg-slate-900">{c.name}</option>
                     ))}
                   </select>
-                  {errors.categoryId && <p className="text-xs text-red-500 mt-1">{errors.categoryId.message}</p>}
+                  {errors.categoryId && <p className="text-[9px] font-black text-rose-400 mt-2 ml-4 uppercase tracking-widest">{errors.categoryId.message}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-text mb-1">Vendor</label>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-2">Node Provider</label>
                   <select 
                     {...register('vendorId')}
-                    className="w-full h-11 px-4 border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm transition-all"
+                    className="w-full h-16 px-8 bg-white/[0.03] border border-white/10 rounded-full focus:bg-white/[0.08] focus:border-primary outline-none text-xs font-black uppercase tracking-widest text-white transition-all appearance-none cursor-pointer"
                   >
-                    <option value="">Select Vendor</option>
+                    <option value="" className="bg-slate-900">Select Provider</option>
                     {vendors.map((v) => (
-                      <option key={v.id} value={v.id}>{v.storeName || v.user?.name}</option>
+                      <option key={v.id} value={v.id} className="bg-slate-900">{v.storeName || v.user?.name}</option>
                     ))}
                   </select>
-                  {errors.vendorId && <p className="text-xs text-red-500 mt-1">{errors.vendorId.message}</p>}
+                  {errors.vendorId && <p className="text-[9px] font-black text-rose-400 mt-2 ml-4 uppercase tracking-widest">{errors.vendorId.message}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-text mb-1">Tags (comma separated)</label>
-                  <Input {...register('tags')} placeholder="organic, fresh, local" />
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-2">Metadata Segments</label>
+                  <Input 
+                    {...register('tags')} 
+                    placeholder="tag, sequence, node" 
+                    className="rounded-full py-7 px-8 bg-white/[0.03] border-white/10 text-white font-bold text-xs"
+                  />
                 </div>
               </div>
             </div>
 
-            <div className="pt-6 border-t border-border mt-auto">
-              <label className="flex items-center gap-3 cursor-pointer mb-6">
-                <input type="checkbox" {...register('isPublished')} className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
-                <span className="text-sm font-medium text-text">Publish immediately</span>
+            <div className="relative z-10 pt-10 border-t border-white/5 mt-12">
+              <label className="flex items-center gap-4 cursor-pointer mb-10 group/check">
+                <div className="relative flex items-center justify-center">
+                  <input type="checkbox" {...register('isPublished')} className="peer sr-only" />
+                  <div className="w-6 h-6 rounded-lg border-2 border-white/10 peer-checked:bg-primary peer-checked:border-primary transition-all shadow-inner" />
+                  <div className="absolute opacity-0 peer-checked:opacity-100 transition-opacity">
+                    <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                </div>
+                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest group-hover/check:text-white transition-colors">Initialize Production Node</span>
               </label>
               
-              <Button type="submit" size="lg" className="w-full" isLoading={isSubmitting}>
-                {initialData ? 'Save Changes' : 'Create Product'}
+              <Button type="submit" className="w-full py-10 rounded-[2rem] bg-primary hover:bg-primary/90 text-white font-black text-sm uppercase tracking-[0.25em] shadow-2xl shadow-primary/30 hover:scale-[1.02] active:scale-95 transition-all group overflow-hidden border-none" isLoading={isSubmitting}>
+                <span className="relative z-10 italic">
+                  {initialData ? 'Commit Pulse Changes' : 'Initialize New Node'}
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               </Button>
             </div>
           </div>

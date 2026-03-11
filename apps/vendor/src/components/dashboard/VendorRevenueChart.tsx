@@ -24,7 +24,7 @@ export default function VendorRevenueChart({ data = [] }: VendorRevenueChartProp
       <div className="p-6">
         <div className="h-[300px] w-full">
           {data.length === 0 ? (
-            <div className="h-full flex items-center justify-center text-slate-400 text-sm italic">
+            <div className="h-full flex items-center justify-center text-muted text-sm italic">
               No revenue data available yet.
             </div>
           ) : (

@@ -1,11 +1,11 @@
 "use client"
 
 import React, { useState } from 'react'
-import { Button } from '@next360/ui'
+import { Button, Badge } from '@next360/ui'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Camera, CheckCircle2 } from 'lucide-react'
+import { Camera, CheckCircle2, ChevronRight } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@next360/utils'
 
@@ -93,165 +93,193 @@ export default function ProfilePage() {
   const memberSince = new Date(user.createdAt).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-12">
       {/* SECTION 1 - Avatar + Basic Info */}
-      <div className="bg-white rounded-2xl border border-border p-6 shadow-sm flex flex-col md:flex-row items-center gap-6">
-        <div className="relative group cursor-pointer" onClick={() => toast.success("Photo upload coming soon")}>
-          <div className="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center font-display text-4xl font-black shadow-lg shadow-primary/20 transition-transform group-hover:scale-105">
+      <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 md:p-12 shadow-2xl shadow-slate-200/40 flex flex-col md:flex-row items-center gap-10 relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl group-hover:bg-primary/10 transition-colors" />
+        
+        <div className="relative group/avatar cursor-pointer" onClick={() => toast.success("Identity visual capture coming soon")}>
+          <div className="w-32 h-32 rounded-full bg-slate-900 text-white flex items-center justify-center font-black text-5xl shadow-2xl transition-transform duration-700 group-hover/avatar:scale-110 group-hover/avatar:rotate-3 italic">
             {userInitials}
           </div>
-          <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <Camera className="text-white" size={24} />
+          <div className="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition-all duration-500 scale-90 group-hover/avatar:scale-100">
+            <Camera className="text-white" size={32} strokeWidth={2.5} />
           </div>
         </div>
-        <div className="text-center md:text-left">
-          <h2 className="font-display text-2xl font-black text-text mb-1 leading-tight">{user.name}</h2>
-          <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
-            <p className="text-muted font-medium text-sm">{user.email}</p>
-            {user.isVerified && <CheckCircle2 size={14} className="text-secondary" />}
+        
+        <div className="text-center md:text-left relative z-10">
+          <div className="flex items-center justify-center md:justify-start gap-4 mb-3">
+            <h2 className="text-4xl font-black text-slate-900 tracking-tighter italic leading-none">{user.name}</h2>
+            {user.isVerified && (
+              <Badge className="bg-primary/10 text-primary border-none font-black text-[8px] uppercase tracking-[0.3em] px-4 py-1 rounded-full shadow-lg">
+                Verified Node
+              </Badge>
+            )}
           </div>
-          <p className="text-[10px] font-bold text-muted uppercase tracking-widest">
-            Member since {memberSince}
-          </p>
+          <p className="text-slate-400 font-bold text-sm tracking-tight mb-6">{user.email}</p>
+          <div className="flex items-center justify-center md:justify-start gap-3">
+             <div className="px-5 py-2 bg-slate-50 border border-slate-100 rounded-full text-[10px] font-black text-slate-400 uppercase tracking-widest italic group-hover:bg-slate-100 transition-colors">
+               Member since <span className="text-slate-900 ml-1">{memberSince}</span>
+             </div>
+          </div>
         </div>
       </div>
 
-      {/* SECTION 2 - Personal Details */}
-      <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
-        <div className="flex justify-between items-center mb-6 border-b border-border pb-4">
-          <h3 className="font-bold text-text uppercase tracking-widest text-sm">Personal Information</h3>
-          {!isEditing && (
-            <Button variant="ghost" className="text-primary font-bold hover:bg-primary/5 py-1 px-3 h-auto" onClick={() => setIsEditing(true)}>
-              Edit
-            </Button>
-          )}
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        {/* SECTION 2 - Personal Details */}
+        <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 md:p-12 shadow-2xl shadow-slate-200/30">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+               <div className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-4 flex items-center gap-3 italic">
+                  <span className="w-8 h-[2.5px] bg-primary" /> Info Vector
+               </div>
+               <h3 className="text-2xl font-black text-slate-900 tracking-tight italic leading-none">Personal Logic</h3>
+            </div>
+            {!isEditing && (
+              <Button variant="ghost" className="rounded-full h-12 px-6 text-[10px] font-black uppercase tracking-[0.2em] text-primary hover:bg-primary/5 border border-slate-50" onClick={() => setIsEditing(true)}>
+                Modify
+              </Button>
+            )}
+          </div>
 
-        <form onSubmit={handleProfileSubmit(onProfileSave)} className="space-y-4 max-w-xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-muted uppercase tracking-wider">Full Name</label>
-              <input
-                {...registerProfile('name')}
-                disabled={!isEditing}
-                className={cn(
-                  "w-full px-4 py-3 rounded-xl border bg-cream transition-colors font-medium text-text",
-                  isEditing ? "border-border focus:border-primary focus:ring-1 focus:ring-primary bg-white" : "border-transparent",
-                  profileErrors.name && "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50"
-                )}
-              />
-              {profileErrors.name && <p className="text-xs text-red-500 font-medium mt-1">{profileErrors.name.message as string}</p>}
+          <form onSubmit={handleProfileSubmit(onProfileSave)} className="space-y-8">
+            <div className="grid grid-cols-1 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Designation Name</label>
+                <input
+                  {...registerProfile('name')}
+                  disabled={!isEditing}
+                  placeholder="Identity String"
+                  className={cn(
+                    "w-full px-8 py-5 rounded-2xl border transition-all duration-500 font-black text-slate-900 text-sm tracking-tight h-16 outline-none",
+                    isEditing ? "border-slate-200 bg-white ring-4 ring-primary/5 focus:border-primary shadow-xl" : "border-transparent bg-slate-50",
+                    profileErrors.name && "border-red-500 ring-red-500/10 bg-red-50"
+                  )}
+                />
+                {profileErrors.name && <p className="text-[10px] font-bold text-red-500 italic mt-2">{profileErrors.name.message as string}</p>}
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Comms Relay</label>
+                <input
+                  {...registerProfile('phone')}
+                  disabled={!isEditing}
+                  placeholder="Sequence Link"
+                  className={cn(
+                    "w-full px-8 py-5 rounded-2xl border transition-all duration-500 font-black text-slate-900 text-sm tracking-tight h-16 outline-none",
+                    isEditing ? "border-slate-200 bg-white ring-4 ring-primary/5 focus:border-primary shadow-xl" : "border-transparent bg-slate-50",
+                    profileErrors.phone && "border-red-500 ring-red-500/10 bg-red-50"
+                  )}
+                />
+                {profileErrors.phone && <p className="text-[10px] font-bold text-red-500 italic mt-2">{profileErrors.phone.message as string}</p>}
+              </div>
             </div>
             
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-muted uppercase tracking-wider">Phone Number</label>
+            <div className="space-y-2 pb-4">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex justify-between">
+                <span>Relay Email</span>
+                <span className="text-[9px] lowercase italic opacity-40">Locked to identity</span>
+              </label>
               <input
-                {...registerProfile('phone')}
-                disabled={!isEditing}
-                className={cn(
-                  "w-full px-4 py-3 rounded-xl border bg-cream transition-colors font-medium text-text",
-                  isEditing ? "border-border focus:border-primary focus:ring-1 focus:ring-primary bg-white" : "border-transparent",
-                  profileErrors.phone && "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50"
-                )}
+                value={user.email}
+                disabled
+                className="w-full px-8 py-5 rounded-2xl border border-transparent bg-slate-50/50 text-slate-300 font-bold text-sm tracking-tight h-16 cursor-not-allowed italic"
               />
-              {profileErrors.phone && <p className="text-xs text-red-500 font-medium mt-1">{profileErrors.phone.message as string}</p>}
             </div>
-          </div>
-          
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-muted uppercase tracking-wider flex justify-between">
-              <span>Email Address</span>
-              <span className="text-muted normal-case tracking-normal">(Cannot be changed)</span>
-            </label>
-            <input
-              value={user.email}
-              disabled
-              className="w-full px-4 py-3 rounded-xl border border-transparent bg-cream/50 text-muted font-medium cursor-not-allowed"
-            />
+
+            {isEditing && (
+              <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-slate-50">
+                <Button type="button" variant="ghost" className="rounded-full h-14 px-8 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400" onClick={() => { setIsEditing(false); resetProfile(); }}>
+                  Abort
+                </Button>
+                <Button type="submit" className="flex-1 rounded-full h-14 px-10 text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-primary/20" disabled={updateProfileMutation.isPending}>
+                  {updateProfileMutation.isPending ? 'Executing...' : 'Update Node'}
+                </Button>
+              </div>
+            )}
+          </form>
+        </div>
+
+        {/* SECTION 4 - Change Password */}
+        <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 md:p-12 shadow-2xl shadow-slate-200/30">
+          <div className="mb-12">
+             <div className="text-[10px] font-black text-indigo-500 uppercase tracking-[0.4em] mb-4 flex items-center gap-3 italic">
+                <span className="w-8 h-[2.5px] bg-indigo-500" /> Security Core
+             </div>
+             <h3 className="text-2xl font-black text-slate-900 tracking-tight italic leading-none">Encryption Access</h3>
           </div>
 
-          {isEditing && (
-            <div className="flex gap-3 pt-4 border-t border-border">
-              <Button type="button" variant="ghost" className="font-bold flex-1 md:flex-none" onClick={() => { setIsEditing(false); resetProfile(); }}>
-                Cancel
-              </Button>
-              <Button type="submit" variant="primary" className="font-bold flex-1 md:flex-none" disabled={updateProfileMutation.isPending}>
-                {updateProfileMutation.isPending ? 'Saving...' : 'Save Changes'}
+          <form onSubmit={handlePasswordSubmit(onPasswordSave)} className="space-y-8">
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Current Sequence</label>
+              <input
+                type="password"
+                {...registerPassword('currentPassword')}
+                className={cn(
+                  "w-full px-8 py-5 rounded-2xl border border-slate-100 bg-slate-50 font-black text-slate-900 text-sm tracking-tight h-16 outline-none focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all",
+                  passwordErrors.currentPassword && "border-red-500 bg-red-50"
+                )}
+              />
+              {passwordErrors.currentPassword && <p className="text-[10px] font-bold text-red-500 italic mt-2">{passwordErrors.currentPassword.message as string}</p>}
+            </div>
+
+            <div className="grid grid-cols-1 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">New Encryption</label>
+                <input
+                  type="password"
+                  {...registerPassword('newPassword')}
+                  className={cn(
+                    "w-full px-8 py-5 rounded-2xl border border-slate-100 bg-slate-50 font-black text-slate-900 text-sm tracking-tight h-16 outline-none focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all",
+                    passwordErrors.newPassword && "border-red-500 bg-red-50"
+                  )}
+                />
+                {passwordErrors.newPassword && <p className="text-[10px] font-bold text-red-500 italic mt-2">{passwordErrors.newPassword.message as string}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Confirm Logic</label>
+                <input
+                  type="password"
+                  {...registerPassword('confirmPassword')}
+                  className={cn(
+                    "w-full px-8 py-5 rounded-2xl border border-slate-100 bg-slate-50 font-black text-slate-900 text-sm tracking-tight h-16 outline-none focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all",
+                    passwordErrors.confirmPassword && "border-red-500 bg-red-50"
+                  )}
+                />
+                {passwordErrors.confirmPassword && <p className="text-[10px] font-bold text-red-500 italic mt-2">{passwordErrors.confirmPassword.message as string}</p>}
+              </div>
+            </div>
+
+            <div className="pt-8 border-t border-slate-50">
+              <Button type="submit" className="w-full bg-slate-900 hover:bg-black rounded-full h-16 text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl transition-all" disabled={changePasswordMutation.isPending}>
+                {changePasswordMutation.isPending ? 'Syncing...' : 'Rotate Sequence'}
               </Button>
             </div>
-          )}
-        </form>
+          </form>
+        </div>
       </div>
 
       {/* SECTION 3 - Notification Preferences */}
-      <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
-        <h3 className="font-bold text-text uppercase tracking-widest text-sm mb-6 border-b border-border pb-4">
-          Notification Preferences
-        </h3>
-
-        <div className="space-y-6 max-w-xl">
-          <ToggleRow label="Order updates & tracking" desc="Get status updates on your active orders" checked={preferences.orderUpdates} onChange={() => togglePreference('orderUpdates')} />
-          <ToggleRow label="Promotional offers & discounts" desc="Receive special coupons and sale alerts" checked={preferences.promotions} onChange={() => togglePreference('promotions')} />
-          <ToggleRow label="Subscription reminders" desc="Get notified before your next box is prepared" checked={preferences.subscriptionReminders} onChange={() => togglePreference('subscriptionReminders')} />
-          <ToggleRow label="New arrivals" desc="Updates on new seasonal products" checked={preferences.newArrivals} onChange={() => togglePreference('newArrivals')} />
-          <ToggleRow label="Weekly newsletter" desc="Tips, recipes, and farm stories" checked={preferences.newsletter} onChange={() => togglePreference('newsletter')} />
+      <div className="bg-slate-900 text-white rounded-[3rem] border border-slate-800 p-8 md:p-16 shadow-2xl relative overflow-hidden group">
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -mb-32 -mr-32 group-hover:bg-primary/20 transition-colors duration-1000" />
+        
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-12 mb-16 relative z-10">
+          <div>
+             <div className="text-[11px] font-black text-primary uppercase tracking-[0.5em] mb-4 flex items-center gap-4 italic">
+                <span className="w-12 h-[3px] bg-primary" /> Subscription Alerts
+             </div>
+             <h3 className="text-4xl font-black text-white tracking-tighter italic leading-none">Transmission Preferences</h3>
+          </div>
         </div>
-      </div>
 
-      {/* SECTION 4 - Change Password */}
-      <div className="bg-white rounded-2xl border border-border p-6 shadow-sm">
-        <h3 className="font-bold text-text uppercase tracking-widest text-sm mb-6 border-b border-border pb-4">
-          Security
-        </h3>
-
-        <form onSubmit={handlePasswordSubmit(onPasswordSave)} className="space-y-4 max-w-xl">
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-muted uppercase tracking-wider">Current Password</label>
-            <input
-              type="password"
-              {...registerPassword('currentPassword')}
-              className={cn(
-                "w-full px-4 py-3 rounded-xl border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors font-medium text-text",
-                passwordErrors.currentPassword && "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50"
-              )}
-            />
-            {passwordErrors.currentPassword && <p className="text-xs text-red-500 font-medium mt-1">{passwordErrors.currentPassword.message as string}</p>}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-muted uppercase tracking-wider">New Password</label>
-              <input
-                type="password"
-                {...registerPassword('newPassword')}
-                className={cn(
-                  "w-full px-4 py-3 rounded-xl border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors font-medium text-text",
-                  passwordErrors.newPassword && "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50"
-                )}
-              />
-              {passwordErrors.newPassword && <p className="text-xs text-red-500 font-medium mt-1">{passwordErrors.newPassword.message as string}</p>}
-            </div>
-
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-muted uppercase tracking-wider">Confirm New</label>
-              <input
-                type="password"
-                {...registerPassword('confirmPassword')}
-                className={cn(
-                  "w-full px-4 py-3 rounded-xl border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors font-medium text-text",
-                  passwordErrors.confirmPassword && "border-red-500 focus:border-red-500 focus:ring-red-500 bg-red-50"
-                )}
-              />
-              {passwordErrors.confirmPassword && <p className="text-xs text-red-500 font-medium mt-1">{passwordErrors.confirmPassword.message as string}</p>}
-            </div>
-          </div>
-
-          <div className="pt-4">
-            <Button type="submit" variant="primary" className="font-bold" disabled={changePasswordMutation.isPending}>
-              {changePasswordMutation.isPending ? 'Updating...' : 'Update Password'}
-            </Button>
-          </div>
-        </form>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12 relative z-10">
+          <ToggleRow label="Deployment Log Sync" desc="Real-time status updates on fleet nodes" checked={preferences.orderUpdates} onChange={() => togglePreference('orderUpdates')} />
+          <ToggleRow label="Marketing Transmissions" desc="Priority access to discount protocols" checked={preferences.promotions} onChange={() => togglePreference('promotions')} />
+          <ToggleRow label="Node Maintenance" desc="Advance notice before deployment cycles" checked={preferences.subscriptionReminders} onChange={() => togglePreference('subscriptionReminders')} />
+          <ToggleRow label="Inventory Arrival" desc="Alerts on seasonal resource availability" checked={preferences.newArrivals} onChange={() => togglePreference('newArrivals')} />
+          <ToggleRow label="Newsletter Node" desc="Deep-node insights and farm narratives" checked={preferences.newsletter} onChange={() => togglePreference('newsletter')} />
+        </div>
       </div>
 
     </div>
@@ -260,22 +288,22 @@ export default function ProfilePage() {
 
 function ToggleRow({ label, desc, checked, onChange }: { label: string, desc: string, checked: boolean, onChange: () => void }) {
   return (
-    <div className="flex items-center justify-between">
-      <div>
-        <h4 className="font-bold text-text text-sm mb-0.5">{label}</h4>
-        <p className="text-xs font-medium text-muted">{desc}</p>
+    <div className="flex items-center justify-between group/row">
+      <div className="max-w-xs">
+        <h4 className="font-black text-white text-base mb-1 italic tracking-tight group-hover/row:text-primary transition-colors">{label}</h4>
+        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{desc}</p>
       </div>
       <button 
         onClick={onChange}
         className={cn(
-          "w-12 h-6 rounded-full transition-colors relative shadow-inner flex-shrink-0",
-          checked ? "bg-secondary" : "bg-border"
+          "w-16 h-8 rounded-full transition-all duration-500 relative shadow-inner flex-shrink-0 border",
+          checked ? "bg-primary/20 border-primary/40 shadow-primary/10" : "bg-slate-800 border-slate-700 shadow-black/20"
         )}
       >
         <span 
           className={cn(
-            "absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform shadow-sm",
-            checked ? "translate-x-6" : "translate-x-0"
+            "absolute top-1 left-1 w-5 h-5 rounded-full transition-all duration-500 shadow-xl",
+            checked ? "translate-x-8 bg-primary scale-110" : "translate-x-0 bg-slate-600"
           )}
         />
       </button>

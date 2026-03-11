@@ -8,6 +8,7 @@ import { ShoppingBag, MapPin, CreditCard, ShieldCheck, Lock, Edit3, ArrowLeft } 
 import { Button, Badge } from '@next360/ui'
 import { useCartStore } from '@/store/cartStore'
 import { formatPrice } from '@next360/utils'
+import { Order } from '@next360/types'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { orderService } from '@/services/orderService'
 import { accountService } from '@/services/accountService'
@@ -18,7 +19,7 @@ interface OrderReviewProps {
   selectedAddressId: string
   selectedPaymentMethod: string
   onBack: () => void
-  onPlaceOrder: (orderId: string) => void
+  onPlaceOrder: (data: { order: Order; razorpayOrder?: any }) => void
   isLoading: boolean
 }
 
@@ -55,11 +56,11 @@ export default function OrderReview({
   const createOrderMutation = useMutation({
     mutationFn: () => orderService.create({
       addressId: selectedAddressId,
-      paymentMethod: selectedPaymentMethod,
+      paymentMethod: selectedPaymentMethod.toUpperCase(), // Backend expects uppercase
       couponCode: coupon?.code,
     }),
-    onSuccess: (order) => {
-      onPlaceOrder(order.id)
+    onSuccess: (data) => {
+      onPlaceOrder(data)
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.message || 'Failed to place order')
@@ -73,161 +74,172 @@ export default function OrderReview({
   if (!address) return null
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-10">
       {/* Items Summary */}
-      <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
-        <div className="flex items-center justify-between mb-8">
-           <h2 className="font-display text-2xl font-bold text-primary flex items-center gap-2">
-            <span className="w-8 h-8 rounded-xl bg-primary/5 text-primary flex items-center justify-center border border-primary/10">
-              <ShoppingBag size={18} />
-            </span>
-            Review Items
-          </h2>
-          <Link href="/cart">
-            <Button variant="ghost" size="sm" className="text-secondary font-bold text-xs uppercase tracking-widest rounded-xl">
-               <Edit3 size={14} className="mr-1.5" />
-               Edit Cart
-            </Button>
-          </Link>
+      <div className="">
+        <div className="flex items-center justify-between mb-10">
+           <h2 className="text-3xl font-black text-slate-900 tracking-tight">Review Selection</h2>
+           <Link href="/cart">
+             <button className="flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-widest bg-primary/5 px-5 py-2.5 rounded-full hover:bg-primary/10 transition-colors">
+                <Edit3 size={14} />
+                Edit Basket
+             </button>
+           </Link>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-5 px-1">
            {items.map((item) => (
-             <div key={item.id} className="flex gap-4 items-center group">
-                <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-cream border border-border shrink-0">
+             <div key={item.id} className="flex gap-6 items-center group bg-white p-4 rounded-3xl border border-slate-50 transition-all hover:border-slate-200">
+                <div className="relative w-20 h-20 rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 flex items-center justify-center p-3 shrink-0">
                    <Image 
                       src={item.product.images[0]} 
                       alt={item.product.name}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="object-contain p-2 group-hover:scale-110 transition-transform duration-500"
                    />
                 </div>
-                <div className="flex-1">
-                   <p className="font-bold text-text text-sm line-clamp-1">{item.product.name}</p>
-                   <div className="flex items-center gap-2 mt-1">
-                      <Badge variant="info" className="text-[9px] h-4 px-1.5 border-border text-muted font-black">{item.selectedWeight}</Badge>
-                      <span className="text-[10px] font-bold text-muted">QTY: {item.quantity}</span>
+                <div className="flex-1 space-y-1">
+                   <p className="font-black text-slate-800 text-base tracking-tight leading-tight line-clamp-1">{item.product.name}</p>
+                   <div className="flex items-center gap-2">
+                      <Badge variant="green" size="sm" className="bg-primary/5 text-primary text-[8px] font-black border-none uppercase tracking-widest px-2">{item.selectedWeight}</Badge>
+                      <span className="w-1 h-1 rounded-full bg-slate-200" />
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Qty: {item.quantity}</span>
                    </div>
                 </div>
-                <div className="text-right">
-                   <p className="font-black text-primary text-sm">{formatPrice(item.product.price * item.quantity)}</p>
+                <div className="text-right pr-4">
+                   <p className="font-black text-slate-900 text-lg leading-none">{formatPrice(item.product.price * item.quantity)}</p>
                 </div>
              </div>
            ))}
         </div>
       </div>
 
-      {/* Delivery & Payment Details */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-         <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
-            <h3 className="text-xs font-black uppercase tracking-widest text-muted mb-6 flex items-center justify-between">
-               Delivery To
-               <button onClick={onBack} className="text-secondary hover:underline">Change</button>
-            </h3>
-            <div className="space-y-2">
-               <p className="font-black text-text">{address.name}</p>
-               <p className="text-muted text-xs font-medium leading-relaxed">
-                  {address.street}, {address.city}, {address.state} - {address.pincode}
-               </p>
-               <p className="text-muted text-[10px] font-bold uppercase tracking-widest pt-2">
-                  📞 {address.phone}
-               </p>
-            </div>
-         </div>
+      <div className="space-y-10">
+        <div className="mb-10 space-y-1">
+          <h2 className="text-3xl font-black text-slate-900 tracking-tight">Deployment Info</h2>
+          <p className="text-sm text-slate-400 font-bold uppercase tracking-widest pl-1">Final validation of your logistics</p>
+        </div>
 
-         <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
-            <h3 className="text-xs font-black uppercase tracking-widest text-muted mb-6 flex items-center justify-between">
-               Payment
-               <button onClick={onBack} className="text-secondary hover:underline">Change</button>
-            </h3>
-            <div className="flex items-center gap-4 bg-cream p-4 rounded-2xl border border-border">
-               <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm">
-                  {selectedPaymentMethod === 'cod' ? <Banknote size={20} /> : <CreditCard size={20} />}
-               </div>
-               <div>
-                  <p className="font-black text-text text-sm">{PAYMENT_LABELS[selectedPaymentMethod] || selectedPaymentMethod}</p>
-                  <p className="text-muted text-[9px] font-black uppercase tracking-widest mt-0.5">Verified SECURE</p>
-               </div>
-            </div>
-         </div>
-      </div>
+        {/* Delivery & Payment Details */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+           <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-2xl shadow-slate-200/50">
+              <div className="flex justify-between items-start mb-6">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Shipment Node</p>
+                <button onClick={onBack} className="text-primary font-black text-[9px] uppercase tracking-widest hover:underline px-3 py-1 rounded-full bg-primary/5">Change</button>
+              </div>
+              <div className="space-y-4">
+                 <div>
+                   <p className="font-black text-slate-900 text-xl tracking-tight">{address.name}</p>
+                   <div className="flex items-center gap-2 text-slate-400 text-[10px] font-black uppercase tracking-widest mt-1">
+                     <Phone size={12} className="text-primary" /> {address.phone}
+                   </div>
+                 </div>
+                 <p className="text-slate-500 text-sm font-bold leading-relaxed">
+                    {address.street}<br/>
+                    {address.city}, {address.state} - <span className="text-slate-900">{address.pincode}</span>
+                 </p>
+              </div>
+           </div>
 
-      <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
-         <h3 className="font-display text-xl font-bold text-primary mb-6">Final Summary</h3>
-         
-         <div className="space-y-4 mb-8">
-            <div className="flex justify-between items-center text-sm font-medium">
-              <span className="text-muted">Items Subtotal ({itemCount})</span>
-              <span className="text-text">{formatPrice(subtotal)}</span>
-            </div>
-            
-            <div className="flex justify-between items-center text-sm font-medium">
-              <span className="text-muted">Delivery Fee</span>
-              {deliveryFee === 0 ? (
-                <span className="text-secondary font-bold">FREE</span>
-              ) : (
-                <span className="text-text">{formatPrice(deliveryFee)}</span>
+           <div className="bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-2xl shadow-slate-200/50">
+              <div className="flex justify-between items-start mb-6">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Payment Protocol</p>
+                <button onClick={onBack} className="text-primary font-black text-[9px] uppercase tracking-widest hover:underline px-3 py-1 rounded-full bg-primary/5">Change</button>
+              </div>
+              <div className="flex items-center gap-5 bg-slate-50 p-5 rounded-[2rem] border border-slate-100">
+                 <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm ring-4 ring-slate-100">
+                    {selectedPaymentMethod === 'cod' ? <Banknote size={24} /> : <CreditCard size={24} />}
+                 </div>
+                 <div>
+                    <p className="font-black text-slate-900 text-base tracking-tight leading-none">{PAYMENT_LABELS[selectedPaymentMethod] || selectedPaymentMethod}</p>
+                    <p className="text-primary text-[9px] font-black uppercase tracking-widest mt-1.5 flex items-center gap-1.5">
+                       <ShieldCheck size={10} strokeWidth={3} />
+                       Verified Secure
+                    </p>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+        <div className="bg-slate-900 rounded-[3rem] p-10 text-white shadow-2xl shadow-slate-900/30">
+           <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-8">System Settlement Summary</h3>
+           
+           <div className="space-y-5 mb-10">
+              <div className="flex justify-between items-center px-1">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Basket Volume ({itemCount})</span>
+                <span className="text-base font-black italic">{formatPrice(subtotal)}</span>
+              </div>
+              
+              <div className="flex justify-between items-center px-1 text-primary">
+                <span className="text-xs font-bold uppercase tracking-widest">Inbound Logistics</span>
+                {deliveryFee === 0 ? (
+                  <span className="text-[10px] font-black tracking-widest">0.00 FREE</span>
+                ) : (
+                  <span className="text-base font-black italic">{formatPrice(deliveryFee)}</span>
+                )}
+              </div>
+
+              {discount > 0 && (
+                <div className="flex justify-between items-center px-1 text-primary italic">
+                  <span className="text-xs font-bold uppercase tracking-widest">Protocol Discount</span>
+                  <span className="text-base font-black">-{formatPrice(discount)}</span>
+                </div>
               )}
-            </div>
 
-            {discount > 0 && (
-              <div className="flex justify-between items-center text-sm font-medium text-secondary">
-                <span>Discount Applied</span>
-                <span>-{formatPrice(discount)}</span>
+              {selectedPaymentMethod === 'cod' && (
+                <div className="flex justify-between items-center px-1 text-amber-500 italic">
+                  <span className="text-xs font-bold uppercase tracking-widest">Convenience Supplement</span>
+                  <span className="text-base font-black">+{formatPrice(2500)}</span>
+                </div>
+              )}
+
+              <div className="pt-8 border-t border-white/5 flex items-center justify-between">
+                 <span className="text-xs font-black uppercase tracking-[0.3em] text-slate-400">Total Settlement</span>
+                 <span className="text-5xl font-black text-primary tracking-tighter italic">{formatPrice(total)}</span>
               </div>
-            )}
+           </div>
 
-            {selectedPaymentMethod === 'cod' && (
-              <div className="flex justify-between items-center text-sm font-medium text-amber-600">
-                <span>COD Convenience Fee</span>
-                <span>{formatPrice(2500)}</span>
-              </div>
-            )}
+           <div className="flex flex-col gap-4">
+              <Button 
+                 variant="primary"
+                 onClick={handlePlaceOrder}
+                 disabled={isLoading || createOrderMutation.isPending}
+                 className="w-full h-18 py-8 rounded-full font-black text-xl uppercase tracking-[0.1em] shadow-2xl relative overflow-hidden group"
+              >
+                 {isLoading || createOrderMutation.isPending ? (
+                    <div className="flex items-center gap-4">
+                       <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
+                          <Loader2 size={24} />
+                       </motion.div>
+                       <span>Linking Nodes...</span>
+                    </div>
+                 ) : (
+                    <div className="flex items-center gap-3">
+                       <Lock size={20} className="group-hover:-translate-y-0.5 transition-transform" strokeWidth={3} />
+                       Initialize Order
+                    </div>
+                 )}
+              </Button>
+              
+              <Button 
+                variant="ghost" 
+                onClick={onBack}
+                className="h-14 rounded-full text-slate-500 font-black uppercase tracking-widest text-[10px] hover:text-white hover:bg-white/5"
+              >
+                <ArrowLeft size={16} className="mr-3" />
+                Audit Previous Step
+              </Button>
+           </div>
 
-            <div className="border-t border-border pt-6 mt-4 flex items-center justify-between">
-               <span className="font-display text-2xl font-bold text-primary">Order Total</span>
-               <span className="font-display text-3xl font-black text-primary tracking-tighter">{formatPrice(total)}</span>
-            </div>
-         </div>
-
-         <div className="flex flex-col gap-4">
-            <Button 
-               size="lg"
-               onClick={handlePlaceOrder}
-               disabled={isLoading || createOrderMutation.isPending}
-               className="w-full h-16 rounded-[1.25rem] font-black text-xl shadow-2xl shadow-primary/20 relative overflow-hidden"
-            >
-               {isLoading || createOrderMutation.isPending ? (
-                  <div className="flex items-center gap-3">
-                     <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
-                        🌱
-                     </motion.div>
-                     <span>Placing Order...</span>
-                  </div>
-               ) : (
-                  <div className="flex items-center gap-2">
-                     <Lock size={20} className="mr-1" />
-                     Place Order — {formatPrice(total)}
-                  </div>
-               )}
-            </Button>
-            
-            <Button 
-               variant="ghost" 
-               onClick={onBack}
-               className="h-14 rounded-2xl text-muted font-bold hover:bg-cream"
-            >
-               <ArrowLeft size={18} className="mr-2" />
-               Back to Payment
-            </Button>
-         </div>
-
-         <p className="mt-6 text-center text-[10px] text-muted font-bold leading-relaxed max-w-sm mx-auto uppercase tracking-widest">
-           By placing your order, you agree to Next360's <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link> and <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
-         </p>
+           <p className="mt-8 text-center text-[8px] text-slate-500 font-black uppercase tracking-[0.4em] max-w-xs mx-auto leading-loose">
+             Secure Hash Protocol • Terms apply • 100% Organic Origin
+           </p>
+        </div>
       </div>
     </div>
   )
 }
+
+import { Phone, Loader2 } from 'lucide-react'
 
 import { Banknote } from 'lucide-react'

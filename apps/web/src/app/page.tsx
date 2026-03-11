@@ -1,14 +1,5 @@
 import React from 'react'
-
-import HeroBanner from '@/components/home/HeroBanner'
-import TodaysHarvest from '@/components/home/TodaysHarvest'
-import HomeInteractive from '@/components/home/HomeInteractive'
-import WhyNext360 from '@/components/home/WhyNext360'
-import SubscriptionBanner from '@/components/home/SubscriptionBanner'
-import SeasonalSection from '@/components/home/SeasonalSection'
-import Testimonials from '@/components/home/Testimonials'
-import ImpactNumbers from '@/components/home/ImpactNumbers'
-import NewsletterBanner from '@/components/home/NewsletterBanner'
+import HomePageClient from '@/components/home/HomePageClient'
 
 export const metadata = {
   title: 'Next360 | Premium Organic Produce Direct from Farms',
@@ -16,18 +7,6 @@ export const metadata = {
 }
 
 export default function HomePage() {
-  return (
-    <main className="min-h-screen">
-      <HeroBanner />
-      <TodaysHarvest />
-      <HomeInteractive />
-      <WhyNext360 />
-      <SubscriptionBanner />
-      <SeasonalSection />
-      <Testimonials />
-      <ImpactNumbers />
-      <NewsletterBanner />
-    </main>
-  )
+  return <HomePageClient />
 }
 

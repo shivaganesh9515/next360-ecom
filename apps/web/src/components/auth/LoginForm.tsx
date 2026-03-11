@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
 import { toast } from 'sonner'
+import { handleAuthRedirect } from '@/utils/auth-redirect'
 import Link from 'next/link'
 import { Button, Input } from '@next360/ui'
 import { useAuthStore } from '@/store/authStore'
@@ -35,7 +36,7 @@ export default function LoginForm() {
     onSuccess: ({ user, token }) => {
       login(user, token)
       toast.success(`Welcome back, ${user.name}! 🌿`)
-      router.push('/account')
+      handleAuthRedirect(user.role, router.push)
     },
     onError: (err) => {
       setError('root', { message: getErrorMessage(err) })

@@ -1,74 +1,53 @@
 import React from 'react'
+import { Card } from './Card'
 import { cn } from '@next360/utils'
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
 export interface StatCardProps {
-  title: string
+  label: string
   value: string | number
-  change?: number
-  icon?: React.ReactNode
-  trend?: 'up' | 'down' | 'neutral'
-  accentColor?: 'secondary' | 'accent' | 'primary'
+  trend?: string
+  icon: React.ReactNode
+  variant?: 'primary' | 'secondary' | 'accent' | 'green' | 'indigo' | 'orange' | 'blue'
   className?: string
 }
 
-export const StatCard: React.FC<StatCardProps> = ({
-  title,
-  value,
-  change,
-  icon,
-  trend,
-  accentColor = 'secondary',
-  className,
+export const StatCard: React.FC<StatCardProps> = ({ 
+  label, 
+  value, 
+  trend, 
+  icon: Icon, 
+  variant = 'secondary',
+  className
 }) => {
-  const activeTrend = trend || (change !== undefined ? (change > 0 ? 'up' : change < 0 ? 'down' : 'neutral') : undefined)
-
-  const accentBorder = {
-    secondary: 'border-l-4 border-l-secondary',
-    accent: 'border-l-4 border-l-accent',
-    primary: 'border-l-4 border-l-primary',
+  const borderColors: Record<string, string> = {
+    primary: 'border-l-4 border-primary',
+    secondary: 'border-l-4 border-secondary',
+    accent: 'border-l-4 border-accent',
+    green: 'border-l-4 border-green-600',
+    indigo: 'border-l-4 border-indigo-600',
+    orange: 'border-l-4 border-orange-500',
+    blue: 'border-l-4 border-blue-500',
   }
 
   return (
-    <div
-      className={cn(
-        'bg-white rounded-2xl border border-border shadow-card p-6 transition-all duration-200',
-        accentBorder[accentColor],
-        className
-      )}
-    >
-      {/* Top row: icon + label */}
-      <div className="flex items-center justify-between mb-3">
-        {icon && (
-          <div className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
-            {icon}
+    <Card padding="p-6" className={cn(borderColors[variant], className)}>
+      <div className="flex items-start justify-between">
+        <div className="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">
+          {Icon}
+        </div>
+        <span className="text-sm font-sans text-muted">{label}</span>
+      </div>
+      <div className="mt-4">
+        <h4 className="text-3xl font-bold font-display text-text">{value}</h4>
+        {trend && (
+          <div className={cn(
+            "text-sm mt-1 font-sans font-medium",
+            trend.startsWith('↑') || trend.includes('+') ? "text-green-600" : "text-red-500"
+          )}>
+            {trend}
           </div>
         )}
-        <span className="text-sm text-muted font-sans">{title}</span>
       </div>
-
-      {/* Value */}
-      <div className="text-3xl font-bold font-display text-text mb-2">
-        {value}
-      </div>
-
-      {/* Trend */}
-      {change !== undefined && activeTrend && (
-        <div className="flex items-center gap-1.5 text-sm font-medium">
-          {activeTrend === 'up' && <TrendingUp className="w-4 h-4 text-green-600" />}
-          {activeTrend === 'down' && <TrendingDown className="w-4 h-4 text-red-500" />}
-          {activeTrend === 'neutral' && <Minus className="w-4 h-4 text-muted" />}
-
-          <span className={cn(
-            activeTrend === 'up' && 'text-green-600',
-            activeTrend === 'down' && 'text-red-500',
-            activeTrend === 'neutral' && 'text-muted'
-          )}>
-            {activeTrend === 'up' && '↑'}{activeTrend === 'down' && '↓'} {Math.abs(change)}%
-          </span>
-          <span className="text-xs text-muted font-normal ml-1">from last week</span>
-        </div>
-      )}
-    </div>
+    </Card>
   )
 }

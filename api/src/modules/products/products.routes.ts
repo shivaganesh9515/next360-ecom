@@ -2,6 +2,7 @@ import { Router } from 'express'
 import * as productsController from './products.controller'
 import { validate } from '../../middleware/validate'
 import { z } from 'zod'
+import { DeliveryType, PlatformMode } from '@prisma/client'
 
 const router = Router()
 
@@ -11,6 +12,10 @@ const productQuerySchema = z.object({
   maxPrice: z.string().transform(Number).optional(),
   rating: z.string().transform(Number).optional(),
   search: z.string().optional(),
+  zoneId: z.string().optional(),
+  mode: z.nativeEnum(PlatformMode).optional(),
+  deliveryType: z.nativeEnum(DeliveryType).optional(),
+  healthGoals: z.union([z.string(), z.array(z.string())]).optional(),
   page: z.string().transform(Number).default('1'),
   limit: z.string().transform(Number).default('12'),
   sort: z.enum(['newest', 'price-asc', 'price-desc', 'rating']).default('newest'),

@@ -8,7 +8,7 @@ export const orderService = {
     couponCode?: string
     notes?: string
   }) => {
-    const res = await api.post<ApiResponse<Order>>('/orders', data)
+    const res = await api.post<ApiResponse<{ order: Order; razorpayOrder?: any }>>('/orders', data)
     return res.data.data
   },
 
@@ -28,6 +28,15 @@ export const orderService = {
 
   getTracking: async (id: string) => {
     const res = await api.get(`/orders/${id}/tracking`)
+    return res.data.data
+  },
+
+  verifyPayment: async (data: {
+    razorpay_order_id: string
+    razorpay_payment_id: string
+    razorpay_signature: string
+  }) => {
+    const res = await api.post<ApiResponse<{ success: boolean; orderId: string }>>('/orders/verify', data)
     return res.data.data
   },
 }
