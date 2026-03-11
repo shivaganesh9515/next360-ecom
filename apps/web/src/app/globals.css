@@ -5,36 +5,42 @@
   --color-secondary: #7CB342;
   --color-accent:    #F4A300;
   --color-earth:     #8B5E3C;
-  --color-cream:     #FAF6ED;
-  --color-text:      #1A1A1A;
-  --color-muted:     #6B7280;
-  --color-border:    #E5E0D4;
+  --color-cream:     #FDFBF7;
+  --color-cream-light: #FFFEFC;
+  --color-cream-dark: #F5F1E8;
+  --color-text:      #0C0D0E;
+  --color-muted:     #6E6E6E;
+  --color-border:    #ECEAE4;
   
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-playfair), serif;
 
-  --shadow-card:       0 2px 12px rgba(0,0,0,0.08);
-  --shadow-card-hover: 0 8px 24px rgba(0,0,0,0.12);
-  --shadow-nav:        0 2px 20px rgba(0,0,0,0.08);
+  --shadow-premium:    0 10px 40px rgba(0,0,0,0.03), 0 1px 3px rgba(0,0,0,0.02);
+  --shadow-card:       0 20px 60px -15px rgba(0,0,0,0.05);
+  --shadow-card-hover: 0 40px 100px -20px rgba(0,0,0,0.08);
+  --shadow-nav:        0 4px 30px rgba(0,0,0,0.02);
 
   --animate-shimmer: shimmer 1.5s infinite;
 }
 
 @layer base {
   .glass {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
+    @apply bg-white/60 backdrop-blur-xl border border-white/40;
+  }
+  .creamy-glass {
+    @apply bg-[#FDFBF7]/70 backdrop-blur-2xl border border-white/50;
   }
   .glass-dark {
     @apply bg-slate-900/40 backdrop-blur-xl border border-white/5;
   }
   .noir-card {
-    @apply bg-[#0A0A0A] border border-white/5 rounded-[2.5rem] shadow-2xl shadow-black/50;
+    @apply bg-white border border-[#ECEAE4] rounded-[2.5rem] shadow-premium;
   }
   .noir-gradient {
-    @apply bg-gradient-to-br from-[#0A0A0A] to-[#050505];
+    @apply bg-gradient-to-br from-[#FDFBF7] to-[#F5F1E8];
   }
   .purity-glow {
-    @apply shadow-[0_0_40px_rgba(45,80,22,0.15)];
+    @apply shadow-[0_0_80px_rgba(255,255,255,0.8)];
   }
   button {
     cursor: pointer;

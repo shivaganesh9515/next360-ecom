@@ -48,25 +48,19 @@ export default function Navbar() {
   return (
     <header 
       className={cn(
-        "fixed top-0 left-0 w-full z-50 h-16 transition-all duration-300 flex items-center",
+        "fixed top-0 left-0 w-full z-50 h-20 transition-all duration-500 flex items-center",
         scrolled 
-          ? "bg-white/95 backdrop-blur-md shadow-nav border-b border-border/50" 
-          : "bg-transparent"
+          ? "creamy-glass shadow-nav border-b border-cream-dark/50 py-3" 
+          : "bg-transparent py-5"
       )}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex items-center justify-between gap-4">
+      <div className="max-w-[1700px] mx-auto px-6 sm:px-10 lg:px-12 w-full flex items-center justify-between gap-8">
         
         {/* LEFT CLUSTER */}
         <div className="flex items-center gap-4 lg:gap-8 flex-1 lg:flex-none">
           <Link href="/" className="flex items-center gap-0.5 shrink-0">
-            <span className="text-[1.8rem] md:text-[2.2rem] font-bold tracking-tight">
-              <span className="text-primary">next</span>
-              <span className="text-slate-800 relative">
-                360
-                <span className="absolute -top-1 -right-4 bg-secondary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md transform rotate-12">
-                  plus
-                </span>
-              </span>
+            <span className="text-[1.8rem] md:text-[2.2rem] font-black tracking-tighter text-text">
+              next<span className="text-primary">360</span>
             </span>
           </Link>
           
@@ -74,15 +68,18 @@ export default function Navbar() {
         </div>
 
         {/* CENTER — SEARCH BAR (Desktop) */}
-        <div className="hidden lg:flex items-center flex-1 max-w-xl relative group mx-4">
-          <div className="absolute left-4 text-slate-400 group-focus-within:text-primary transition-colors">
-            <Search size={20} />
+        <div className="hidden lg:flex items-center flex-1 max-w-2xl relative group mx-4">
+          <div className="absolute left-5 text-muted group-focus-within:text-primary transition-all duration-300 scale-100 group-focus-within:scale-110">
+            <Search size={18} strokeWidth={2.5} />
           </div>
           <input 
             type="text" 
-            placeholder="Search for organic products, fresh vegetables..."
-            className="w-full bg-slate-100 border-none rounded-full py-3 pl-12 pr-4 text-sm focus:ring-1 focus:ring-primary focus:bg-white transition-all outline-none"
+            placeholder="Search the collective registry..."
+            className="w-full bg-cream-dark/30 border border-transparent rounded-[1.25rem] py-3.5 pl-14 pr-6 text-sm font-medium focus:ring-4 focus:ring-primary/5 focus:bg-cream-light focus:border-cream-dark transition-all duration-500 outline-none placeholder:text-muted placeholder:font-black placeholder:uppercase placeholder:tracking-widest placeholder:text-[10px]"
           />
+          <div className="absolute right-4 px-2 py-1 rounded-md bg-cream border border-cream-dark text-[10px] font-black text-muted opacity-0 group-focus-within:opacity-100 transition-opacity">
+            ESC
+          </div>
         </div>
 
         {/* RIGHT CLUSTER */}

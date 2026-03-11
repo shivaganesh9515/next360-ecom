@@ -112,14 +112,14 @@ export default function FeaturedProducts({ activeMoodTags = [] }: FeaturedProduc
                   <Skeleton className="h-14 w-full rounded-full" />
                 </div>
               ))
-            ) : filteredProducts.map((product, i) => (
+                        ) : filteredProducts.map((product, i) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05, duration: 0.6 }}
               >
-                <ProductCard product={product} />
+                <ProductCard product={product} key={product.id} className="h-full" />
               </motion.div>
             ))}
           </motion.div>

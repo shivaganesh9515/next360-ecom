@@ -26,3 +26,11 @@ export const productDummyData = [
     rating: [{ rating: 5 }],
   }
 ];
+
+export const dummyStoreData = {
+  name: 'Next360 Farm Store',
+  logo: 'https://images.unsplash.com/photo-1549465220-1d8c9d9c674a?w=200',
+  description: 'Premium organic produce direct from farms. Certified organic vegetables, fruits, dairy, and grains for a healthier lifestyle.',
+  address: 'Hyderabad, Telangana, India',
+  email: 'store@next360.com',
+};

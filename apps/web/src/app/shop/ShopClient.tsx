@@ -23,7 +23,8 @@ export default function ShopClient() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const { zoneId, zoneName, deliveryPromise } = useLocationStore()
-  const { mode } = useModeStore()
+  const { activeMode } = useModeStore()
+  const mode = activeMode || 'ORGANIC'
   const modeMeta = PLATFORM_MODE_META[mode]
 
   // --- State ---

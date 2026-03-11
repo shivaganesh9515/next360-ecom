@@ -8,6 +8,7 @@ import { storefrontService } from '@/services/storefrontService'
 import { PLATFORM_MODE_META } from '@next360/types/location'
 import { Skeleton } from '@next360/ui/Skeleton'
 import GocartHero from './GocartHero'
+import Hero from '../Hero'
 import MarqueeTicker from './MarqueeTicker'
 import OfferCarousel from './OfferCarousel'
 import FlashSaleBanner from './FlashSaleBanner'
@@ -17,11 +18,9 @@ import HyperlocalStrip from './HyperlocalStrip'
 import LiveBatchStrip from './LiveBatchStrip'
 import WhyNext360 from './WhyNext360'
 import SubscriptionBanner from './SubscriptionBanner'
-import Testimonials from './Testimonials'
-import ImpactNumbers from './ImpactNumbers'
-import NewsletterBanner from './NewsletterBanner'
 import PromoPopup from './PromoPopup'
 import ModeSelectorStrip from './ModeSelectorStrip'
+import CategoriesMarquee from './CategoriesMarquee'
 
 export default function HomePageClient() {
   const { zoneId, zoneName, hyperlocalActive } = useLocationStore()
@@ -45,7 +44,12 @@ export default function HomePageClient() {
   }, [storefront?.sections])
 
   const sectionMap: Record<string, ReactNode> = {
-    hero: <GocartHero banners={storefront?.banners ?? []} />,
+    hero: mode === 'EXPRESS' ? <Hero /> : (
+      <>
+        <GocartHero banners={storefront?.banners ?? []} />
+        <CategoriesMarquee />
+      </>
+    ),
     marquee: <MarqueeTicker items={storefront?.marqueeItems ?? []} />,
     offers: <OfferCarousel />,
     modes: <ModeSelectorStrip />,
@@ -56,9 +60,6 @@ export default function HomePageClient() {
     rythu_batch: <LiveBatchStrip batches={rythuBatches} />,
     why_us: <WhyNext360 />,
     subscription_banner: <SubscriptionBanner />,
-    testimonials: <Testimonials items={storefront?.testimonials} />,
-    impact_numbers: <ImpactNumbers />,
-    newsletter: <NewsletterBanner />,
   }
 
   if (isLoading) {
@@ -100,9 +101,6 @@ export default function HomePageClient() {
             {mode === 'RYTHU_BAZAR' && sectionMap.rythu_batch}
             {sectionMap.why_us}
             {sectionMap.subscription_banner}
-            {sectionMap.testimonials}
-            {sectionMap.impact_numbers}
-            {sectionMap.newsletter}
           </div>
         )}
       </main>

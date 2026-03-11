@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ChevronRight } from 'lucide-react'
+import { GlassCard } from '@next360/ui'
 
 const CATEGORIES = [
   { name: 'Grains', icon: '🌾', slug: 'grains' },
@@ -43,20 +44,21 @@ export default function CategoryStrip() {
               viewport={{ once: true }}
               className="shrink-0"
             >
-              <Link 
-                href={`/shop?category=${cat.slug}`}
-                className="flex flex-col items-center gap-5 group"
-              >
-                <div className="w-28 h-28 rounded-full bg-slate-50 border border-slate-100 group-hover:bg-primary group-hover:border-primary group-hover:scale-110 transition-all duration-700 flex items-center justify-center text-5xl shadow-2xl shadow-slate-100 group-hover:shadow-primary/30 relative overflow-hidden group/token shadow-inner">
-                  <span className="relative z-10 drop-shadow-sm group-hover:scale-110 transition-transform duration-700">{cat.icon}</span>
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-white/10 blur-xl rounded-full" />
-                </div>
-                <div className="text-center space-y-1">
-                   <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest italic leading-none group-hover:text-primary/50 transition-colors">Sector</p>
-                   <p className="text-[11px] font-black text-slate-800 group-hover:text-primary transition-colors uppercase tracking-[0.2em]">{cat.name}</p>
-                </div>
-              </Link>
+              <GlassCard hover glow className="rounded-full p-2 group/cat-glass">
+                <Link 
+                  href={`/shop?category=${cat.slug}`}
+                  className="flex flex-col items-center gap-5 group"
+                >
+                  <div className="w-28 h-28 rounded-full bg-transparent border border-white/10 group-hover:scale-110 transition-all duration-700 flex items-center justify-center text-5xl relative overflow-hidden group/token">
+                    <span className="relative z-10 drop-shadow-sm group-hover:scale-110 transition-transform duration-700">{cat.icon}</span>
+                    <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <div className="text-center space-y-1">
+                     <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest italic leading-none group-hover:text-primary transition-colors">Sector</p>
+                     <p className="text-[11px] font-black text-slate-800 group-hover:text-primary transition-colors uppercase tracking-[0.2em]">{cat.name}</p>
+                  </div>
+                </Link>
+              </GlassCard>
             </motion.div>
           ))}
         </div>
